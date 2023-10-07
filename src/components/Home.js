@@ -1,7 +1,10 @@
 import axios from 'axios'
+import {useNavigate} from "react-router-dom";
+
 import React, { useEffect, useState } from 'react'
 
 const Home = () => {
+    const navigate=useNavigate()
     const [data,setData]=useState([])
     const [departureArray,setdepartureArray]=useState([])
     const [arrivalArray,setarrivalArray]=useState([])
@@ -13,37 +16,41 @@ const Home = () => {
     window.arrival=arrival;
   
     function send(){
-      // to be implemented
+      navigate("/flight",{
+        state:{
+          obj:{
+            From,
+            arrival,
+            startDate,
+            endDate
+          }
+        }
+      })
     }
   
-    useEffect(()=>{
-      axios
-        .get("http://localhost:4000/CatalogProductOfferingsResponse")
-        .then((res) => {
-          // console.log("this is res ",res);
-          setData(res.data.ReferenceList[0].Flight);
-        })
-        .catch((er) => {
-          console.log("error", er);
-        });
-        let a=[];
-        let b=[];
-      data.forEach((i) => {
-            if (!a.includes(i.Departure.location)) {
-              a.push(i.Departure.location);
-            }
-            if (!b.includes(i.Arrival.location)) {
-              b.push(i.Arrival.location);
-            }
-          });
-          setarrivalArray(b)
-          setdepartureArray(a)
-    },[])
-    console.log("from ",From);
-    console.log("to ",arrival);
-    console.log("Startdate ",startDate);
-    console.log("endDate  ",endDate);
+    async function fetchData() {
+      const res = await axios.get("http://localhost:4000/CatalogProductOfferingsResponse");
+      const normaldata = await res.data;
+      setData(normaldata.ReferenceList[0].Flight);
+      let a = [];
+      let b = [];
+      normaldata.ReferenceList[0].Flight.forEach((i) => {
+        if (!a.includes(i.Departure.location)) {
+          a.push(i.Departure.location);
+        }
+        if (!b.includes(i.Arrival.location)) {
+          b.push(i.Arrival.location);
+        }
+      });
+      setarrivalArray(b)
+      setdepartureArray(a)
+    }
+  
+    useEffect(() => {
+      fetchData();
+    }, [])
     return (
+      <>
       <div className="App" style={{display:"flex",gap:"10px",margin:"20px"}}>
   
         <div style={{display:"flex",flexDirection:'column',gap:'5px'}}>
@@ -72,7 +79,6 @@ const Home = () => {
         <div style={{display:"flex",flexDirection:'column',gap:'5px'}}>
           {
               arrivalArray.map((item,key)=>{
-                // console.log("this is item",item);
                 return(
                 <div key={key}>
                   <input type="checkbox" id={item+"arrival"} name={item+"arrival"} value={item} onChange={()=>{
@@ -102,10 +108,11 @@ const Home = () => {
           let x = document.getElementById('EndDate').value;
           setEndDate(x);
         }} />
+      </div>
         <button onClick={()=>{
           send();
-        }}></button>
-      </div>
+        }}>Send</button>
+        </>
     );
 }
 
