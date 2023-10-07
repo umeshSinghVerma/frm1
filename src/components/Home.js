@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react'
 const Home = () => {
     const navigate=useNavigate()
     const [data,setData]=useState([])
+    const [alldata,setAllData]=useState([])
     const [departureArray,setdepartureArray]=useState([])
     const [arrivalArray,setarrivalArray]=useState([])
     const [From,setFrom]=useState([]);
@@ -22,7 +23,8 @@ const Home = () => {
             From,
             arrival,
             startDate,
-            endDate
+            endDate,
+            alldata
           }
         }
       })
@@ -31,6 +33,7 @@ const Home = () => {
     async function fetchData() {
       const res = await axios.get("http://localhost:4000/CatalogProductOfferingsResponse");
       const normaldata = await res.data;
+      setAllData(normaldata);
       setData(normaldata.ReferenceList[0].Flight);
       let a = [];
       let b = [];
