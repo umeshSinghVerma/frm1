@@ -50,9 +50,21 @@ const Flight = () => {
 
   function GetSortOrder(prop) {
     return function (a, b) {
-      if (a.ProductBrandOffering[0].Price.TotalPrice > b.ProductBrandOffering[0].Price.TotalPrice) {
+      let firstmini=a.ProductBrandOffering[0].Price.TotalPrice;
+      let secondmini=b.ProductBrandOffering[0].Price.TotalPrice;
+      a.ProductBrandOffering.map(item=>{
+        if(firstmini>item.Price.TotalPrice){
+          firstmini=item.Price.TotalPrice
+        }
+      })
+      b.ProductBrandOffering.map(item=>{
+        if(secondmini>item.Price.TotalPrice){
+          secondmini=item.Price.TotalPrice
+        }
+      })
+      if (firstmini > secondmini) {
         return 1;
-      } else if (a.ProductBrandOffering[0].Price.TotalPrice < b.ProductBrandOffering[0].Price.TotalPrice) {
+      } else if (firstmini < secondmini) {
         return -1;
       }
       return 0;
