@@ -36,6 +36,8 @@ const Flight = () => {
           return it.id === f.flightRefs[f.flightRefs.length - 1];
         })
         if (ffr[0].Departure.date >= startDate && lfr[0].Arrival.date <= endDate) {
+          f.DepartureTime = ffr[0].Departure.date;
+          f.ArrivalTime = ffr[0].Arrival.date;
           setFinalArray((prev) => {
             return [...prev, f];
           })
@@ -48,7 +50,7 @@ const Flight = () => {
   }, [mid])
   console.log("w", finalarray)
 
-  function GetSortOrder(prop) {
+  function GetPriceSort(prop) {
     return function (a, b) {
       let firstmini=a.ProductBrandOffering[0].Price.TotalPrice;
       let secondmini=b.ProductBrandOffering[0].Price.TotalPrice;
@@ -72,13 +74,27 @@ const Flight = () => {
   }
   window.displayArray = displayArray;
   function sortPriceAsc() {
-    setTemp(finalarray.sort(GetSortOrder('price')))
+    setTemp(finalarray.sort(GetPriceSort('prop')))
   }
   function clearfn() {
     setFinalArray(displayArray);
   }
 
 
+
+  function GetTimeSort(prop) {
+    return function (a, b) {
+      if (a.DepartureTime > b.DepartureTime) {
+        return 1;
+      } else if (a.DepartureTime < b.DepartureTime) {
+        return -1;
+      }
+      return 0;
+    }
+  }
+  function sortTimeAsc() {
+    setTemp(finalarray.sort(GetTimeSort('prop')))
+  }
 
 
 
@@ -90,15 +106,17 @@ const Flight = () => {
             return (
               <div style={{ display: "flex", gap: "5px", flexDirection: "column-reverse", border: "2px black solid", margin: '5px', padding: '5px' }}>
                 <div>
+                <p>{item.DepartureTime}</p>
                   {
                     item.ProductBrandOffering.map(x => {
                       return (
                         <div style={{ display: 'flex', gap: '5px' }}>
+        
                           <div>
                             <p>
                               {
                                 alldata.ReferenceList[3].Brand.map(y => {
-                                  if (y.id == x.Brand.BrandRef) {
+                                  if (y.id == x?.Brand?.BrandRef) {
                                     return y.name
                                   }
                                 })
@@ -114,7 +132,7 @@ const Flight = () => {
                                 x.Product.map(aa => {
                                   return (
                                     alldata.ReferenceList[1].Product.map(y => {
-                                      if (y.id == aa.productRef) {
+                                      if (y.id == aa?.productRef) {
                                         return y.totalDuration
                                       }
                                     })
@@ -128,7 +146,7 @@ const Flight = () => {
                             <p>
                               {
                                 alldata.ReferenceList[2].TermsAndConditions.map(y => {
-                                  if (y.id == x.TermsAndConditions.termsAndConditionsRef) {
+                                  if (y.id == x.TermsAndConditions?.termsAndConditionsRef) {
                                     return y.PaymentTimeLimit
                                   }
                                 })
@@ -171,6 +189,11 @@ const Flight = () => {
           sortPriceAsc();
         }}>
           sortByPrice
+        </button>
+        <button onClick={() => {
+          sortTimeAsc();
+        }}>
+          sortByTime
         </button>
         <button onClick={() => {
           clearfn();

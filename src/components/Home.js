@@ -1,6 +1,6 @@
 import axios from 'axios'
 import {useNavigate} from "react-router-dom";
-
+import X from '../data.json'
 import React, { useEffect, useState } from 'react'
 
 const Home = () => {
@@ -31,8 +31,9 @@ const Home = () => {
     }
   
     async function fetchData() {
-      const res = await axios.get("http://localhost:4000/CatalogProductOfferingsResponse");
-      const normaldata = await res.data;
+      // const res = await axios.get("http://localhost:4000/CatalogProductOfferingsResponse");
+      const normaldata = X.CatalogProductOfferingsResponse;
+      // const normaldata = await res.data;
       setAllData(normaldata);
       setData(normaldata.ReferenceList[0].Flight);
       let a = [];
