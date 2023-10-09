@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { useLocation } from "react-router-dom"
 const Flight = () => {
   const location = useLocation()
-  console.log(location);
   const {
     From,
     arrival,
@@ -12,7 +11,7 @@ const Flight = () => {
   } = location.state.obj;
   const [mid, setMid] = useState([]);
   const [temp, setTemp] = useState([]);
-  let [finalarray, setFinalArray] = useState([]);
+  const [finalarray, setFinalArray] = useState([]);
   const [displayArray, setDisplayArray] = useState([]);
   const [allBrands, setAllBrands] = useState([])
   const [brand, setBrand] = useState([]);
@@ -55,28 +54,27 @@ const Flight = () => {
       })
     })
   }, [mid])
-  console.log("w", finalarray)
   window.brand = brand;
   useEffect(() => {
     let filteredArr = [];
     displayArray.map(item => {
-      for(let j=0;j<item.ProductBrandOffering.length;j++){
-        let flag=0;
+      for (let j = 0; j < item.ProductBrandOffering.length; j++) {
+        let flag = 0;
         for (let i = 0; i < brand.length; i++) {
           if (brand[i] == item.ProductBrandOffering[j].Brand.BrandRef) {
             filteredArr.push(item);
-            flag=1;
+            flag = 1;
             break;
           }
         }
-        if(flag==1){
+        if (flag == 1) {
           break;
         }
       }
     })
-    if(brand.length!=0){
+    if (brand.length != 0) {
       setFinalArray(filteredArr);
-    }else{
+    } else {
       setFinalArray(displayArray);
     }
   }, [brand])
@@ -109,6 +107,9 @@ const Flight = () => {
   }
   function clearfn() {
     setFinalArray(displayArray);
+    setBrand([]);
+    document.getElementById("startPrice").value = "";
+    document.getElementById("endPrice").value = "";
   }
 
 
@@ -125,6 +126,20 @@ const Flight = () => {
   }
   function sortTimeAsc() {
     setTemp(finalarray.sort(GetTimeSort('prop')))
+  }
+
+  function sortByPrice(startPrice, endPrice) {
+    let filteredArr = [];
+    finalarray.map(item => {
+      let alpha = item.ProductBrandOffering.filter(y => (y.Price.TotalPrice >= startPrice && y.Price.TotalPrice <= endPrice));
+      let beta = JSON.stringify(item);
+      beta = JSON.parse(beta);
+      beta.ProductBrandOffering = alpha;
+      if (alpha.length != 0) {
+        filteredArr.push(beta);
+      }
+    })
+    setFinalArray(filteredArr);
   }
 
 
@@ -235,27 +250,58 @@ const Flight = () => {
           allBrands.map((item, key) => {
             return (
               <div key={key}>
-                <input 
-                type="checkbox" 
-                id={item.name + "dept"} 
-                name={item.name + "dept"} 
-                value={item.id} 
-                onChange={() => {
-                  let x = document.getElementById(item.name + "dept");
-                  if (x.checked) {
-                    setBrand(prev => {
-                      return [...prev, x.value]
-                    })
-                  } else {
-                    let b = brand.filter((alpha) => alpha !== x.value);
-                    setBrand(b);
-                  }
-                }} />
+                {
+                  brand.includes(item.id) == true ?
+                    <input
+                      type="checkbox"
+                      id={item.name + "dept"}
+                      name={item.name + "dept"}
+                      value={item.id}
+                      checked={true}
+                      onChange={() => {
+                        let x = document.getElementById(item.name + "dept");
+                        if (x.checked) {
+                          setBrand(prev => {
+                            return [...prev, x.value]
+                          })
+                        } else {
+                          let b = brand.filter((alpha) => alpha !== x.value);
+                          setBrand(b);
+                        }
+                      }} />
+                    :
+                    <input
+                      type="checkbox"
+                      id={item.name + "dept"}
+                      name={item.name + "dept"}
+                      value={item.id}
+                      onChange={() => {
+                        let x = document.getElementById(item.name + "dept");
+                        if (x.checked) {
+                          setBrand(prev => {
+                            return [...prev, x.value]
+                          })
+                        } else {
+                          let b = brand.filter((alpha) => alpha !== x.value);
+                          setBrand(b);
+                        }
+                      }} />
+                }
                 <label for={item.name + "dept"}>{item.name}</label>
               </div>
             )
           })
         }
+      </div>
+      <div>
+        <input type="number" id="startPrice" />
+        <p>to</p>
+        <input type="number" id="endPrice" />
+        <button onClick={() => {
+          let x = document.getElementById("startPrice").value;
+          let y = document.getElementById("endPrice").value;
+          sortByPrice(x, y);
+        }}>find</button>
       </div>
     </div>
   )
