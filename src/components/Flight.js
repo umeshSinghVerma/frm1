@@ -12,8 +12,10 @@ const Flight = () => {
   } = location.state.obj;
   const [mid, setMid] = useState([]);
   const [temp, setTemp] = useState([]);
-  const [finalarray, setFinalArray] = useState([]);
-  const [displayArray,setDisplayArray]=useState([]);
+  let [finalarray, setFinalArray] = useState([]);
+  const [displayArray, setDisplayArray] = useState([]);
+  const [allBrands, setAllBrands] = useState([])
+  const [brand, setBrand] = useState([]);
 
   useEffect(() => {
     alldata.CatalogProductOfferings.CatalogProductOffering.forEach((item) => {
@@ -22,6 +24,11 @@ const Flight = () => {
           [...prev, item]
         )
       }
+    })
+    alldata.ReferenceList[3].Brand.map(item => {
+      setAllBrands(prev => {
+        return [...prev, { name: item.name, id: item.id }]
+      })
     })
   }, [])
   useEffect(() => {
@@ -49,19 +56,43 @@ const Flight = () => {
     })
   }, [mid])
   console.log("w", finalarray)
+  window.brand = brand;
+  useEffect(() => {
+    let filteredArr = [];
+    displayArray.map(item => {
+      for(let j=0;j<item.ProductBrandOffering.length;j++){
+        let flag=0;
+        for (let i = 0; i < brand.length; i++) {
+          if (brand[i] == item.ProductBrandOffering[j].Brand.BrandRef) {
+            filteredArr.push(item);
+            flag=1;
+            break;
+          }
+        }
+        if(flag==1){
+          break;
+        }
+      }
+    })
+    if(brand.length!=0){
+      setFinalArray(filteredArr);
+    }else{
+      setFinalArray(displayArray);
+    }
+  }, [brand])
 
   function GetPriceSort(prop) {
     return function (a, b) {
-      let firstmini=a.ProductBrandOffering[0].Price.TotalPrice;
-      let secondmini=b.ProductBrandOffering[0].Price.TotalPrice;
-      a.ProductBrandOffering.map(item=>{
-        if(firstmini>item.Price.TotalPrice){
-          firstmini=item.Price.TotalPrice
+      let firstmini = a.ProductBrandOffering[0].Price.TotalPrice;
+      let secondmini = b.ProductBrandOffering[0].Price.TotalPrice;
+      a.ProductBrandOffering.map(item => {
+        if (firstmini > item.Price.TotalPrice) {
+          firstmini = item.Price.TotalPrice
         }
       })
-      b.ProductBrandOffering.map(item=>{
-        if(secondmini>item.Price.TotalPrice){
-          secondmini=item.Price.TotalPrice
+      b.ProductBrandOffering.map(item => {
+        if (secondmini > item.Price.TotalPrice) {
+          secondmini = item.Price.TotalPrice
         }
       })
       if (firstmini > secondmini) {
@@ -106,12 +137,12 @@ const Flight = () => {
             return (
               <div style={{ display: "flex", gap: "5px", flexDirection: "column-reverse", border: "2px black solid", margin: '5px', padding: '5px' }}>
                 <div>
-                <p>{item.DepartureTime}</p>
+                  <p>{item.DepartureTime}</p>
                   {
                     item.ProductBrandOffering.map(x => {
                       return (
                         <div style={{ display: 'flex', gap: '5px' }}>
-        
+
                           <div>
                             <p>
                               {
@@ -198,6 +229,33 @@ const Flight = () => {
         <button onClick={() => {
           clearfn();
         }}>Clear</button>
+      </div>
+      <div style={{ display: "flex", flexDirection: 'column', gap: '5px' }}>
+        {
+          allBrands.map((item, key) => {
+            return (
+              <div key={key}>
+                <input 
+                type="checkbox" 
+                id={item.name + "dept"} 
+                name={item.name + "dept"} 
+                value={item.id} 
+                onChange={() => {
+                  let x = document.getElementById(item.name + "dept");
+                  if (x.checked) {
+                    setBrand(prev => {
+                      return [...prev, x.value]
+                    })
+                  } else {
+                    let b = brand.filter((alpha) => alpha !== x.value);
+                    setBrand(b);
+                  }
+                }} />
+                <label for={item.name + "dept"}>{item.name}</label>
+              </div>
+            )
+          })
+        }
       </div>
     </div>
   )
