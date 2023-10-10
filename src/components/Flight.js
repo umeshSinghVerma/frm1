@@ -176,21 +176,21 @@ const Flight = () => {
 
   return (
     <div style={{ display: "flex", gap: "10px",margin:"20px" }}>
-      <div style={{ display: "flex",flexDirection:"column", gap: "10px",position:"fixed",top:"10px" }}>
+      <div style={{ display: "flex",flexDirection:"column", gap: "10px",position:"fixed",top:"2px" ,height:"90vh"}}>
         <div style={{ display: "flex",flexDirection:"column", gap: "10px" }}>
         <button onClick={() => {
           sortPriceAsc();
         }}>
-          sortByPrice
+          Sort By Price
         </button>
         <button onClick={() => {
           sortTimeAsc();
         }}>
-          sortByTime
+          Sort By Departure date
         </button>
         <button onClick={() => {
           clearfn();
-        }}>Clear</button>
+        }}>Clear All Filter</button>
         </div>
            <h1>Filters</h1>
            <h3>Brand Name :</h3>
@@ -295,7 +295,7 @@ const Flight = () => {
         <input type="number" id="startPrice" />
         <p>to</p>
         <input type="number" id="endPrice" />
-        <button onClick={() => {
+        <button style={{display:"block"}} onClick={() => {
           let x = document.getElementById("startPrice").value;
           let y = document.getElementById("endPrice").value;
           sortByPrice(x, y);
