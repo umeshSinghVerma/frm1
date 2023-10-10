@@ -46,7 +46,7 @@ const Flight = () => {
         })
         if (ffr[0].Departure.date >= startDate && lfr[0].Arrival.date <= endDate) {
           f.DepartureTime = ffr[0].Departure.date;
-          f.ArrivalTime = ffr[0].Arrival.date;
+          f.ArrivalTime = lfr[0].Arrival.date;
          
           let alp = f.ProductBrandOffering.map(it=>{
             let g = JSON.stringify(f);
@@ -308,14 +308,16 @@ const Flight = () => {
             return (
               <div style={{ display: "flex", gap: "5px", flexDirection: "column-reverse", border: "2px black solid", margin: '5px', padding: '5px' }}>
                 <div>
-                  <p>{item.DepartureTime}</p>
+                  <p><span style={{fontWeight:"bold "}}>Departure Date - </span>{item.DepartureTime}</p>
+                  <p><span style={{fontWeight:"bold "}}>Arrival Date - </span>{item.ArrivalTime}</p>
                   {
                     item.ProductBrandOffering.map(x => {
                       return (
-                        <div style={{ display: 'flex', gap: '5px' }}>
+                        <div style={{ display: 'flex', flexDirection:"column",gap: '5px' }}>
 
                           <div>
-                            <p>
+                          <span style={{fontWeight:"bold "}}>Brand Name - </span>
+                            <span>
                               {
                                 alldata.ReferenceList[3].Brand.map(y => {
                                   if (y.id == x?.Brand?.BrandRef) {
@@ -323,13 +325,14 @@ const Flight = () => {
                                   }
                                 })
                               }
-                            </p>
-                            <p>{x.Price.Base}</p>
-                            <p>{x.Price.TotalPrice}</p>
-                            <p>{x.Price.TotalTaxes}</p>
+                            </span>
+                            <p><span style={{fontStyle:"italic"}}>Base Price - </span>{x.Price.Base}</p>
+                            <p><span style={{fontStyle:"italic"}}>Total Taxes- </span>{x.Price.TotalTaxes}</p>
+                            <p><span style={{fontStyle:"italic"}}>Total Price - </span>{x.Price.TotalPrice}</p>
                           </div>
                           <div>
-                            <p>
+                          <span style={{fontWeight:"bold "}}>Total Duration - </span>
+                            <span>
                               {
                                 x.Product.map(aa => {
                                   return (
@@ -342,36 +345,39 @@ const Flight = () => {
                                 }
                                 )
                               }
-                            </p>
+                            </span>
                           </div>
                           <div>
-                            <p>
+                          <span style={{fontWeight:"bold "}}>Validating Airlines - </span>
+                            <span>
                               {
                                 alldata.ReferenceList[2].TermsAndConditions.map(y => {
                                   if (y.id == x.TermsAndConditions?.termsAndConditionsRef) {
-                                    return y.PaymentTimeLimit
+                                    return y.ValidatingAirline.map(air=>{
+                                      return air.ValidatingAirline;
+                                    })
                                   }
                                 })
                               }
-                            </p>
+                            </span>
                           </div>
                         </div>
                       )
                     })
                   }
                 </div>
-                <div style={{ display: "flex", gap: "5px" }}>
+                <div style={{ display: "flex",flexDirection:"column", gap: "5px" }}>
                   {item.flightRefs.map(alp => {
                     return (
-                      <div>
-                        <p>{alp}</p>
+                      <div style={{display:"flex",gap:"5px"}}>
                         {
                           alldata.ReferenceList[0].Flight.map(y => {
                             if (y.id == alp) {
                               return (
                                 <>
-                                  <p>{y.Departure.location}</p>
-                                  <p>{y.Arrival.location}</p>
+                                  <p><span style={{fontWeight:"bold "}}>From - </span> {y.Departure.location}</p>
+                                  <p><span style={{fontWeight:"bold "}}>To - </span> {y.Arrival.location}</p>
+                                  <p><span style={{fontWeight:"bold "}}>Duration - </span> {y.duration}</p>
                                 </>
                               )
                             }
