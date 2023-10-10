@@ -15,6 +15,9 @@ const Flight = () => {
   const [displayArray, setDisplayArray] = useState([]);
   const [allBrands, setAllBrands] = useState([])
   const [brand, setBrand] = useState([]);
+  const [flightNo,setFlightNo]=useState([]);
+  const stops=[1,2,3];
+
 
   useEffect(() => {
     alldata.CatalogProductOfferings.CatalogProductOffering.forEach((item) => {
@@ -44,17 +47,26 @@ const Flight = () => {
         if (ffr[0].Departure.date >= startDate && lfr[0].Arrival.date <= endDate) {
           f.DepartureTime = ffr[0].Departure.date;
           f.ArrivalTime = ffr[0].Arrival.date;
+         
+          let alp = f.ProductBrandOffering.map(it=>{
+            let g = JSON.stringify(f);
+            g=JSON.parse(g);
+            g.ProductBrandOffering=[];
+            g.ProductBrandOffering.push(it);
+            return g;
+          })
           setFinalArray((prev) => {
-            return [...prev, f];
+            return [...prev, ...alp];
           })
           setDisplayArray((prev) => {
-            return [...prev, f];
+            return [...prev, ...alp];
           })
         }
       })
     })
   }, [mid])
   window.brand = brand;
+  window.finalarray=finalarray;
   useEffect(() => {
     let filteredArr = [];
     displayArray.map(item => {
@@ -78,6 +90,23 @@ const Flight = () => {
       setFinalArray(displayArray);
     }
   }, [brand])
+  useEffect(() => {
+    let filteredArr = [];
+    displayArray.map(item => {
+      let x = item.flightRefs.length;
+      if(x>=3){
+        x=3;
+      }
+      if(flightNo.includes(x)){
+        filteredArr.push(item);
+      }
+    })
+    if (flightNo.length != 0) {
+      setFinalArray(filteredArr);
+    } else {
+      setFinalArray(displayArray);
+    }
+  }, [flightNo])
 
   function GetPriceSort(prop) {
     return function (a, b) {
@@ -108,6 +137,7 @@ const Flight = () => {
   function clearfn() {
     setFinalArray(displayArray);
     setBrand([]);
+    setFlightNo([]);
     document.getElementById("startPrice").value = "";
     document.getElementById("endPrice").value = "";
   }
@@ -293,6 +323,54 @@ const Flight = () => {
           })
         }
       </div>
+      <div style={{ display: "flex", flexDirection: 'column', gap: '5px' }}>
+        {
+          stops.map((item, key) => {
+            return (
+              <div key={key}>
+                {
+                  flightNo.includes(item) == true ?
+                    <input
+                      type="checkbox"
+                      id={item+'stop'}
+                      value={item}
+                      checked={true}
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          setFlightNo(prev => {
+                            return [...prev, +e.target.value]
+                          })
+                        } else {
+                          let b = flightNo.filter((alpha) => alpha !== +e.target.value);
+                          setFlightNo(b);
+                        }
+                      }} />
+                    :
+                    <input
+                      type="checkbox"
+                      value={item}
+                      id={item+'stop'}
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          setFlightNo(prev => {
+                            return [...prev, +e.target.value]
+                          })
+                        } else {
+                          let b = flightNo.filter((alpha) => alpha !== +e.target.value);
+                          setFlightNo(b);
+                        }
+                      }} />
+                }
+                {
+                  item >=3 ? <label for={item+'stop'}>2+</label> : <label for={item+'stop'}>{item}</label>
+                }
+                
+              </div>
+            )
+          })
+        }
+      </div>
+      
       <div>
         <input type="number" id="startPrice" />
         <p>to</p>
