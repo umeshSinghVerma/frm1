@@ -175,8 +175,134 @@ const Flight = () => {
 
 
   return (
-    <div style={{ display: "flex", gap: "10px" }}>
-      <div style={{ color: "black" }}>
+    <div style={{ display: "flex", gap: "10px",margin:"20px" }}>
+      <div style={{ display: "flex",flexDirection:"column", gap: "10px",position:"fixed",top:"10px" }}>
+        <div style={{ display: "flex",flexDirection:"column", gap: "10px" }}>
+        <button onClick={() => {
+          sortPriceAsc();
+        }}>
+          sortByPrice
+        </button>
+        <button onClick={() => {
+          sortTimeAsc();
+        }}>
+          sortByTime
+        </button>
+        <button onClick={() => {
+          clearfn();
+        }}>Clear</button>
+        </div>
+           <h1>Filters</h1>
+           <h3>Brand Name :</h3>
+        <div style={{ display: "flex", flexDirection: 'column', gap: '5px' }}>
+        {
+          allBrands.map((item, key) => {
+            return (
+              <div key={key}>
+                {
+                  brand.includes(item.id) == true ?
+                    <input
+                      type="checkbox"
+                      id={item.name + "dept"}
+                      name={item.name + "dept"}
+                      value={item.id}
+                      checked={true}
+                      onChange={() => {
+                        let x = document.getElementById(item.name + "dept");
+                        if (x.checked) {
+                          setBrand(prev => {
+                            return [...prev, x.value]
+                          })
+                        } else {
+                          let b = brand.filter((alpha) => alpha !== x.value);
+                          setBrand(b);
+                        }
+                      }} />
+                    :
+                    <input
+                      type="checkbox"
+                      id={item.name + "dept"}
+                      name={item.name + "dept"}
+                      value={item.id}
+                      onChange={() => {
+                        let x = document.getElementById(item.name + "dept");
+                        if (x.checked) {
+                          setBrand(prev => {
+                            return [...prev, x.value]
+                          })
+                        } else {
+                          let b = brand.filter((alpha) => alpha !== x.value);
+                          setBrand(b);
+                        }
+                      }} />
+                }
+                <label for={item.name + "dept"}>{item.name}</label>
+              </div>
+            )
+          })
+        }
+        </div>
+        <h3>No. of Stops :</h3>
+        <div style={{ display: "flex", flexDirection: 'column', gap: '5px' }}>
+        {
+          stops.map((item, key) => {
+            return (
+              <div key={key}>
+                {
+                  flightNo.includes(item) == true ?
+                  <input
+                  type="checkbox"
+                      id={item+'stop'}
+                      value={item}
+                      checked={true}
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          setFlightNo(prev => {
+                            return [...prev, +e.target.value]
+                          })
+                        } else {
+                          let b = flightNo.filter((alpha) => alpha !== +e.target.value);
+                          setFlightNo(b);
+                        }
+                      }} />
+                    :
+                    <input
+                    type="checkbox"
+                    value={item}
+                    id={item+'stop'}
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          setFlightNo(prev => {
+                            return [...prev, +e.target.value]
+                          })
+                        } else {
+                          let b = flightNo.filter((alpha) => alpha !== +e.target.value);
+                          setFlightNo(b);
+                        }
+                      }} />
+                    }
+                {
+                  item >=3 ? <label for={item+'stop'}>2+</label> : <label for={item+'stop'}>{item}</label>
+                }
+                
+              </div>
+            )
+          })
+        }
+        </div>
+        <h3>Price :</h3>
+        <div>
+        <input type="number" id="startPrice" />
+        <p>to</p>
+        <input type="number" id="endPrice" />
+        <button onClick={() => {
+          let x = document.getElementById("startPrice").value;
+          let y = document.getElementById("endPrice").value;
+          sortByPrice(x, y);
+        }}>find</button>
+        </div>
+      </div>
+      <div style={{left:"400px",position:"absolute"}}>
         {
           finalarray.map((item) => {
             return (
@@ -255,131 +381,13 @@ const Flight = () => {
                     )
                   })}
                 </div>
+                <div>
+                 No. of stops - {item.flightRefs.length}
+                </div>
               </div>
             )
           })
         }
-      </div>
-      <div>
-        <button onClick={() => {
-          sortPriceAsc();
-        }}>
-          sortByPrice
-        </button>
-        <button onClick={() => {
-          sortTimeAsc();
-        }}>
-          sortByTime
-        </button>
-        <button onClick={() => {
-          clearfn();
-        }}>Clear</button>
-      </div>
-      <div style={{ display: "flex", flexDirection: 'column', gap: '5px' }}>
-        {
-          allBrands.map((item, key) => {
-            return (
-              <div key={key}>
-                {
-                  brand.includes(item.id) == true ?
-                    <input
-                      type="checkbox"
-                      id={item.name + "dept"}
-                      name={item.name + "dept"}
-                      value={item.id}
-                      checked={true}
-                      onChange={() => {
-                        let x = document.getElementById(item.name + "dept");
-                        if (x.checked) {
-                          setBrand(prev => {
-                            return [...prev, x.value]
-                          })
-                        } else {
-                          let b = brand.filter((alpha) => alpha !== x.value);
-                          setBrand(b);
-                        }
-                      }} />
-                    :
-                    <input
-                      type="checkbox"
-                      id={item.name + "dept"}
-                      name={item.name + "dept"}
-                      value={item.id}
-                      onChange={() => {
-                        let x = document.getElementById(item.name + "dept");
-                        if (x.checked) {
-                          setBrand(prev => {
-                            return [...prev, x.value]
-                          })
-                        } else {
-                          let b = brand.filter((alpha) => alpha !== x.value);
-                          setBrand(b);
-                        }
-                      }} />
-                }
-                <label for={item.name + "dept"}>{item.name}</label>
-              </div>
-            )
-          })
-        }
-      </div>
-      <div style={{ display: "flex", flexDirection: 'column', gap: '5px' }}>
-        {
-          stops.map((item, key) => {
-            return (
-              <div key={key}>
-                {
-                  flightNo.includes(item) == true ?
-                    <input
-                      type="checkbox"
-                      id={item+'stop'}
-                      value={item}
-                      checked={true}
-                      onChange={(e) => {
-                        if (e.target.checked) {
-                          setFlightNo(prev => {
-                            return [...prev, +e.target.value]
-                          })
-                        } else {
-                          let b = flightNo.filter((alpha) => alpha !== +e.target.value);
-                          setFlightNo(b);
-                        }
-                      }} />
-                    :
-                    <input
-                      type="checkbox"
-                      value={item}
-                      id={item+'stop'}
-                      onChange={(e) => {
-                        if (e.target.checked) {
-                          setFlightNo(prev => {
-                            return [...prev, +e.target.value]
-                          })
-                        } else {
-                          let b = flightNo.filter((alpha) => alpha !== +e.target.value);
-                          setFlightNo(b);
-                        }
-                      }} />
-                }
-                {
-                  item >=3 ? <label for={item+'stop'}>2+</label> : <label for={item+'stop'}>{item}</label>
-                }
-                
-              </div>
-            )
-          })
-        }
-      </div>
-      
-      <div>
-        <input type="number" id="startPrice" />
-        <p>to</p>
-        <input type="number" id="endPrice" />
-        <button onClick={() => {
-          let x = document.getElementById("startPrice").value;
-          let y = document.getElementById("endPrice").value;
-          sortByPrice(x, y);
-        }}>find</button>
       </div>
     </div>
   )
