@@ -336,7 +336,6 @@ const Flight = () => {
             style={{ display: "block" }}
             onClick={() => {
               let x = +myRef.current.value;
-              console.log("this is of re ",x);
               let y = myRef1.current.value;
               sortByPrice(x, y);
             }}
