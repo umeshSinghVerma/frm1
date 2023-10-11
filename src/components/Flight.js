@@ -343,7 +343,7 @@ const Flight = () => {
             style={{ display: "block" }}
             onClick={() => {
               let x = +myRef.current.value;
-              let y = +myRef2.currentvalue;
+              let y = +myRef2.current.value;
               sortByPrice(x, y);
             }}
           >
