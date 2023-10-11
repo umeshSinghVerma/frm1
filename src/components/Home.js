@@ -57,11 +57,12 @@ const Home = () => {
       <>
       <div className="App" style={{display:"flex",gap:"10px",margin:"20px"}}>
   
-        <div style={{display:"flex",flexDirection:'column',gap:'5px'}}>
+        <div style={{display:"flex",flexDirection:'column',gap:'5px',border:"1px solid black"}}>
+        <span style={{fontWeight:"bold "}}>Departure Location - </span>
           {
               departureArray.map((item,key)=>{
                 return(
-                <div key={key}>
+                <div key={key} style={{display:"flex",flexWrap:"wrap"}}>
                   <input type="checkbox" id={item+"dept"} name={item+"dept"} value={item} onChange={()=>{
                     let x = document.getElementById(item+"dept");
                     if(x.checked){
@@ -80,11 +81,12 @@ const Home = () => {
           }
         </div>
   
-        <div style={{display:"flex",flexDirection:'column',gap:'5px'}}>
+        <div style={{display:"flex",flexDirection:'column',gap:'5px',border:"1px solid black"}}>
+        <span style={{fontWeight:"bold "}}>Arrival Location - </span>
           {
               arrivalArray.map((item,key)=>{
                 return(
-                <div key={key}>
+                <div key={key} style={{display:"flex",flexWrap:"wrap"}}>
                   <input type="checkbox" id={item+"arrival"} name={item+"arrival"} value={item} onChange={()=>{
                     let x = document.getElementById(item+"arrival");
                     if(x.checked){
@@ -103,19 +105,25 @@ const Home = () => {
           }
         </div>
   
-        
+        <div>
+          <span style={{fontWeight:"bold "}}>Departure Date - </span>
         <input type="date" id='StartDate' onChange={()=>{
           let x = document.getElementById('StartDate').value;
           setStartDate(x);
         }} />
+        </div>
+        <div>
+
+        <span style={{fontWeight:"bold "}}>Arrival Date - </span>
         <input type="date" id='EndDate' onChange={()=>{
           let x = document.getElementById('EndDate').value;
           setEndDate(x);
         }} />
+        </div>
       </div>
-        <button onClick={()=>{
+        <button style={{padding:"10px 20px"}} onClick={()=>{
           send();
-        }}>Send</button>
+        }}>Search</button>
         </>
     );
 }
