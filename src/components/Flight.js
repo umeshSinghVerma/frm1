@@ -16,6 +16,7 @@ const Flight = () => {
   const [flightNo, setFlightNo] = useState([]);
   const stops = [1, 2, 3];
   let myRef = useRef(0);
+  let myRef1 = useRef(0);
 
   useEffect(() => {
     alldata.CatalogProductOfferings.CatalogProductOffering.forEach((item) => {
@@ -161,8 +162,8 @@ const Flight = () => {
     setFinalArray(displayArray);
     setBrand([]);
     setFlightNo([]);
-    document.getElementById("startPrice").value = "";
-    document.getElementById("endPrice").value = "";
+    myRef.current.value = "";
+    myRef1.current.value = "";
   }
 
   function GetTimeSort(prop) {
@@ -330,13 +331,13 @@ const Flight = () => {
         <div>
           <input type="number" id="startPrice" ref={myRef} />
           <p>to</p>
-          <input type="number" id="endPrice" />
+          <input type="number" id="endPrice" ref={myRef1} />
           <button
             style={{ display: "block" }}
             onClick={() => {
               let x = +myRef.current.value;
               console.log("this is of re ",x);
-              let y = document.getElementById("endPrice").value;
+              let y = myRef1.current.value;
               sortByPrice(x, y);
             }}
           >
