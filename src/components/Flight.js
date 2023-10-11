@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useRef } from "react";
 import { useLocation } from "react-router-dom";
+import Display from "./Display";
 const Flight = () => {
   const location = useLocation();
   const { From, arrival, startDate, endDate, alldata } = location.state.obj;
@@ -14,14 +15,13 @@ const Flight = () => {
   const [brand, setBrand] = useState([]);
   const [flightNo, setFlightNo] = useState([]);
   const stops = [1, 2, 3];
+  let myRef = useRef(0);
 
   useEffect(() => {
     alldata.CatalogProductOfferings.CatalogProductOffering.forEach((item) => {
       if (From.includes(item.Departure) && arrival.includes(item.Arrival)) {
         setMid((prev) => [...prev, item]);
       }
-    });
-    alldata.CatalogProductOfferings.CatalogProductOffering.forEach((item) => {
       if (From.includes(item.Arrival) && arrival.includes(item.Departure)) {
         setMidDup((prev) => [...prev, item]);
       }
@@ -96,48 +96,6 @@ const Flight = () => {
       });
     });
   }, [midDup]);
-  window.brand = brand;
-  window.finalarray = finalarray;
-  // useEffect(() => {
-  //   let filteredArr = [];
-  //   displayArray.map((item) => {
-  //     for (let j = 0; j < item.ProductBrandOffering.length; j++) {
-  //       let flag = 0;
-  //       for (let i = 0; i < brand.length; i++) {
-  //         if (brand[i] == item.ProductBrandOffering[j].Brand.BrandRef) {
-  //           filteredArr.push(item);
-  //           flag = 1;
-  //           break;
-  //         }
-  //       }
-  //       if (flag == 1) {
-  //         break;
-  //       }
-  //     }
-  //   });
-  //   if (brand.length != 0) {
-  //     setFinalArray(filteredArr);
-  //   } else {
-  //     setFinalArray(displayArray);
-  //   }
-  // }, [brand]);
-  // useEffect(() => {
-  //   let filteredArr = [];
-  //   displayArray.map((item) => {
-  //     let x = item.flightRefs.length;
-  //     if (x >= 3) {
-  //       x = 3;
-  //     }
-  //     if (flightNo.includes(x)) {
-  //       filteredArr.push(item);
-  //     }
-  //   });
-  //   if (flightNo.length != 0) {
-  //     setFinalArray(filteredArr);
-  //   } else {
-  //     setFinalArray(displayArray);
-  //   }
-  // }, [flightNo]);
 
   useEffect(() => {
     let filteredArr = [];
@@ -195,8 +153,6 @@ const Flight = () => {
       return 0;
     };
   }
-  window.displayArray = displayArray;
-  window.finalArrayDup = finalArrayDup;
 
   function sortPriceAsc() {
     setTemp(finalarray.sort(GetPriceSort("prop")));
@@ -284,18 +240,15 @@ const Flight = () => {
                 {brand.includes(item.id) == true ? (
                   <input
                     type="checkbox"
-                    id={item.name + "dept"}
-                    name={item.name + "dept"}
                     value={item.id}
                     checked={true}
-                    onChange={() => {
-                      let x = document.getElementById(item.name + "dept");
-                      if (x.checked) {
+                    onChange={(e) => {
+                      if (e.target.checked) {
                         setBrand((prev) => {
-                          return [...prev, x.value];
+                          return [...prev, e.target.value];
                         });
                       } else {
-                        let b = brand.filter((alpha) => alpha !== x.value);
+                        let b = brand.filter((alpha) => alpha !== e.target.value);
                         setBrand(b);
                       }
                     }}
@@ -303,17 +256,14 @@ const Flight = () => {
                 ) : (
                   <input
                     type="checkbox"
-                    id={item.name + "dept"}
-                    name={item.name + "dept"}
                     value={item.id}
-                    onChange={() => {
-                      let x = document.getElementById(item.name + "dept");
-                      if (x.checked) {
+                    onChange={(e) => {
+                      if (e.target.checked) {
                         setBrand((prev) => {
-                          return [...prev, x.value];
+                          return [...prev, e.target.value];
                         });
                       } else {
-                        let b = brand.filter((alpha) => alpha !== x.value);
+                        let b = brand.filter((alpha) => alpha !== e.target.value);
                         setBrand(b);
                       }
                     }}
@@ -378,13 +328,14 @@ const Flight = () => {
         </div>
         <h3>Price :</h3>
         <div>
-          <input type="number" id="startPrice" />
+          <input type="number" id="startPrice" ref={myRef} />
           <p>to</p>
           <input type="number" id="endPrice" />
           <button
             style={{ display: "block" }}
             onClick={() => {
-              let x = document.getElementById("startPrice").value;
+              let x = +myRef.current.value;
+              console.log("this is of re ",x);
               let y = document.getElementById("endPrice").value;
               sortByPrice(x, y);
             }}
@@ -393,330 +344,35 @@ const Flight = () => {
           </button>
         </div>
       </div>
-      <div style={{ left: "400px", position: "absolute" }}>
+      <div
+        style={{ left: "400px", position: "absolute" }}
+      >
         {finalarray.map((item) => {
+
           return (
-            <div
-              style={{
-                display: "flex",
-                gap: "5px",
-                flexDirection: "column-reverse",
-                border: "2px black solid",
-                margin: "5px",
-                padding: "5px",
-              }}
-            >
-              <div>
-                <p>
-                  <span style={{ fontWeight: "bold " }}>Departure Date - </span>
-                  {item.DepartureTime}
-                </p>
-                <p>
-                  <span style={{ fontWeight: "bold " }}>Arrival Date - </span>
-                  {item.ArrivalTime}
-                </p>
-                {item.ProductBrandOffering.map((x) => {
-                  return (
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: "5px",
-                      }}
-                    >
-                      <div>
-                        <span style={{ fontWeight: "bold " }}>
-                          Brand Name -{" "}
-                        </span>
-                        <span>
-                          {alldata.ReferenceList[3].Brand.map((y) => {
-                            if (y.id == x?.Brand?.BrandRef) {
-                              return y.name;
-                            }
-                          })}
-                        </span>
-                        <p>
-                          <span style={{ fontStyle: "italic" }}>
-                            Base Price -{" "}
-                          </span>
-                          {x.Price.Base}
-                        </p>
-                        <p>
-                          <span style={{ fontStyle: "italic" }}>
-                            Total Taxes-{" "}
-                          </span>
-                          {x.Price.TotalTaxes}
-                        </p>
-                        <p>
-                          <span style={{ fontStyle: "italic" }}>
-                            Total Price -{" "}
-                          </span>
-                          {x.Price.TotalPrice}
-                        </p>
-                      </div>
-                      <div>
-                        <span style={{ fontWeight: "bold " }}>
-                          Total Duration -{" "}
-                        </span>
-                        <span>
-                          {x.Product.map((aa) => {
-                            return alldata.ReferenceList[1].Product.map((y) => {
-                              if (y.id == aa?.productRef) {
-                                return y.totalDuration;
-                              }
-                            });
-                          })}
-                        </span>
-                      </div>
-                      <div>
-                        <span style={{ fontWeight: "bold " }}>
-                          Validating Airlines -{" "}
-                        </span>
-                        <span>
-                          {alldata.ReferenceList[2].TermsAndConditions.map(
-                            (y) => {
-                              if (
-                                y.id ==
-                                x.TermsAndConditions?.termsAndConditionsRef
-                              ) {
-                                return y.ValidatingAirline.map((air) => {
-                                  return air.ValidatingAirline;
-                                });
-                              }
-                            }
-                          )}
-                        </span>
-                      </div>
-                    </div>
-                  );
-                })}
-                <div>
-                  {finalArrayDup.map((dup) => {
-                    if (
-                      dup.ProductBrandOffering[0].CombinabilityCode[0] ==
-                      item.ProductBrandOffering[0].CombinabilityCode[0]
-                    ) {
-                      return (
-                        <div
-                          style={{
-                            display: "flex",
-                            gap: "5px",
-                            flexDirection: "column-reverse",
-                            border: "2px black solid",
-                            margin: "5px",
-                            padding: "5px",
-                          }}
-                        >
-                          <div>
-                            <p>
-                              <span style={{ fontWeight: "bold " }}>
-                                Departure Date -{" "}
-                              </span>
-                              {dup.DepartureTime}
-                            </p>
-                            <p>
-                              <span style={{ fontWeight: "bold " }}>
-                                Arrival Date -{" "}
-                              </span>
-                              {dup.ArrivalTime}
-                            </p>
-                            {dup.ProductBrandOffering.map((x) => {
-                              return (
-                                <div
-                                  style={{
-                                    display: "flex",
-                                    flexDirection: "column",
-                                    gap: "5px",
-                                  }}
-                                >
-                                  <div>
-                                    <span style={{ fontWeight: "bold " }}>
-                                      Brand Name -{" "}
-                                    </span>
-                                    <span>
-                                      {alldata.ReferenceList[3].Brand.map(
-                                        (y) => {
-                                          if (y.id == x?.Brand?.BrandRef) {
-                                            return y.name;
-                                          }
-                                        }
-                                      )}
-                                    </span>
-                                    <p>
-                                      <span style={{ fontStyle: "italic" }}>
-                                        Base Price -{" "}
-                                      </span>
-                                      {x.Price.Base}
-                                    </p>
-                                    <p>
-                                      <span style={{ fontStyle: "italic" }}>
-                                        Total Taxes-{" "}
-                                      </span>
-                                      {x.Price.TotalTaxes}
-                                    </p>
-                                    <p>
-                                      <span style={{ fontStyle: "italic" }}>
-                                        Total Price -{" "}
-                                      </span>
-                                      {x.Price.TotalPrice}
-                                    </p>
-                                  </div>
-                                  <div>
-                                    <span style={{ fontWeight: "bold " }}>
-                                      Total Duration -{" "}
-                                    </span>
-                                    <span>
-                                      {x.Product.map((aa) => {
-                                        return alldata.ReferenceList[1].Product.map(
-                                          (y) => {
-                                            if (y.id == aa?.productRef) {
-                                              return y.totalDuration;
-                                            }
-                                          }
-                                        );
-                                      })}
-                                    </span>
-                                  </div>
-                                  <div>
-                                    <span style={{ fontWeight: "bold " }}>
-                                      Validating Airlines -{" "}
-                                    </span>
-                                    <span>
-                                      {alldata.ReferenceList[2].TermsAndConditions.map(
-                                        (y) => {
-                                          if (
-                                            y.id ==
-                                            x.TermsAndConditions
-                                              ?.termsAndConditionsRef
-                                          ) {
-                                            return y.ValidatingAirline.map(
-                                              (air) => {
-                                                return air.ValidatingAirline;
-                                              }
-                                            );
-                                          }
-                                        }
-                                      )}
-                                    </span>
-                                  </div>
-                                </div>
-                              );
-                            })}
-                          </div>
-                          <div
-                            style={{
-                              display: "flex",
-                              flexDirection: "column",
-                              gap: "5px",
-                            }}
-                          >
-                            {dup.flightRefs.map((alp) => {
-                              return (
-                                <div style={{ display: "flex", gap: "5px" }}>
-                                  {alldata.ReferenceList[0].Flight.map((y) => {
-                                    if (y.id == alp) {
-                                      return (
-                                        <>
-                                          <p>
-                                            <span
-                                              style={{ fontWeight: "bold " }}
-                                            >
-                                              From -{" "}
-                                            </span>{" "}
-                                            {y.Departure.location}
-                                          </p>
-                                          <p>
-                                            <span
-                                              style={{ fontWeight: "bold " }}
-                                            >
-                                              To -{" "}
-                                            </span>{" "}
-                                            {y.Arrival.location}
-                                          </p>
-                                          <p>
-                                            <span
-                                              style={{ fontWeight: "bold " }}
-                                            >
-                                              Duration -{" "}
-                                            </span>{" "}
-                                            {y.duration}
-                                          </p>
-                                        </>
-                                      );
-                                    }
-                                  })}
-                                </div>
-                              );
-                            })}
-                          </div>
-                          <div>No. of stops - {dup.flightRefs.length}</div>
-                        </div>
-                      );
-                    }
-                  })}
-                </div>
-              </div>
-
-              <div
-                style={{ display: "flex", flexDirection: "column", gap: "5px" }}
-              >
-                {item.flightRefs.map((alp) => {
-                  return (
-                    <div style={{ display: "flex", gap: "5px" }}>
-                      {alldata.ReferenceList[0].Flight.map((y) => {
-                        if (y.id == alp) {
-                          return (
-                            <>
-                              <p>
-                                <span style={{ fontWeight: "bold " }}>
-                                  From -{" "}
-                                </span>{" "}
-                                {y.Departure.location}
-                              </p>
-                              <p>
-                                <span style={{ fontWeight: "bold " }}>
-                                  To -{" "}
-                                </span>{" "}
-                                {y.Arrival.location}
-                              </p>
-                              <p>
-                                <span style={{ fontWeight: "bold " }}>
-                                  Duration -{" "}
-                                </span>{" "}
-                                {y.duration}
-                              </p>
-                            </>
-                          );
-                        }
-                      })}
-                    </div>
-                  );
-                })}
-              </div>
-              <div>No. of stops - {item.flightRefs.length}</div>
-            </div>
-          );
-        })}
-      </div>
-
-      {/* eijfowehfhoe */}
-
-      {/* <div>
+            <div style={{
+              border:"2px solid  black",
+              display:"flex",
+              flexDirection:"column",
+              gap:"5px",
+              margin:"4px"
+            }}>
+            
+              <Display item={item} alldata={alldata} />
+              <div className="yash">
                 {finalArrayDup.map((dup) => {
-                  // console.log(
-                  //   "this",
-                  //   dup.ProductBrandOffering[0].CombinabilityCode,
-                  //   item.ProductBrandOffering[0].CombinabilityCode
-                  // );
-                  console.log(dup);
                   if (
                     dup.ProductBrandOffering[0].CombinabilityCode[0] ==
                     item.ProductBrandOffering[0].CombinabilityCode[0]
                   ) {
-                    return dup.ProductBrandOffering[0].CombinabilityCode[0];
+                    return <Display item={dup} alldata={alldata} />
                   }
                 })}
-              </div> */}
+              </div>
+            </div>)
+
+        })}
+      </div>
     </div>
   );
 };
