@@ -1,22 +1,24 @@
-import React, { useEffect, useState,useRef } from "react";
-import { useLocation } from "react-router-dom";
+import React, { useEffect, useState, useRef } from "react";
+import X from "../data.json";
 import Display from "./Display";
 const Flight = () => {
-  const location = useLocation();
-  const { From, arrival, startDate, endDate, alldata } = location.state.obj;
+  const From = ["LOS"];
+  const arrival = ["MEL"];
+  const startDate = "2023-10-28";
+  const endDate = "2023-10-30";
+  const alldata = X.CatalogProductOfferingsResponse;
   const [mid, setMid] = useState([]);
   const [midDup, setMidDup] = useState([]);
   const [temp, setTemp] = useState([]);
   const [finalarray, setFinalArray] = useState([]);
   const [displayArray, setDisplayArray] = useState([]);
-
   const [finalArrayDup, setFinalArrayDup] = useState([]);
   const [allBrands, setAllBrands] = useState([]);
   const [brand, setBrand] = useState([]);
   const [flightNo, setFlightNo] = useState([]);
   const stops = [1, 2, 3];
   let myRef = useRef(0);
-  let myRef1 = useRef(0);
+  let myRef2 = useRef(0);
 
   useEffect(() => {
     alldata.CatalogProductOfferings.CatalogProductOffering.forEach((item) => {
@@ -163,7 +165,7 @@ const Flight = () => {
     setBrand([]);
     setFlightNo([]);
     myRef.current.value = "";
-    myRef1.current.value = "";
+    myRef2.current.value = "";
   }
 
   function GetTimeSort(prop) {
@@ -199,6 +201,7 @@ const Flight = () => {
 
   return (
     <div style={{ display: "flex", gap: "10px", margin: "20px" }}>
+      {/* Sidebar filters */}
       <div
         style={{
           display: "flex",
@@ -249,7 +252,9 @@ const Flight = () => {
                           return [...prev, e.target.value];
                         });
                       } else {
-                        let b = brand.filter((alpha) => alpha !== e.target.value);
+                        let b = brand.filter(
+                          (alpha) => alpha !== e.target.value
+                        );
                         setBrand(b);
                       }
                     }}
@@ -264,7 +269,9 @@ const Flight = () => {
                           return [...prev, e.target.value];
                         });
                       } else {
-                        let b = brand.filter((alpha) => alpha !== e.target.value);
+                        let b = brand.filter(
+                          (alpha) => alpha !== e.target.value
+                        );
                         setBrand(b);
                       }
                     }}
@@ -331,12 +338,12 @@ const Flight = () => {
         <div>
           <input type="number" id="startPrice" ref={myRef} />
           <p>to</p>
-          <input type="number" id="endPrice" ref={myRef1} />
+          <input type="number" id="endPrice" ref={myRef2} />
           <button
             style={{ display: "block" }}
             onClick={() => {
               let x = +myRef.current.value;
-              let y = myRef1.current.value;
+              let y = +myRef2.current.value;
               sortByPrice(x, y);
             }}
           >
@@ -344,33 +351,42 @@ const Flight = () => {
           </button>
         </div>
       </div>
-      <div
-        style={{ left: "400px", position: "absolute" }}
-      >
+      {/* Flight Display */}
+      <div style={{ left: "400px", position: "absolute" }}>
         {finalarray.map((item) => {
-
           return (
-            <div style={{
-              border:"2px solid  black",
-              display:"flex",
-              flexDirection:"column",
-              gap:"5px",
-              margin:"4px"
-            }}>
-            
+            <div
+              style={{
+                border: "2px solid  black",
+                display: "flex",
+                flexDirection: "column",
+                gap: "5px",
+                margin: "4px",
+              }}
+            >
+              <h2>
+                {From[0]} to {arrival[0]}
+              </h2>
               <Display item={item} alldata={alldata} />
-              <div className="yash">
+              <h2>
+                {arrival[0]} to {From[0]}
+              </h2>
+              <div>
                 {finalArrayDup.map((dup) => {
                   if (
                     dup.ProductBrandOffering[0].CombinabilityCode[0] ==
                     item.ProductBrandOffering[0].CombinabilityCode[0]
                   ) {
-                    return <Display item={dup} alldata={alldata} />
+                    return <Display item={dup} alldata={alldata} />;
                   }
                 })}
               </div>
-            </div>)
-
+              <div>
+                Best Combinable Price -{" "}
+                {item.ProductBrandOffering[0].BestCombinablePrice.TotalPrice}
+              </div>
+            </div>
+          );
         })}
       </div>
     </div>
