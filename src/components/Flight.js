@@ -136,18 +136,9 @@ const Flight = () => {
 
   function GetPriceSort(prop) {
     return function (a, b) {
-      let firstmini = a.ProductBrandOffering[0].Price.TotalPrice;
-      let secondmini = b.ProductBrandOffering[0].Price.TotalPrice;
-      a.ProductBrandOffering.map((item) => {
-        if (firstmini > item.Price.TotalPrice) {
-          firstmini = item.Price.TotalPrice;
-        }
-      });
-      b.ProductBrandOffering.map((item) => {
-        if (secondmini > item.Price.TotalPrice) {
-          secondmini = item.Price.TotalPrice;
-        }
-      });
+      let firstmini=a.ProductBrandOffering[0].BestCombinablePrice.TotalPrice;
+      let secondmini=b.ProductBrandOffering[0].BestCombinablePrice.TotalPrice;
+
       if (firstmini > secondmini) {
         return 1;
       } else if (firstmini < secondmini) {
