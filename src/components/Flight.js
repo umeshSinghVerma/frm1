@@ -270,7 +270,7 @@ const Flight = () => {
       getCompatibilityArrayDup();
     }
   },[displayArray])
-  
+
   useEffect(()=>{
     if(finalarray.length!=0){
       sortPriceAsc();
@@ -460,7 +460,7 @@ const Flight = () => {
                 })}
               </div>
               <div>
-                Best Combinable Price -{" "}
+                Total Price -{" "}
                 {item.ProductBrandOffering[0].BestCombinablePrice.TotalPrice}
               </div>
             </div>
