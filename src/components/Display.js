@@ -2,72 +2,58 @@ import React from 'react'
 
 const Display = ({item,alldata}) => {
     return (
-        <div
-          style={{
-            display: "flex",
-            gap: "5px",
-            flexDirection: "column-reverse",
-            border: "2px black solid",
-            margin: "5px",
-            padding: "5px",
-          }}
-        >
+      <>
+        <div className='flex gap-[5px] flex-col-reverse border-2 border-black m-[5px] p-[5px]'>
           <div>
             <p>
-              <span style={{ fontWeight: "bold " }}>Departure Date - </span>
+              <span className='font-bold'>Departure Date - </span>
               {item.DepartureTime}
             </p>
             <p>
-              <span style={{ fontWeight: "bold " }}>Arrival Date - </span>
+              <span className='font-bold'>Arrival Date - </span>
               {item.ArrivalTime}
             </p>
             {item.ProductBrandOffering.map((x) => {
               return (
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "5px",
-                  }}
-                >
+                <div className='flex flex-col gap-[5px]'>
                   <div>
-                    <span style={{ fontWeight: "bold " }}>
+                    <span className='font-bold'>
                       Brand Name -{" "}
                     </span>
                     <span>
                       {alldata.ReferenceList[3].Brand.map((y) => {
-                        if (y.id == x?.Brand?.BrandRef) {
+                        if (y.id === x?.Brand?.BrandRef) {
                           return y.name;
                         }
                       })}
                     </span>
                     <p>
-                      <span style={{ fontStyle: "italic" }}>
+                      <span className='italic'>
                         Base Price -{" "}
                       </span>
                       {x.Price.Base}
                     </p>
                     <p>
-                      <span style={{ fontStyle: "italic" }}>
+                      <span className='italic'>
                         Total Taxes-{" "}
                       </span>
                       {x.Price.TotalTaxes}
                     </p>
                     <p>
-                      <span style={{ fontStyle: "italic" }}>
+                      <span className='italic'>
                         Total Price -{" "}
                       </span>
                       {x.Price.TotalPrice}
                     </p>
                   </div>
                   <div>
-                    <span style={{ fontWeight: "bold " }}>
+                    <span className='font-bold'>
                       Total Duration -{" "}
                     </span>
                     <span>
                       {x.Product.map((aa) => {
                         return alldata.ReferenceList[1].Product.map((y) => {
-                          if (y.id == aa?.productRef) {
+                          if (y.id === aa?.productRef) {
                             return y.totalDuration;
                           }
                         });
@@ -75,14 +61,14 @@ const Display = ({item,alldata}) => {
                     </span>
                   </div>
                   <div>
-                    <span style={{ fontWeight: "bold " }}>
+                    <span className='font-bold'>
                       Validating Airlines -{" "}
                     </span>
                     <span>
                       {alldata.ReferenceList[2].TermsAndConditions.map(
                         (y) => {
                           if (
-                            y.id ==
+                            y.id ===
                             x.TermsAndConditions?.termsAndConditionsRef
                           ) {
                             return y.ValidatingAirline.map((air) => {
@@ -98,30 +84,28 @@ const Display = ({item,alldata}) => {
             })}
           </div>
 
-          <div
-            style={{ display: "flex", flexDirection: "column", gap: "5px" }}
-          >
+          <div className='flex flex-col gap-[5px]'>
             {item.flightRefs.map((alp) => {
               return (
-                <div style={{ display: "flex", gap: "5px" }}>
+                <div className='flex gap-[5px]'>
                   {alldata.ReferenceList[0].Flight.map((y) => {
-                    if (y.id == alp) {
+                    if (y.id === alp) {
                       return (
                         <>
                           <p>
-                            <span style={{ fontWeight: "bold " }}>
+                            <span className='font-bold'>
                               From -{" "}
                             </span>{" "}
                             {y.Departure.location}
                           </p>
                           <p>
-                            <span style={{ fontWeight: "bold " }}>
+                            <span className='font-bold'>
                               To -{" "}
                             </span>{" "}
                             {y.Arrival.location}
                           </p>
                           <p>
-                            <span style={{ fontWeight: "bold " }}>
+                            <span className='font-bold'>
                               Duration -{" "}
                             </span>{" "}
                             {y.duration}
@@ -136,6 +120,7 @@ const Display = ({item,alldata}) => {
           </div>
           <div>No. of stops - {item.flightRefs.length}</div>
         </div>
+      </>
       );
 }
 

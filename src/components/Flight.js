@@ -104,7 +104,7 @@ const Flight = () => {
   useEffect(() => {
     let filteredArr = [];
     displayArray.map((item) => {
-      if (brand.length != 0) {
+      if (brand.length !== 0) {
         if (brand.includes(item.ProductBrandOffering[0].Brand.BrandRef)) {
           if (flightNo.length > 0) {
             let x = item.flightRefs.length;
@@ -118,8 +118,8 @@ const Flight = () => {
             filteredArr.push(item);
           }
         }
-      } else if (brand.length == 0) {
-        if (flightNo.length != 0) {
+      } else if (brand.length === 0) {
+        if (flightNo.length !== 0) {
           let x = item.flightRefs.length;
           if (x >= 3) {
             x = 3;
@@ -160,14 +160,14 @@ const Flight = () => {
       } else {
         let first = a.ProductBrandOffering[0].Product.map((aa) => {
           return alldata.ReferenceList[1].Product.map((y) => {
-            if (y.id == aa?.productRef) {
+            if (y.id === aa?.productRef) {
               return y.totalDuration;
             }
           });
         })
         let second = b.ProductBrandOffering[0].Product.map((aa) => {
           return alldata.ReferenceList[1].Product.map((y) => {
-            if (y.id == aa?.productRef) {
+            if (y.id === aa?.productRef) {
               return y.totalDuration;
             }
           });
@@ -220,7 +220,7 @@ const Flight = () => {
       filteredArr.push(finalarray[0]);
       let firstCompatibility = finalarray[0].ProductBrandOffering[0].CombinabilityCode[0];
       for (let i = 1; i < finalarray.length; i++) {
-        if (firstCompatibility != finalarray[i].ProductBrandOffering[0].CombinabilityCode[0]) {
+        if (firstCompatibility !== finalarray[i].ProductBrandOffering[0].CombinabilityCode[0]) {
           firstCompatibility = finalarray[i].ProductBrandOffering[0].CombinabilityCode[0];
           filteredArr.push(finalarray[i]);
         }
@@ -235,7 +235,7 @@ const Flight = () => {
       filteredArr.push(finalArrayDup[0]);
       let firstCompatibility = finalArrayDup[0].ProductBrandOffering[0].CombinabilityCode[0];
       for (let i = 1; i < finalArrayDup.length; i++) {
-        if (firstCompatibility != finalArrayDup[i].ProductBrandOffering[0].CombinabilityCode[0]) {
+        if (firstCompatibility !== finalArrayDup[i].ProductBrandOffering[0].CombinabilityCode[0]) {
           firstCompatibility = finalArrayDup[i].ProductBrandOffering[0].CombinabilityCode[0];
           filteredArr.push(finalArrayDup[i]);
         }
@@ -254,7 +254,7 @@ const Flight = () => {
       let beta = JSON.stringify(item);
       beta = JSON.parse(beta);
       beta.ProductBrandOffering = alpha;
-      if (alpha.length != 0) {
+      if (alpha.length !== 0) {
         filteredArr.push(beta);
       }
     });
@@ -263,7 +263,7 @@ const Flight = () => {
 
   const [flag,setflag]=useState(0);
   useEffect(()=>{
-    if(finalarray.length!=0){
+    if(finalarray.length!==0){
       sortCompatibilityAsc();
       sortCompatibilityAscDup();
       getCompatibilityArrayFinal();
@@ -272,54 +272,39 @@ const Flight = () => {
   },[displayArray])
 
   useEffect(()=>{
-    if(finalarray.length!=0){
+    if(finalarray.length!==0){
       sortPriceAsc();
       setflag(1);
     }
   },[finalarray])
 
   useEffect(()=>{
-    if(flag==1){
+    if(flag===1){
       setDisplayArray(finalarray);
     }
   },[flag])
 
   return (
-    <div style={{ display: "flex", gap: "10px", margin: "20px" }}>
+    <div className="flex gap-80 m-5">
       {/* Sidebar filters */}
       <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "10px",
-          position: "fixed",
-          top: "2px",
-          height: "90vh",
-        }}
-      >
-        <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-          <button
-            onClick={() => {
-              sortTimeAsc();
-            }}
-          >
+      className="flex flex-col gap-3 sticky top-0 h-screen overflow-y-scroll">
+        <div className="flex flex-col gap-3">
+          <button onClick={() => sortTimeAsc()} >
             Sort By Departure date
           </button>
-          <button
-            onClick={() => {
-              clearfn();
-            }}
+          <button onClick={() => clearfn() }
           >
             Clear All Filter
           </button>
         </div>
         <h1>Filters</h1>
         <h3>Brand Name :</h3>
-        <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
+        <div className="flex flex-col gap-1">
           {allBrands.map((item, key) => {
             return (
               <div key={key}>
-                {brand.includes(item.id) == true ? (
+                {brand.includes(item.id) === true ? (
                   <input
                     type="checkbox"
                     value={item.id}
@@ -355,17 +340,17 @@ const Flight = () => {
                     }}
                   />
                 )}
-                <label for={item.name + "dept"}>{item.name}</label>
+                <label htmlFor={item.name + "dept"}>{item.name}</label>
               </div>
             );
           })}
         </div>
         <h3>No. of Stops :</h3>
-        <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
+        <div className="flex flex-col gap-1">
           {stops.map((item, key) => {
             return (
               <div key={key}>
-                {flightNo.includes(item) == true ? (
+                {flightNo.includes(item) === true ? (
                   <input
                     type="checkbox"
                     id={item + "stop"}
@@ -404,9 +389,9 @@ const Flight = () => {
                   />
                 )}
                 {item >= 3 ? (
-                  <label for={item + "stop"}>2+</label>
+                  <label htmlFor={item + "stop"}>2+</label>
                 ) : (
-                  <label for={item + "stop"}>{item}</label>
+                  <label htmlFor={item + "stop"}>{item}</label>
                 )}
               </div>
             );
@@ -418,7 +403,7 @@ const Flight = () => {
           <p>to</p>
           <input type="number" id="endPrice" ref={myRef2} />
           <button
-            style={{ display: "block" }}
+            className="block"
             onClick={() => {
               let x = +myRef.current.value;
               let y = +myRef2.current.value;
@@ -430,18 +415,10 @@ const Flight = () => {
         </div>
       </div>
       {/* Flight Display */}
-      <div style={{ left: "400px", position: "absolute" }}>
+      <div>
         {finalarray.map((item) => {
           return (
-            <div
-              style={{
-                border: "2px solid  black",
-                display: "flex",
-                flexDirection: "column",
-                gap: "5px",
-                margin: "4px",
-              }}
-            >
+            <div className="border-2 border-black flex flex-col gap-1 m-1">
               <h2>
                 {From[0]} to {arrival[0]}
               </h2>
@@ -452,7 +429,7 @@ const Flight = () => {
               <div>
                 {finalArrayDup.map((dup) => {
                   if (
-                    dup.ProductBrandOffering[0].CombinabilityCode[0] ==
+                    dup.ProductBrandOffering[0].CombinabilityCode[0] ===
                     item.ProductBrandOffering[0].CombinabilityCode[0]
                   ) {
                     return <Display item={dup} alldata={alldata} />;
