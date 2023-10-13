@@ -12,8 +12,8 @@ function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <>
-      <Route path="/" element={<Flight/>}/>
-      <Route path="/multi" element={<Multi />} />
+        <Route path="/" element={<Flight/>}/>
+        <Route path="/multi" element={<Multi />} />
       </>
     )
   );

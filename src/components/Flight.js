@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import X from "../data.json";
 import Display from "./Display";
 import FlightDetails from "./FlightDetails";
+import { Link } from "react-router-dom";
 const Flight = () => {
   const From = ["LOS"];
   const arrival = ["MEL"];
@@ -489,6 +490,9 @@ const Flight = () => {
           );
         })}
       </div>
+      <button className="fixed bottom-2 right-2 text-white mt-3 py-2 px-5 text-xl rounded active:scale-95 transition-all hover:opacity-95" style={{background: "linear-gradient(135deg,#e55e0d 0%,#cf3218 100%)"}}>
+        <Link to="/Multi">Multi-City Search</Link>
+      </button>
     </div>
   );
 };
