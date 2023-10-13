@@ -1,7 +1,6 @@
-import React, { useState } from 'react'
+import React from 'react'
 
 const Display = ({returnBack, from, arrival, item, alldata}) => {
-  const [showDetails, setShowDetails] = useState(false)
     return (
       <>
         <div className='flex items-center gap-24 m-2'>

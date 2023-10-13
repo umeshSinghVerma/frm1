@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import X from "../data.json";
 import Display from "./Display";
+import FlightDetails from "./FlightDetails";
 const Flight = () => {
   const From = ["LOS"];
   const arrival = ["MEL"];
@@ -284,169 +285,205 @@ const Flight = () => {
     }
   },[flag])
 
+  const [showDetails, setShowDetails] = useState()
+
+  function openAccordian(id){
+    if(showDetails===id){
+      setShowDetails()
+    }
+    else{
+      setShowDetails(id)
+
+    }
+  }
   return (
-    <div className="flex gap-80 m-5">
+    <div className="flex gap-32 mx-40">
       {/* Sidebar filters */}
-      <div
-      className="flex flex-col gap-3 sticky top-0 h-screen overflow-y-scroll">
+      <div className="flex flex-col gap-3 sticky py-3 top-0 h-screen overflow-y-scroll removeScollbar bg-white px-5 shadow-lg">
         <div className="flex flex-col gap-3">
-          <button onClick={() => sortTimeAsc()} >
+          <button onClick={() => sortTimeAsc()} className="text-white py-2 px-5 text-xl rounded active:scale-95 transition-all hover:opacity-95" style={{background: "linear-gradient(135deg,#e55e0d 0%,#cf3218 100%)"}}>
             Sort By Departure date
           </button>
-          <button onClick={() => clearfn() }
+          <button onClick={() => clearfn() } className="border border-[#e55e0d] py-2 px-5 text-lg active:scale-95 transition-all hover:opacity-95 font-semibold rounded"
           >
             Clear All Filter
           </button>
         </div>
-        <h1>Filters</h1>
-        <h3>Brand Name :</h3>
-        <div className="flex flex-col gap-1">
-          {allBrands.map((item, key) => {
-            return (
-              <div key={key}>
-                {brand.includes(item.id) === true ? (
-                  <input
-                    type="checkbox"
-                    value={item.id}
-                    checked={true}
-                    onChange={(e) => {
-                      if (e.target.checked) {
-                        setBrand((prev) => {
-                          return [...prev, e.target.value];
-                        });
-                      } else {
-                        let b = brand.filter(
-                          (alpha) => alpha !== e.target.value
-                        );
-                        setBrand(b);
-                      }
-                    }}
-                  />
-                ) : (
-                  <input
-                    type="checkbox"
-                    value={item.id}
-                    onChange={(e) => {
-                      if (e.target.checked) {
-                        setBrand((prev) => {
-                          return [...prev, e.target.value];
-                        });
-                      } else {
-                        let b = brand.filter(
-                          (alpha) => alpha !== e.target.value
-                        );
-                        setBrand(b);
-                      }
-                    }}
-                  />
-                )}
-                <label htmlFor={item.name + "dept"}>{item.name}</label>
-              </div>
-            );
-          })}
-        </div>
-        <h3>No. of Stops :</h3>
-        <div className="flex flex-col gap-1">
-          {stops.map((item, key) => {
-            return (
-              <div key={key}>
-                {flightNo.includes(item) === true ? (
-                  <input
-                    type="checkbox"
-                    id={item + "stop"}
-                    value={item}
-                    checked={true}
-                    onChange={(e) => {
-                      if (e.target.checked) {
-                        setFlightNo((prev) => {
-                          return [...prev, +e.target.value];
-                        });
-                      } else {
-                        let b = flightNo.filter(
-                          (alpha) => alpha !== +e.target.value
-                        );
-                        setFlightNo(b);
-                      }
-                    }}
-                  />
-                ) : (
-                  <input
-                    type="checkbox"
-                    value={item}
-                    id={item + "stop"}
-                    onChange={(e) => {
-                      if (e.target.checked) {
-                        setFlightNo((prev) => {
-                          return [...prev, +e.target.value];
-                        });
-                      } else {
-                        let b = flightNo.filter(
-                          (alpha) => alpha !== +e.target.value
-                        );
-                        setFlightNo(b);
-                      }
-                    }}
-                  />
-                )}
-                {item >= 3 ? (
-                  <label htmlFor={item + "stop"}>2+</label>
-                ) : (
-                  <label htmlFor={item + "stop"}>{item}</label>
-                )}
-              </div>
-            );
-          })}
-        </div>
-        <h3>Price :</h3>
-        <div>
-          <input type="number" id="startPrice" ref={myRef} />
-          <p>to</p>
-          <input type="number" id="endPrice" ref={myRef2} />
-          <button
-            className="block"
-            onClick={() => {
-              let x = +myRef.current.value;
-              let y = +myRef2.current.value;
-              sortByPrice(x, y);
-            }}
-          >
-            find
-          </button>
+        <h1 className="mt-10 text-3xl ">Filters ~</h1>
+        <div className="flex flex-col gap-10">
+          <div className="flex flex-col gap-3">
+            <h3 className="text-xl">Brand Name :</h3>
+            <div className="flex flex-col gap-2">
+              {allBrands.map((item, key) => {
+                return (
+                  <div key={key} className="flex gap-3">
+                    {brand.includes(item.id) === true ? (
+                      <input
+                        type="checkbox"
+                        value={item.id}
+                        checked={true}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            setBrand((prev) => {
+                              return [...prev, e.target.value];
+                            });
+                          } else {
+                            let b = brand.filter(
+                              (alpha) => alpha !== e.target.value
+                            );
+                            setBrand(b);
+                          }
+                        }}
+                      />
+                    ) : (
+                      <input
+                        type="checkbox"
+                        value={item.id}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            setBrand((prev) => {
+                              return [...prev, e.target.value];
+                            });
+                          } else {
+                            let b = brand.filter(
+                              (alpha) => alpha !== e.target.value
+                            );
+                            setBrand(b);
+                          }
+                        }}
+                      />
+                    )}
+                    <label htmlFor={item.name + "dept"}>{item.name}</label>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-3">
+            <h3 className="text-xl">No. of Stops :</h3>
+            <div className="flex flex-col gap-1">
+              {stops.map((item, key) => {
+                return (
+                  <div key={key} className="flex gap-3">
+                    {flightNo.includes(item) === true ? (
+                      <input
+                        type="checkbox"
+                        id={item + "stop"}
+                        value={item}
+                        checked={true}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            setFlightNo((prev) => {
+                              return [...prev, +e.target.value];
+                            });
+                          } else {
+                            let b = flightNo.filter(
+                              (alpha) => alpha !== +e.target.value
+                            );
+                            setFlightNo(b);
+                          }
+                        }}
+                      />
+                    ) : (
+                      <input
+                        type="checkbox"
+                        value={item}
+                        id={item + "stop"}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            setFlightNo((prev) => {
+                              return [...prev, +e.target.value];
+                            });
+                          } else {
+                            let b = flightNo.filter(
+                              (alpha) => alpha !== +e.target.value
+                            );
+                            setFlightNo(b);
+                          }
+                        }}
+                      />
+                    )}
+                    {item >= 3 ? (
+                      <label htmlFor={item + "stop"}>2+</label>
+                    ) : (
+                      <label htmlFor={item + "stop"}>{item}</label>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-3">
+            <h3 className="text-xl">Price :</h3>
+            <div className="flex flex-col gap-3">
+              <input className="border border-[#e55e0d]" type="number" id="startPrice" ref={myRef} />
+              <p>to</p>
+              <input className="border border-[#e55e0d]" type="number" id="endPrice" ref={myRef2} />
+              <button
+                className="block text-white py-1 px-5 text-xl rounded active:scale-95 transition-all hover:opacity-95"
+                style={{background: "linear-gradient(135deg,#e55e0d 0%,#cf3218 100%)"}}
+                onClick={() => {
+                  let x = +myRef.current.value;
+                  let y = +myRef2.current.value;
+                  sortByPrice(x, y);
+                }}
+              >
+                Find
+              </button>
+            </div>
+          </div>
         </div>
       </div>
+
       {/* Flight Display */}
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4 my-10">
         {finalarray.map((item, id) => {
           return (
             <main key={id} >
-              <section className="shadow-md flex bg-white border border-white rounded-xl hover:border-slate-500 transition-all cursor-pointer">
-                <div className="flex flex-col p-5">
-                  <div className="flex gap-2">
-                    <input type="checkbox" />
-                    {/* <h2>{From[0]} to {arrival[0]}</h2> */}
-                    <Display returnBack={false} from={From[0]} arrival={arrival[0]} item={item} alldata={alldata} />
-                  </div>
+              <section className="shadow-md  bg-white border border-white rounded-xl hover:border-slate-500 transition-all cursor-pointer">
+                {/* Closed Accordian */}
+                <div className={`flex ${showDetails===id ? "border-b border-slate-400" : ""}`}>
+                  <div className="flex flex-col p-5" onClick={()=>openAccordian(id)}>
+                    <div className="flex gap-2">
+                      <input type="checkbox" />
+                      <Display returnBack={false} from={From[0]} arrival={arrival[0]} item={item} alldata={alldata} />
+                    </div>
 
-                  <div className="flex gap-2">
-                    <input type="checkbox" />
-                    {/* <h2>{arrival[0]} to {From[0]}</h2> */}
-                    <div>
-                      {finalArrayDup.map((dup) => {
-                        if (
-                          dup.ProductBrandOffering[0].CombinabilityCode[0] ===
-                          item.ProductBrandOffering[0].CombinabilityCode[0]
-                        ) {
-                          return <Display returnBack={true} from={From[0]} arrival={arrival[0]} item={dup} alldata={alldata} />;
-                        }
-                      })}
+                    <div className="flex gap-2">
+                      <input type="checkbox" />
+                      <div>
+                        {finalArrayDup.map((dup) => {
+                          if (
+                            dup.ProductBrandOffering[0].CombinabilityCode[0] ===
+                            item.ProductBrandOffering[0].CombinabilityCode[0]
+                          ) {
+                            return <Display returnBack={true} from={From[0]} arrival={arrival[0]} item={dup} alldata={alldata} />;
+                          }
+                        })}
+                      </div>
                     </div>
                   </div>
+                  <div className="bg-slate-300 w-[1px] "></div>
+                  <div className="p-5">
+                    Total Price :-{" "}
+                    <p className="font-bold text-3xl">$ {item.ProductBrandOffering[0].BestCombinablePrice.TotalPrice}</p>
+                    <button onClick={() => sortTimeAsc()} className="text-white w-full mt-3 py-2 px-5 text-xl rounded active:scale-95 transition-all hover:opacity-95" style={{background: "linear-gradient(135deg,#e55e0d 0%,#cf3218 100%)"}}>
+                      Select
+                    </button>
+                  </div>
                 </div>
-                <div className="bg-slate-300 w-[1px] "></div>
-                <div className="p-5">
-                  Total Price :-{" "}
-                  <p className="font-bold text-3xl">$ {item.ProductBrandOffering[0].BestCombinablePrice.TotalPrice}</p>
-                </div>
+
+                {/* Details Inside Accordian */}
+                {finalArrayDup.map((dup) => {
+                  if (
+                    dup.ProductBrandOffering[0].CombinabilityCode[0] ===
+                    item.ProductBrandOffering[0].CombinabilityCode[0]
+                  ) {
+                    return showDetails===id && <FlightDetails item={item} dup={dup} alldata={alldata}/>
+                  }
+                })}
               </section>
             </main>
           );
