@@ -1,10 +1,82 @@
-import React from 'react'
+import React, { useState } from 'react'
 
-const Display = ({item,alldata}) => {
+const Display = ({returnBack, from, arrival, item, alldata}) => {
+  const [showDetails, setShowDetails] = useState(false)
     return (
       <>
-        <div className='flex gap-[5px] flex-col-reverse border-2 border-black m-[5px] p-[5px]'>
+        <div className='flex items-center gap-24 m-2'>
           <div>
+            {/* dept-arrival timings */}
+            <div>
+
+            </div>
+
+            {/* dept-arrival places */}
+            <div>
+              {!returnBack && <h2>{from} to {arrival}</h2>}
+              {returnBack && <h2>{arrival} to {from}</h2>}
+            </div>
+          </div>
+          <div><span className='font-bold'>No. of stops -</span> {item.flightRefs.length}</div>
+          <div>
+            {item.ProductBrandOffering.map((x) => {
+              return (
+                <div className='flex flex-col gap-[5px]'>
+                  <div>
+                    <span className='font-bold'>
+                      Total Duration -{" "}
+                    </span>
+                    <span>
+                      {x.Product.map((aa) => {
+                        return alldata.ReferenceList[1].Product.map((y) => {
+                          if (y.id === aa?.productRef) {
+                            return y.totalDuration;
+                          }
+                        });
+                      })}
+                    </span>
+                  </div>
+                </div>
+              );
+            })}
+          </div>         
+        
+          {/* <div className='flex flex-col gap-[5px]'>
+            {item.flightRefs.map((alp) => {
+              return (
+                <div className='flex gap-[5px]'>
+                  {alldata.ReferenceList[0].Flight.map((y) => {
+                    if (y.id === alp) {
+                      return (
+                        <>
+                          <p>
+                            <span className='font-bold'>
+                              From -{" "}
+                            </span>{" "}
+                            {y.Departure.location}
+                          </p>
+                          <p>
+                            <span className='font-bold'>
+                              To -{" "}
+                            </span>{" "}
+                            {y.Arrival.location}
+                          </p>
+                          <p>
+                            <span className='font-bold'>
+                              Duration -{" "}
+                            </span>{" "}
+                            {y.duration}
+                          </p>
+                        </>
+                      );
+                    }
+                  })}
+                </div>
+              );
+            })}
+          </div> */}
+          
+          {/* <div>
             <p>
               <span className='font-bold'>Departure Date - </span>
               {item.DepartureTime}
@@ -23,6 +95,7 @@ const Display = ({item,alldata}) => {
                     <span>
                       {alldata.ReferenceList[3].Brand.map((y) => {
                         if (y.id === x?.Brand?.BrandRef) {
+                          // setBrandList(oldArray => [...oldArray, y.name])
                           return y.name;
                         }
                       })}
@@ -82,43 +155,7 @@ const Display = ({item,alldata}) => {
                 </div>
               );
             })}
-          </div>
-
-          <div className='flex flex-col gap-[5px]'>
-            {item.flightRefs.map((alp) => {
-              return (
-                <div className='flex gap-[5px]'>
-                  {alldata.ReferenceList[0].Flight.map((y) => {
-                    if (y.id === alp) {
-                      return (
-                        <>
-                          <p>
-                            <span className='font-bold'>
-                              From -{" "}
-                            </span>{" "}
-                            {y.Departure.location}
-                          </p>
-                          <p>
-                            <span className='font-bold'>
-                              To -{" "}
-                            </span>{" "}
-                            {y.Arrival.location}
-                          </p>
-                          <p>
-                            <span className='font-bold'>
-                              Duration -{" "}
-                            </span>{" "}
-                            {y.duration}
-                          </p>
-                        </>
-                      );
-                    }
-                  })}
-                </div>
-              );
-            })}
-          </div>
-          <div>No. of stops - {item.flightRefs.length}</div>
+          </div> */}
         </div>
       </>
       );

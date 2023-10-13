@@ -415,32 +415,40 @@ const Flight = () => {
         </div>
       </div>
       {/* Flight Display */}
-      <div>
-        {finalarray.map((item) => {
+      <div className="flex flex-col gap-4">
+        {finalarray.map((item, id) => {
           return (
-            <div className="border-2 border-black flex flex-col gap-1 m-1">
-              <h2>
-                {From[0]} to {arrival[0]}
-              </h2>
-              <Display item={item} alldata={alldata} />
-              <h2>
-                {arrival[0]} to {From[0]}
-              </h2>
-              <div>
-                {finalArrayDup.map((dup) => {
-                  if (
-                    dup.ProductBrandOffering[0].CombinabilityCode[0] ===
-                    item.ProductBrandOffering[0].CombinabilityCode[0]
-                  ) {
-                    return <Display item={dup} alldata={alldata} />;
-                  }
-                })}
-              </div>
-              <div>
-                Total Price -{" "}
-                {item.ProductBrandOffering[0].BestCombinablePrice.TotalPrice}
-              </div>
-            </div>
+            <main key={id} >
+              <section className="shadow-md flex bg-white border border-white rounded-xl hover:border-slate-500 transition-all cursor-pointer">
+                <div className="flex flex-col p-5">
+                  <div className="flex gap-2">
+                    <input type="checkbox" />
+                    {/* <h2>{From[0]} to {arrival[0]}</h2> */}
+                    <Display returnBack={false} from={From[0]} arrival={arrival[0]} item={item} alldata={alldata} />
+                  </div>
+
+                  <div className="flex gap-2">
+                    <input type="checkbox" />
+                    {/* <h2>{arrival[0]} to {From[0]}</h2> */}
+                    <div>
+                      {finalArrayDup.map((dup) => {
+                        if (
+                          dup.ProductBrandOffering[0].CombinabilityCode[0] ===
+                          item.ProductBrandOffering[0].CombinabilityCode[0]
+                        ) {
+                          return <Display returnBack={true} from={From[0]} arrival={arrival[0]} item={dup} alldata={alldata} />;
+                        }
+                      })}
+                    </div>
+                  </div>
+                </div>
+                <div className="bg-slate-300 w-[1px] "></div>
+                <div className="p-5">
+                  Total Price :-{" "}
+                  <p className="font-bold text-3xl">$ {item.ProductBrandOffering[0].BestCombinablePrice.TotalPrice}</p>
+                </div>
+              </section>
+            </main>
           );
         })}
       </div>
