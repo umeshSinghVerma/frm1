@@ -48,6 +48,9 @@ const Multi = () => {
       startDate: "",
       endDate: "",
     };
+    if(formFields.length>5){
+      return;
+    }
 
     setFormFields([...formFields, object]);
   };
@@ -95,7 +98,7 @@ const Multi = () => {
                 })}
               </select>
               <input
-                type="number"
+                type="date"
                 name="startDate"
                 placeholder="startDate"
                 onChange={(event) => handleFormChange(event, index)}
@@ -103,7 +106,7 @@ const Multi = () => {
                 className="bg-slate-200 rounded-md px-2"
               />
               <input
-                type="number"
+                type="date"
                 name="endDate"
                 placeholder="endDate"
                 onChange={(event) => handleFormChange(event, index)}
