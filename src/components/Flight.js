@@ -16,7 +16,9 @@ const Flight = () => {
   const [displayArray, setDisplayArray] = useState([]);
   const [finalArrayDup, setFinalArrayDup] = useState([]);
   const [allBrands, setAllBrands] = useState([]);
+  const [allFlights, setAllFlights] = useState([]);
   const [brand, setBrand] = useState([]);
+  const [flight, setFlight] = useState([]);
   const [flightNo, setFlightNo] = useState([]);
   const stops = [1, 2, 3];
   let myRef = useRef(0);
@@ -31,12 +33,24 @@ const Flight = () => {
         setMidDup((prev) => [...prev, item]);
       }
     });
-    alldata.ReferenceList[3].Brand.map((item) => {
-      setAllBrands((prev) => {
-        return [...prev, { name: item.name, id: item.id }];
-      });
+
+    let uniqueBrands = [];
+    alldata.ReferenceList[3].Brand.forEach((item) => {
+      if (item.name && !uniqueBrands.some(brand => brand.id === item.id && brand.name === item.name)) {
+        uniqueBrands.push({ name: item.name, id: item.id });
+      }
     });
+    setAllBrands(uniqueBrands);
+
+    let uniqueFlights = [];
+    alldata.ReferenceList[0].Flight.forEach((item) => {
+      if (item.carrier && !uniqueFlights.includes(item.carrier)) {
+        uniqueFlights.push(item.carrier);
+      }
+    });
+    setAllFlights(uniqueFlights);
   }, []);
+
   useEffect(() => {
     mid.map((item) => {
       let ffr;
@@ -134,8 +148,28 @@ const Flight = () => {
         }
       }
     });
+    if(flight.length){
+      let newarr=[]
+      filteredArr.filter(item=>{
+        for(let i=0;i<item.flightRefs.length;i++){
+          let carrier;
+          for(let j=0;j<alldata.ReferenceList[0].Flight.length;j++){
+            if(item.flightRefs[i]==alldata.ReferenceList[0].Flight[j].id){
+              carrier=alldata.ReferenceList[0].Flight[j].carrier;
+            }
+          }
+          if(flight.includes(carrier)){
+            if(!newarr.includes(item)){
+              newarr.push(item);
+            }
+          }
+        }
+      });
+      filteredArr=[...newarr];
+    }
+
     setFinalArray(filteredArr);
-  }, [brand, flightNo]);
+  }, [brand, flightNo,flight]);
 
   function GetPriceSort() {
     return function (a, b) {
@@ -312,6 +346,7 @@ const Flight = () => {
         </div>
         <h1 className="mt-10 text-3xl ">Filters ~</h1>
         <div className="flex flex-col gap-10">
+
           <div className="flex flex-col gap-3">
             <h3 className="text-xl">Brand Name :</h3>
             <div className="flex flex-col gap-2">
@@ -355,6 +390,57 @@ const Flight = () => {
                       />
                     )}
                     <label htmlFor={item.name + "dept"}>{item.name}</label>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-3">
+            <h3 className="text-xl">Flights Name :</h3>
+            <div className="flex flex-col gap-2">
+              {allFlights.map((item, key) => {
+                return (
+                  <div key={key} className="flex gap-3">
+                    {flight.includes(item) === true ? (
+                      <input
+                        type="checkbox"
+                        value={item}
+                        id={item + "flight"}
+                        checked={true}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            setFlight((prev) => {
+                              return [...prev, e.target.value];
+                            });
+                          } else {
+                            let b = flight.filter(
+                              (alpha) => alpha !== e.target.value
+                            );
+                            setFlight(b);
+                          }
+                        }}
+                      />
+                    ) : (
+                      <input
+                        type="checkbox"
+                        value={item}
+                        id={item + "flight"}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            setFlight((prev) => {
+                              return [...prev, e.target.value];
+                            });
+                          } else {
+                            let b = flight.filter(
+                              (alpha) => alpha !== e.target.value
+                            );
+                            setFlight(b);
+                          }
+                        }}
+                      />
+                    )}
+                    <label htmlFor={item + "flight"}>{item}</label>
                   </div>
                 );
               })}
