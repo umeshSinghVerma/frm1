@@ -216,15 +216,16 @@ const Flight = () => {
       }
     };
   }
+  window.finalarray=finalarray;
 
   function sortPriceAsc() {
     setTemp(finalarray.sort(GetPriceSort()));
   }
   function sortCompatibilityAsc() {
-    setTemp(finalarray.sort(GetCompatibilitySort()));
+    // setTemp(finalarray.sort(GetCompatibilitySort()));
   }
   function sortCompatibilityAscDup() {
-    setTemp(finalArrayDup.sort(GetCompatibilitySort()));
+    // setTemp(finalArrayDup.sort(GetCompatibilitySort()));
   }
 
   function clearfn() {
@@ -250,34 +251,34 @@ const Flight = () => {
   }
 
   function getCompatibilityArrayFinal() {
-    let filteredArr = [];
-    let len = finalarray.length;
-    if (len) {
-      filteredArr.push(finalarray[0]);
-      let firstCompatibility = finalarray[0].ProductBrandOffering[0].CombinabilityCode[0];
-      for (let i = 1; i < finalarray.length; i++) {
-        if (firstCompatibility !== finalarray[i].ProductBrandOffering[0].CombinabilityCode[0]) {
-          firstCompatibility = finalarray[i].ProductBrandOffering[0].CombinabilityCode[0];
-          filteredArr.push(finalarray[i]);
-        }
-      }
-    }
-    setFinalArray(filteredArr);
+    // let filteredArr = [];
+    // let len = finalarray.length;
+    // if (len) {
+    //   filteredArr.push(finalarray[0]);
+    //   let firstCompatibility = finalarray[0].ProductBrandOffering[0].CombinabilityCode[0];
+    //   for (let i = 1; i < finalarray.length; i++) {
+    //     if (firstCompatibility !== finalarray[i].ProductBrandOffering[0].CombinabilityCode[0]) {
+    //       firstCompatibility = finalarray[i].ProductBrandOffering[0].CombinabilityCode[0];
+    //       filteredArr.push(finalarray[i]);
+    //     }
+    //   }
+    // }
+    // setFinalArray(filteredArr);
   }
   function getCompatibilityArrayDup() {
-    let filteredArr = [];
-    let len = finalArrayDup.length;
-    if (len) {
-      filteredArr.push(finalArrayDup[0]);
-      let firstCompatibility = finalArrayDup[0].ProductBrandOffering[0].CombinabilityCode[0];
-      for (let i = 1; i < finalArrayDup.length; i++) {
-        if (firstCompatibility !== finalArrayDup[i].ProductBrandOffering[0].CombinabilityCode[0]) {
-          firstCompatibility = finalArrayDup[i].ProductBrandOffering[0].CombinabilityCode[0];
-          filteredArr.push(finalArrayDup[i]);
-        }
-      }
-    }
-    setFinalArrayDup(filteredArr);
+    // let filteredArr = [];
+    // let len = finalArrayDup.length;
+    // if (len) {
+    //   filteredArr.push(finalArrayDup[0]);
+    //   let firstCompatibility = finalArrayDup[0].ProductBrandOffering[0].CombinabilityCode[0];
+    //   for (let i = 1; i < finalArrayDup.length; i++) {
+    //     if (firstCompatibility !== finalArrayDup[i].ProductBrandOffering[0].CombinabilityCode[0]) {
+    //       firstCompatibility = finalArrayDup[i].ProductBrandOffering[0].CombinabilityCode[0];
+    //       filteredArr.push(finalArrayDup[i]);
+    //     }
+    //   }
+    // }
+    // setFinalArrayDup(filteredArr);
   }
 
   function sortByPrice(startPrice, endPrice) {
@@ -300,10 +301,10 @@ const Flight = () => {
   const [flag,setflag]=useState(0);
   useEffect(()=>{
     if(finalarray.length!==0){
-      sortCompatibilityAsc();
-      sortCompatibilityAscDup();
-      getCompatibilityArrayFinal();
-      getCompatibilityArrayDup();
+      // sortCompatibilityAsc();
+      // sortCompatibilityAscDup();
+      // getCompatibilityArrayFinal();
+      // getCompatibilityArrayDup();
     }
   },[displayArray])
 
