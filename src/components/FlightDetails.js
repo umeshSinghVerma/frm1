@@ -212,12 +212,6 @@ const FlightDetails = ({item, dup, alldata}) => {
                           </p>
                           <p>
                             <span className='font-bold'>
-                              Duration -{" "}
-                            </span>{" "}
-                            {y.duration}
-                          </p>
-                          <p>
-                            <span className='font-bold'>
                               AirlineCarrier -{" "}
                             </span>{" "}
                             {y.carrier}
