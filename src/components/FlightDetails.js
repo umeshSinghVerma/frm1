@@ -38,7 +38,7 @@ const FlightDetails = ({item, dup, alldata}) => {
                   {alldata.ReferenceList[0].Flight.map((y) => {
                     if (y.id === alp) {
                       return (
-                        <>
+                        <div className="flex gap-5">
                           <p>
                             <span className='font-bold'>
                               From -{" "}
@@ -57,7 +57,13 @@ const FlightDetails = ({item, dup, alldata}) => {
                             </span>{" "}
                             {y.duration}
                           </p>
-                        </>
+                          <p>
+                            <span className='font-bold'>
+                              AirlineCarrier -{" "}
+                            </span>{" "}
+                            {y.carrier}
+                          </p>
+                        </div>
                       );
                     }
                   })}
@@ -185,7 +191,7 @@ const FlightDetails = ({item, dup, alldata}) => {
                   {alldata.ReferenceList[0].Flight.map((y) => {
                     if (y.id === alp) {
                       return (
-                        <>
+                        <div className="flex gap-5">
                           <p>
                             <span className='font-bold'>
                               From -{" "}
@@ -204,7 +210,13 @@ const FlightDetails = ({item, dup, alldata}) => {
                             </span>{" "}
                             {y.duration}
                           </p>
-                        </>
+                          <p>
+                            <span className='font-bold'>
+                              AirlineCarrier -{" "}
+                            </span>{" "}
+                            {y.carrier}
+                          </p>
+                        </div>
                       );
                     }
                   })}
