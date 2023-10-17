@@ -6,8 +6,6 @@ import { Link } from "react-router-dom";
 const Flight = () => {
   const From = ["LOS"];
   const arrival = ["MEL"];
-  const startDate = "2023-10-28";
-  const endDate = "2023-10-31";
   const alldata = X.CatalogProductOfferingsResponse;
   const [mid, setMid] = useState([]);
   const [midDup, setMidDup] = useState([]);
@@ -62,10 +60,10 @@ const Flight = () => {
         lfr = alldata.ReferenceList[0].Flight.filter((it) => {
           return it.id === f.flightRefs[f.flightRefs.length - 1];
         });
-        if (
-          ffr[0].Departure.date >= startDate &&
-          lfr[0].Arrival.date <= endDate
-        ) {
+        // if (
+        //   ffr[0].Departure.date >= startDate &&
+        //   lfr[0].Arrival.date <= endDate
+        // ) {
           f.DepartureTime = ffr[0].Departure.date;
           f.ArrivalTime = lfr[0].Arrival.date;
 
@@ -82,7 +80,7 @@ const Flight = () => {
           setDisplayArray((prev) => {
             return [...prev, ...alp];
           });
-        }
+        // }
       });
     });
   }, [mid]);
@@ -98,7 +96,7 @@ const Flight = () => {
         lfr = alldata.ReferenceList[0].Flight.filter((it) => {
           return it.id === f.flightRefs[f.flightRefs.length - 1];
         });
-        if (ffr[0].Departure.date >= endDate) {
+        // if (ffr[0].Departure.date >= endDate) {
           f.DepartureTime = ffr[0].Departure.date;
           f.ArrivalTime = lfr[0].Arrival.date;
 
@@ -112,7 +110,7 @@ const Flight = () => {
           setFinalArrayDup((prev) => {
             return [...prev, ...alp];
           });
-        }
+        // }
       });
     });
   }, [midDup]);
@@ -169,7 +167,7 @@ const Flight = () => {
     }
 
     setFinalArray(filteredArr);
-  }, [brand, flightNo,flight]);
+  }, [brand, flightNo, flight]);
 
   function GetPriceSort() {
     return function (a, b) {
@@ -184,47 +182,9 @@ const Flight = () => {
       return 0;
     };
   }
-  function GetCompatibilitySort() {
-    return function (a, b) {
-      let firstmini = a.ProductBrandOffering[0].CombinabilityCode[0];
-      let secondmini = b.ProductBrandOffering[0].CombinabilityCode[0];
-
-      if (firstmini > secondmini) {
-        return 1;
-      } else if (firstmini < secondmini) {
-        return -1;
-      } else {
-        let first = a.ProductBrandOffering[0].Product.map((aa) => {
-          return alldata.ReferenceList[1].Product.map((y) => {
-            if (y.id === aa?.productRef) {
-              return y.totalDuration;
-            }
-          });
-        })
-        let second = b.ProductBrandOffering[0].Product.map((aa) => {
-          return alldata.ReferenceList[1].Product.map((y) => {
-            if (y.id === aa?.productRef) {
-              return y.totalDuration;
-            }
-          });
-        })
-        if (first < second) {
-          return 1;
-        } else {
-          return -1;
-        }
-      }
-    };
-  }
 
   function sortPriceAsc() {
     setTemp(finalarray.sort(GetPriceSort()));
-  }
-  function sortCompatibilityAsc() {
-    setTemp(finalarray.sort(GetCompatibilitySort()));
-  }
-  function sortCompatibilityAscDup() {
-    setTemp(finalArrayDup.sort(GetCompatibilitySort()));
   }
 
   function clearfn() {
@@ -245,39 +205,9 @@ const Flight = () => {
       return 0;
     };
   }
+
   function sortTimeAsc() {
     setTemp(finalarray.sort(GetTimeSort()));
-  }
-
-  function getCompatibilityArrayFinal() {
-    let filteredArr = [];
-    let len = finalarray.length;
-    if (len) {
-      filteredArr.push(finalarray[0]);
-      let firstCompatibility = finalarray[0].ProductBrandOffering[0].CombinabilityCode[0];
-      for (let i = 1; i < finalarray.length; i++) {
-        if (firstCompatibility !== finalarray[i].ProductBrandOffering[0].CombinabilityCode[0]) {
-          firstCompatibility = finalarray[i].ProductBrandOffering[0].CombinabilityCode[0];
-          filteredArr.push(finalarray[i]);
-        }
-      }
-    }
-    setFinalArray(filteredArr);
-  }
-  function getCompatibilityArrayDup() {
-    let filteredArr = [];
-    let len = finalArrayDup.length;
-    if (len) {
-      filteredArr.push(finalArrayDup[0]);
-      let firstCompatibility = finalArrayDup[0].ProductBrandOffering[0].CombinabilityCode[0];
-      for (let i = 1; i < finalArrayDup.length; i++) {
-        if (firstCompatibility !== finalArrayDup[i].ProductBrandOffering[0].CombinabilityCode[0]) {
-          firstCompatibility = finalArrayDup[i].ProductBrandOffering[0].CombinabilityCode[0];
-          filteredArr.push(finalArrayDup[i]);
-        }
-      }
-    }
-    setFinalArrayDup(filteredArr);
   }
 
   function sortByPrice(startPrice, endPrice) {
@@ -298,14 +228,6 @@ const Flight = () => {
   }
 
   const [flag,setflag]=useState(0);
-  // useEffect(()=>{
-  //   if(finalarray.length!==0){
-      // sortCompatibilityAsc();
-      // sortCompatibilityAscDup();
-      // getCompatibilityArrayFinal();
-      // getCompatibilityArrayDup();
-    // }
-  // },[displayArray])
 
   useEffect(()=>{
     if(finalarray.length!==0){
@@ -331,6 +253,7 @@ const Flight = () => {
 
     }
   }
+
   return (
     <div className="flex gap-32 mx-40">
       {/* Sidebar filters */}
@@ -532,12 +455,15 @@ const Flight = () => {
               <section className="shadow-md  bg-white border border-white rounded-xl hover:border-slate-500 transition-all cursor-pointer">
                 {/* Closed Accordian */}
                 <div className={`flex ${showDetails===id ? "border-b border-slate-400" : ""}`}>
-                  <div className="flex flex-col p-5" onClick={()=>openAccordian(id)}>
+                  <div className="flex flex-col p-5 justify-center" onClick={()=>openAccordian(id)}>
+
+                    {/* Destination Flight */}
                     <div className="flex gap-2">
                       <input type="checkbox" />
                       <Display returnBack={false} from={From[0]} arrival={arrival[0]} item={item} alldata={alldata} />
                     </div>
 
+                    {/* Return Flight */}
                     <div className="flex gap-2">
                       <input type="checkbox" />
                       <div>
@@ -552,7 +478,10 @@ const Flight = () => {
                       </div>
                     </div>
                   </div>
+
                   <div className="bg-slate-300 w-[1px] "></div>
+
+                  {/* Total Price */}
                   <div className="p-5">
                     Total Price :-{" "}
                     <p className="font-bold text-3xl">$ {item.ProductBrandOffering[0].BestCombinablePrice.TotalPrice}</p>
@@ -576,6 +505,8 @@ const Flight = () => {
           );
         })}
       </div>
+
+      {/* Multi City Search */}
       <button className="fixed bottom-2 right-2 text-white mt-3 py-2 px-5 text-xl rounded active:scale-95 transition-all hover:opacity-95" style={{background: "linear-gradient(135deg,#e55e0d 0%,#cf3218 100%)"}}>
         <Link to="/Multi">Multi-City Search</Link>
       </button>
@@ -584,3 +515,91 @@ const Flight = () => {
 };
 
 export default Flight;
+
+  // const startDate = "2023-10-28";
+  // const endDate = "2023-10-31";
+  // function sortCompatibilityAsc() {
+  //   setTemp(finalarray.sort(GetCompatibilitySort()));
+  // }
+
+  // function sortCompatibilityAscDup() {
+  //   setTemp(finalArrayDup.sort(GetCompatibilitySort()));
+  // }
+
+
+  
+  // function getCompatibilityArrayFinal() {
+  //   let filteredArr = [];
+  //   let len = finalarray.length;
+  //   if (len) {
+  //     filteredArr.push(finalarray[0]);
+  //     let firstCompatibility = finalarray[0].ProductBrandOffering[0].CombinabilityCode[0];
+  //     for (let i = 1; i < finalarray.length; i++) {
+  //       if (firstCompatibility !== finalarray[i].ProductBrandOffering[0].CombinabilityCode[0]) {
+  //         firstCompatibility = finalarray[i].ProductBrandOffering[0].CombinabilityCode[0];
+  //         filteredArr.push(finalarray[i]);
+  //       }
+  //     }
+  //   }
+  //   setFinalArray(filteredArr);
+  // }
+
+  // function getCompatibilityArrayDup() {
+  //   let filteredArr = [];
+  //   let len = finalArrayDup.length;
+  //   if (len) {
+  //     filteredArr.push(finalArrayDup[0]);
+  //     let firstCompatibility = finalArrayDup[0].ProductBrandOffering[0].CombinabilityCode[0];
+  //     for (let i = 1; i < finalArrayDup.length; i++) {
+  //       if (firstCompatibility !== finalArrayDup[i].ProductBrandOffering[0].CombinabilityCode[0]) {
+  //         firstCompatibility = finalArrayDup[i].ProductBrandOffering[0].CombinabilityCode[0];
+  //         filteredArr.push(finalArrayDup[i]);
+  //       }
+  //     }
+  //   }
+  //   setFinalArrayDup(filteredArr);
+  // }
+
+
+  
+  // function GetCompatibilitySort() {
+  //   return function (a, b) {
+  //     let firstmini = a.ProductBrandOffering[0].CombinabilityCode[0];
+  //     let secondmini = b.ProductBrandOffering[0].CombinabilityCode[0];
+
+  //     if (firstmini > secondmini) {
+  //       return 1;
+  //     } else if (firstmini < secondmini) {
+  //       return -1;
+  //     } else {
+  //       let first = a.ProductBrandOffering[0].Product.map((aa) => {
+  //         return alldata.ReferenceList[1].Product.map((y) => {
+  //           if (y.id === aa?.productRef) {
+  //             return y.totalDuration;
+  //           }
+  //         });
+  //       })
+  //       let second = b.ProductBrandOffering[0].Product.map((aa) => {
+  //         return alldata.ReferenceList[1].Product.map((y) => {
+  //           if (y.id === aa?.productRef) {
+  //             return y.totalDuration;
+  //           }
+  //         });
+  //       })
+  //       if (first < second) {
+  //         return 1;
+  //       } else {
+  //         return -1;
+  //       }
+  //     }
+  //   };
+  // }
+  
+  // useEffect(()=>{
+  //   if(finalarray.length!==0){
+      // sortCompatibilityAsc();
+      // sortCompatibilityAscDup();
+      // getCompatibilityArrayFinal();
+      // getCompatibilityArrayDup();
+    // }
+  // },[displayArray])

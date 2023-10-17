@@ -164,7 +164,7 @@ const FlightDetails = ({item, dup, alldata}) => {
             <span>--Arrival Date--</span>
           </div>
           <div>
-            {item.ProductBrandOffering.map((x) => {
+            {dup.ProductBrandOffering.map((x) => {
               return (
                 <div className="flex flex-col gap-[5px]">
                   <div>
