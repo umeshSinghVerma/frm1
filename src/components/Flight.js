@@ -9,8 +9,12 @@ import PriceFilter from "./Filters/PriceFilter";
 import AirlineFilter from "./Filters/AirlineFilter";
 import BrandFilter from "./Filters/BrandFilter";
 const Flight = () => {
-  const From = X.CatalogProductOfferingsResponse.CatalogProductOfferings.CatalogProductOffering[0].Departure;
-  const arrival = X.CatalogProductOfferingsResponse.CatalogProductOfferings.CatalogProductOffering[0].Arrival;
+  const From =
+    X.CatalogProductOfferingsResponse.CatalogProductOfferings
+      .CatalogProductOffering[0].Departure;
+  const arrival =
+    X.CatalogProductOfferingsResponse.CatalogProductOfferings
+      .CatalogProductOffering[0].Arrival;
   const alldata = X.CatalogProductOfferingsResponse;
   const [mid, setMid] = useState([]);
   const [midDup, setMidDup] = useState([]);
@@ -23,23 +27,29 @@ const Flight = () => {
   const [brand, setBrand] = useState([]);
   const [flight, setFlight] = useState([]);
   const [flightNo, setFlightNo] = useState([]);
-  
+  const [toggle, setToggle] = useState(false);
+
   let myRef = useRef(0);
   let myRef2 = useRef(0);
 
   useEffect(() => {
     alldata.CatalogProductOfferings.CatalogProductOffering.forEach((item) => {
-      if (From===(item.Departure) && arrival===(item.Arrival)) {
+      if (From === item.Departure && arrival === item.Arrival) {
         setMid((prev) => [...prev, item]);
       }
-      if (From===(item.Arrival) && arrival===(item.Departure)) {
+      if (From === item.Arrival && arrival === item.Departure) {
         setMidDup((prev) => [...prev, item]);
       }
     });
 
     let uniqueBrands = [];
     alldata.ReferenceList[3].Brand.forEach((item) => {
-      if (item.name && !uniqueBrands.some(brand => brand.id === item.id && brand.name === item.name)) {
+      if (
+        item.name &&
+        !uniqueBrands.some(
+          (brand) => brand.id === item.id && brand.name === item.name
+        )
+      ) {
         uniqueBrands.push({ name: item.name, id: item.id });
       }
     });
@@ -69,22 +79,22 @@ const Flight = () => {
         //   ffr[0].Departure.date >= startDate &&
         //   lfr[0].Arrival.date <= endDate
         // ) {
-          f.DepartureTime = ffr[0].Departure.date;
-          f.ArrivalTime = lfr[0].Arrival.date;
+        f.DepartureTime = ffr[0].Departure.date;
+        f.ArrivalTime = lfr[0].Arrival.date;
 
-          let alp = f.ProductBrandOffering.map((it) => {
-            let g = JSON.stringify(f);
-            g = JSON.parse(g);
-            g.ProductBrandOffering = [];
-            g.ProductBrandOffering.push(it);
-            return g;
-          });
-          setFinalArray((prev) => {
-            return [...prev, ...alp];
-          });
-          setDisplayArray((prev) => {
-            return [...prev, ...alp];
-          });
+        let alp = f.ProductBrandOffering.map((it) => {
+          let g = JSON.stringify(f);
+          g = JSON.parse(g);
+          g.ProductBrandOffering = [];
+          g.ProductBrandOffering.push(it);
+          return g;
+        });
+        setFinalArray((prev) => {
+          return [...prev, ...alp];
+        });
+        setDisplayArray((prev) => {
+          return [...prev, ...alp];
+        });
         // }
       });
     });
@@ -102,19 +112,19 @@ const Flight = () => {
           return it.id === f.flightRefs[f.flightRefs.length - 1];
         });
         // if (ffr[0].Departure.date >= endDate) {
-          f.DepartureTime = ffr[0].Departure.date;
-          f.ArrivalTime = lfr[0].Arrival.date;
+        f.DepartureTime = ffr[0].Departure.date;
+        f.ArrivalTime = lfr[0].Arrival.date;
 
-          let alp = f.ProductBrandOffering.map((it) => {
-            let g = JSON.stringify(f);
-            g = JSON.parse(g);
-            g.ProductBrandOffering = [];
-            g.ProductBrandOffering.push(it);
-            return g;
-          });
-          setFinalArrayDup((prev) => {
-            return [...prev, ...alp];
-          });
+        let alp = f.ProductBrandOffering.map((it) => {
+          let g = JSON.stringify(f);
+          g = JSON.parse(g);
+          g.ProductBrandOffering = [];
+          g.ProductBrandOffering.push(it);
+          return g;
+        });
+        setFinalArrayDup((prev) => {
+          return [...prev, ...alp];
+        });
         // }
       });
     });
@@ -151,28 +161,46 @@ const Flight = () => {
         }
       }
     });
-    if(flight.length){
-      let newarr=[]
-      filteredArr.filter(item=>{
-        for(let i=0;i<item.flightRefs.length;i++){
+    if (flight.length) {
+      let newarr = [];
+      filteredArr.filter((item) => {
+        for (let i = 0; i < item.flightRefs.length; i++) {
           let carrier;
-          for(let j=0;j<alldata.ReferenceList[0].Flight.length;j++){
-            if(item.flightRefs[i]==alldata.ReferenceList[0].Flight[j].id){
-              carrier=alldata.ReferenceList[0].Flight[j].carrier;
+          for (let j = 0; j < alldata.ReferenceList[0].Flight.length; j++) {
+            if (item.flightRefs[i] == alldata.ReferenceList[0].Flight[j].id) {
+              carrier = alldata.ReferenceList[0].Flight[j].carrier;
             }
           }
-          if(flight.includes(carrier)){
-            if(!newarr.includes(item)){
+          if (flight.includes(carrier)) {
+            if (!newarr.includes(item)) {
               newarr.push(item);
             }
           }
         }
       });
-      filteredArr=[...newarr];
+      filteredArr = [...newarr];
     }
+    if (myRef.current.value != "" && myRef2.current.value != "") {
+      let newarr = [];
+      filteredArr.map((item) => {
+        let alpha = item.ProductBrandOffering.filter(
+          (y) =>
+            y.BestCombinablePrice.TotalPrice >= myRef.current.value &&
+            y.BestCombinablePrice.TotalPrice <= myRef2.current.value
+        );
+        let beta = JSON.stringify(item);
+        beta = JSON.parse(beta);
+        beta.ProductBrandOffering = alpha;
+        if (alpha.length !== 0) {
+          newarr.push(beta);
+        }
+      });
+      filteredArr = [...newarr];
+    }
+    window.tog = toggle;
 
     setFinalArray(filteredArr);
-  }, [brand, flightNo, flight]);
+  }, [brand, flightNo, flight, toggle]);
 
   function sortPriceAsc() {
     setTemp(finalarray.sort(GetPriceSort()));
@@ -182,6 +210,7 @@ const Flight = () => {
     setFinalArray(displayArray);
     setBrand([]);
     setFlightNo([]);
+    setFlight([]);
     myRef.current.value = "";
     myRef2.current.value = "";
   }
@@ -191,70 +220,90 @@ const Flight = () => {
   }
 
   function sortByPrice(startPrice, endPrice) {
-    let filteredArr = [];
-    finalarray.map((item) => {
-      let alpha = item.ProductBrandOffering.filter(
-        (y) =>
-          y.BestCombinablePrice.TotalPrice >= startPrice && y.BestCombinablePrice.TotalPrice <= endPrice
-      );
-      let beta = JSON.stringify(item);
-      beta = JSON.parse(beta);
-      beta.ProductBrandOffering = alpha;
-      if (alpha.length !== 0) {
-        filteredArr.push(beta);
-      }
-    });
-    setFinalArray(filteredArr);
+    // let filteredArr = [];
+    // finalarray.map((item) => {
+    //   let alpha = item.ProductBrandOffering.filter(
+    //     (y) =>
+    //       y.BestCombinablePrice.TotalPrice >= startPrice && y.BestCombinablePrice.TotalPrice <= endPrice
+    //   );
+    //   let beta = JSON.stringify(item);
+    //   beta = JSON.parse(beta);
+    //   beta.ProductBrandOffering = alpha;
+    //   if (alpha.length !== 0) {
+    //     filteredArr.push(beta);
+    //   }
+    // });
+    // setFinalArray(filteredArr);
+    setToggle(!toggle);
   }
 
-  const [flag,setflag]=useState(0);
+  const [flag, setflag] = useState(0);
 
-  useEffect(()=>{
-    if(finalarray.length!==0){
+  useEffect(() => {
+    if (finalarray.length !== 0) {
       sortPriceAsc();
       setflag(1);
     }
-  },[finalarray])
+  }, [finalarray]);
 
-  useEffect(()=>{
-    if(flag===1){
+  useEffect(() => {
+    if (flag === 1) {
       setDisplayArray(finalarray);
     }
-  },[flag])
+  }, [flag]);
 
-  const [showDetails, setShowDetails] = useState()
+  const [showDetails, setShowDetails] = useState();
 
-  function openAccordian(id){
-    if(showDetails===id){
-      setShowDetails()
-    }
-    else{
-      setShowDetails(id)
+  function openAccordian(id) {
+    if (showDetails === id) {
+      setShowDetails();
+    } else {
+      setShowDetails(id);
     }
   }
-
+  window.finalarray=finalarray
   return (
     <div className="flex gap-32 mx-40">
       {/* Sidebar filters */}
       <div className="flex flex-col gap-3 sticky py-3 top-0 h-screen overflow-y-scroll removeScollbar bg-white px-5 shadow-lg">
         <div className="flex flex-col gap-3">
-          <button onClick={() => sortTimeAsc()} className="text-white py-2 px-5 text-xl rounded active:scale-95 transition-all hover:opacity-95" style={{background: "linear-gradient(135deg,#e55e0d 0%,#cf3218 100%)"}}>
+          <button
+            onClick={() => sortTimeAsc()}
+            className="text-white py-2 px-5 text-xl rounded active:scale-95 transition-all hover:opacity-95"
+            style={{
+              background: "linear-gradient(135deg,#e55e0d 0%,#cf3218 100%)",
+            }}
+          >
             Sort By Departure date
           </button>
-          <button onClick={() => clearfn() } className="border border-[#e55e0d] py-2 px-5 text-lg active:scale-95 transition-all hover:opacity-95 font-semibold rounded"
+          <button
+            onClick={() => clearfn()}
+            className="border border-[#e55e0d] py-2 px-5 text-lg active:scale-95 transition-all hover:opacity-95 font-semibold rounded"
           >
             Clear All Filter
           </button>
         </div>
         <h1 className="mt-10 text-3xl ">Filters ~</h1>
         <div className="flex flex-col gap-10">
-          <BrandFilter allBrands={allBrands} brand={brand} setBrand={setBrand} />
+          <BrandFilter
+            allBrands={allBrands}
+            brand={brand}
+            setBrand={setBrand}
+          />
 
-          <AirlineFilter allFlights={allFlights} flight={flight} setFlight={setFlight} /> 
+          <AirlineFilter
+            allFlights={allFlights}
+            flight={flight}
+            setFlight={setFlight}
+          />
 
-          <StopsFilter flightNo={flightNo} setFlightNo={setFlightNo}/>
+          <StopsFilter flightNo={flightNo} setFlightNo={setFlightNo} />
 
-          <PriceFilter myRef={myRef} myRef2={myRef2} sortByPrice={sortByPrice}/>
+          <PriceFilter
+            myRef={myRef}
+            myRef2={myRef2}
+            sortByPrice={sortByPrice}
+          />
         </div>
       </div>
 
@@ -262,16 +311,28 @@ const Flight = () => {
       <div className="flex flex-col gap-4 my-10">
         {finalarray.map((item, id) => {
           return (
-            <main key={id} >
+            <main key={id}>
               <section className="shadow-md  bg-white border border-white rounded-xl hover:border-slate-500 transition-all cursor-pointer">
                 {/* Closed Accordian */}
-                <div className={`flex ${showDetails===id ? "border-b border-slate-400" : ""}`}>
-                  <div className="flex flex-col p-5 justify-center" onClick={()=>openAccordian(id)}>
-
+                <div
+                  className={`flex ${
+                    showDetails === id ? "border-b border-slate-400" : ""
+                  }`}
+                >
+                  <div
+                    className="flex flex-col p-5 justify-center"
+                    onClick={() => openAccordian(id)}
+                  >
                     {/* Destination Flight */}
                     <div className="flex gap-2">
                       <input type="checkbox" />
-                      <Display returnBack={false} from={From} arrival={arrival} item={item} alldata={alldata} />
+                      <Display
+                        returnBack={false}
+                        from={From}
+                        arrival={arrival}
+                        item={item}
+                        alldata={alldata}
+                      />
                     </div>
 
                     {/* Return Flight */}
@@ -283,7 +344,15 @@ const Flight = () => {
                             dup.ProductBrandOffering[0].CombinabilityCode[0] ===
                             item.ProductBrandOffering[0].CombinabilityCode[0]
                           ) {
-                            return <Display returnBack={true} from={From} arrival={arrival} item={dup} alldata={alldata} />;
+                            return (
+                              <Display
+                                returnBack={true}
+                                from={From}
+                                arrival={arrival}
+                                item={dup}
+                                alldata={alldata}
+                              />
+                            );
                           }
                         })}
                       </div>
@@ -295,8 +364,21 @@ const Flight = () => {
                   {/* Total Price */}
                   <div className="p-5">
                     Total Price :-{" "}
-                    <p className="font-bold text-3xl">$ {item.ProductBrandOffering[0].BestCombinablePrice.TotalPrice}</p>
-                    <button onClick={() => sortTimeAsc()} className="text-white w-full mt-3 py-2 px-5 text-xl rounded active:scale-95 transition-all hover:opacity-95" style={{background: "linear-gradient(135deg,#e55e0d 0%,#cf3218 100%)"}}>
+                    <p className="font-bold text-3xl">
+                      ${" "}
+                      {
+                        item.ProductBrandOffering[0].BestCombinablePrice
+                          .TotalPrice
+                      }
+                    </p>
+                    <button
+                      onClick={() => sortTimeAsc()}
+                      className="text-white w-full mt-3 py-2 px-5 text-xl rounded active:scale-95 transition-all hover:opacity-95"
+                      style={{
+                        background:
+                          "linear-gradient(135deg,#e55e0d 0%,#cf3218 100%)",
+                      }}
+                    >
                       Select
                     </button>
                   </div>
@@ -308,7 +390,15 @@ const Flight = () => {
                     dup.ProductBrandOffering[0].CombinabilityCode[0] ===
                     item.ProductBrandOffering[0].CombinabilityCode[0]
                   ) {
-                    return showDetails===id && <FlightDetails item={item} dup={dup} alldata={alldata}/>
+                    return (
+                      showDetails === id && (
+                        <FlightDetails
+                          item={item}
+                          dup={dup}
+                          alldata={alldata}
+                        />
+                      )
+                    );
                   }
                 })}
               </section>
@@ -318,7 +408,12 @@ const Flight = () => {
       </div>
 
       {/* Multi City Search */}
-      <button className="fixed bottom-2 right-2 text-white mt-3 py-2 px-5 text-xl rounded active:scale-95 transition-all hover:opacity-95" style={{background: "linear-gradient(135deg,#e55e0d 0%,#cf3218 100%)"}}>
+      <button
+        className="fixed bottom-2 right-2 text-white mt-3 py-2 px-5 text-xl rounded active:scale-95 transition-all hover:opacity-95"
+        style={{
+          background: "linear-gradient(135deg,#e55e0d 0%,#cf3218 100%)",
+        }}
+      >
         <Link to="/Multi">Multi-City Search</Link>
       </button>
     </div>
@@ -326,4 +421,3 @@ const Flight = () => {
 };
 
 export default Flight;
-
