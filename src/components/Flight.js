@@ -3,9 +3,14 @@ import X from "../data.json";
 import Display from "./Display";
 import FlightDetails from "./FlightDetails";
 import { Link } from "react-router-dom";
+import { GetPriceSort, GetTimeSort } from "./UtilityFunctions";
+import StopsFilter from "./Filters/StopsFilter";
+import PriceFilter from "./Filters/PriceFilter";
+import AirlineFilter from "./Filters/AirlineFilter";
+import BrandFilter from "./Filters/BrandFilter";
 const Flight = () => {
-  const From = ["LOS"];
-  const arrival = ["MEL"];
+  const From = X.CatalogProductOfferingsResponse.CatalogProductOfferings.CatalogProductOffering[0].Departure;
+  const arrival = X.CatalogProductOfferingsResponse.CatalogProductOfferings.CatalogProductOffering[0].Arrival;
   const alldata = X.CatalogProductOfferingsResponse;
   const [mid, setMid] = useState([]);
   const [midDup, setMidDup] = useState([]);
@@ -18,16 +23,16 @@ const Flight = () => {
   const [brand, setBrand] = useState([]);
   const [flight, setFlight] = useState([]);
   const [flightNo, setFlightNo] = useState([]);
-  const stops = [1, 2, 3];
+  
   let myRef = useRef(0);
   let myRef2 = useRef(0);
 
   useEffect(() => {
     alldata.CatalogProductOfferings.CatalogProductOffering.forEach((item) => {
-      if (From.includes(item.Departure) && arrival.includes(item.Arrival)) {
+      if (From===(item.Departure) && arrival===(item.Arrival)) {
         setMid((prev) => [...prev, item]);
       }
-      if (From.includes(item.Arrival) && arrival.includes(item.Departure)) {
+      if (From===(item.Arrival) && arrival===(item.Departure)) {
         setMidDup((prev) => [...prev, item]);
       }
     });
@@ -169,20 +174,6 @@ const Flight = () => {
     setFinalArray(filteredArr);
   }, [brand, flightNo, flight]);
 
-  function GetPriceSort() {
-    return function (a, b) {
-      let firstmini = a.ProductBrandOffering[0].BestCombinablePrice.TotalPrice;
-      let secondmini = b.ProductBrandOffering[0].BestCombinablePrice.TotalPrice;
-
-      if (firstmini > secondmini) {
-        return 1;
-      } else if (firstmini < secondmini) {
-        return -1;
-      }
-      return 0;
-    };
-  }
-
   function sortPriceAsc() {
     setTemp(finalarray.sort(GetPriceSort()));
   }
@@ -193,17 +184,6 @@ const Flight = () => {
     setFlightNo([]);
     myRef.current.value = "";
     myRef2.current.value = "";
-  }
-
-  function GetTimeSort() {
-    return function (a, b) {
-      if (a.DepartureTime > b.DepartureTime) {
-        return 1;
-      } else if (a.DepartureTime < b.DepartureTime) {
-        return -1;
-      }
-      return 0;
-    };
   }
 
   function sortTimeAsc() {
@@ -250,7 +230,6 @@ const Flight = () => {
     }
     else{
       setShowDetails(id)
-
     }
   }
 
@@ -269,181 +248,13 @@ const Flight = () => {
         </div>
         <h1 className="mt-10 text-3xl ">Filters ~</h1>
         <div className="flex flex-col gap-10">
+          <BrandFilter allBrands={allBrands} brand={brand} setBrand={setBrand} />
 
-          <div className="flex flex-col gap-3">
-            <h3 className="text-xl">Brand Name :</h3>
-            <div className="flex flex-col gap-2">
-              {allBrands.map((item, key) => {
-                return (
-                  <div key={key} className="flex gap-3">
-                    {brand.includes(item.id) === true ? (
-                      <input
-                        type="checkbox"
-                        value={item.id}
-                        checked={true}
-                        onChange={(e) => {
-                          if (e.target.checked) {
-                            setBrand((prev) => {
-                              return [...prev, e.target.value];
-                            });
-                          } else {
-                            let b = brand.filter(
-                              (alpha) => alpha !== e.target.value
-                            );
-                            setBrand(b);
-                          }
-                        }}
-                      />
-                    ) : (
-                      <input
-                        type="checkbox"
-                        value={item.id}
-                        onChange={(e) => {
-                          if (e.target.checked) {
-                            setBrand((prev) => {
-                              return [...prev, e.target.value];
-                            });
-                          } else {
-                            let b = brand.filter(
-                              (alpha) => alpha !== e.target.value
-                            );
-                            setBrand(b);
-                          }
-                        }}
-                      />
-                    )}
-                    <label htmlFor={item.name + "dept"}>{item.name}</label>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
+          <AirlineFilter allFlights={allFlights} flight={flight} setFlight={setFlight} /> 
 
-          <div className="flex flex-col gap-3">
-            <h3 className="text-xl">Flights Name :</h3>
-            <div className="flex flex-col gap-2">
-              {allFlights.map((item, key) => {
-                return (
-                  <div key={key} className="flex gap-3">
-                    {flight.includes(item) === true ? (
-                      <input
-                        type="checkbox"
-                        value={item}
-                        id={item + "flight"}
-                        checked={true}
-                        onChange={(e) => {
-                          if (e.target.checked) {
-                            setFlight((prev) => {
-                              return [...prev, e.target.value];
-                            });
-                          } else {
-                            let b = flight.filter(
-                              (alpha) => alpha !== e.target.value
-                            );
-                            setFlight(b);
-                          }
-                        }}
-                      />
-                    ) : (
-                      <input
-                        type="checkbox"
-                        value={item}
-                        id={item + "flight"}
-                        onChange={(e) => {
-                          if (e.target.checked) {
-                            setFlight((prev) => {
-                              return [...prev, e.target.value];
-                            });
-                          } else {
-                            let b = flight.filter(
-                              (alpha) => alpha !== e.target.value
-                            );
-                            setFlight(b);
-                          }
-                        }}
-                      />
-                    )}
-                    <label htmlFor={item + "flight"}>{item}</label>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
+          <StopsFilter flightNo={flightNo} setFlightNo={setFlightNo}/>
 
-          <div className="flex flex-col gap-3">
-            <h3 className="text-xl">No. of Stops :</h3>
-            <div className="flex flex-col gap-1">
-              {stops.map((item, key) => {
-                return (
-                  <div key={key} className="flex gap-3">
-                    {flightNo.includes(item) === true ? (
-                      <input
-                        type="checkbox"
-                        id={item + "stop"}
-                        value={item}
-                        checked={true}
-                        onChange={(e) => {
-                          if (e.target.checked) {
-                            setFlightNo((prev) => {
-                              return [...prev, +e.target.value];
-                            });
-                          } else {
-                            let b = flightNo.filter(
-                              (alpha) => alpha !== +e.target.value
-                            );
-                            setFlightNo(b);
-                          }
-                        }}
-                      />
-                    ) : (
-                      <input
-                        type="checkbox"
-                        value={item}
-                        id={item + "stop"}
-                        onChange={(e) => {
-                          if (e.target.checked) {
-                            setFlightNo((prev) => {
-                              return [...prev, +e.target.value];
-                            });
-                          } else {
-                            let b = flightNo.filter(
-                              (alpha) => alpha !== +e.target.value
-                            );
-                            setFlightNo(b);
-                          }
-                        }}
-                      />
-                    )}
-                    {item >= 3 ? (
-                      <label htmlFor={item + "stop"}>2+</label>
-                    ) : (
-                      <label htmlFor={item + "stop"}>{item}</label>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-
-          <div className="flex flex-col gap-3">
-            <h3 className="text-xl">Price :</h3>
-            <div className="flex flex-col gap-3">
-              <input className="border border-[#e55e0d]" type="number" id="startPrice" ref={myRef} />
-              <p>to</p>
-              <input className="border border-[#e55e0d]" type="number" id="endPrice" ref={myRef2} />
-              <button
-                className="block text-white py-1 px-5 text-xl rounded active:scale-95 transition-all hover:opacity-95"
-                style={{background: "linear-gradient(135deg,#e55e0d 0%,#cf3218 100%)"}}
-                onClick={() => {
-                  let x = +myRef.current.value;
-                  let y = +myRef2.current.value;
-                  sortByPrice(x, y);
-                }}
-              >
-                Find
-              </button>
-            </div>
-          </div>
+          <PriceFilter myRef={myRef} myRef2={myRef2} sortByPrice={sortByPrice}/>
         </div>
       </div>
 
@@ -460,7 +271,7 @@ const Flight = () => {
                     {/* Destination Flight */}
                     <div className="flex gap-2">
                       <input type="checkbox" />
-                      <Display returnBack={false} from={From[0]} arrival={arrival[0]} item={item} alldata={alldata} />
+                      <Display returnBack={false} from={From} arrival={arrival} item={item} alldata={alldata} />
                     </div>
 
                     {/* Return Flight */}
@@ -472,7 +283,7 @@ const Flight = () => {
                             dup.ProductBrandOffering[0].CombinabilityCode[0] ===
                             item.ProductBrandOffering[0].CombinabilityCode[0]
                           ) {
-                            return <Display returnBack={true} from={From[0]} arrival={arrival[0]} item={dup} alldata={alldata} />;
+                            return <Display returnBack={true} from={From} arrival={arrival} item={dup} alldata={alldata} />;
                           }
                         })}
                       </div>
@@ -516,90 +327,3 @@ const Flight = () => {
 
 export default Flight;
 
-  // const startDate = "2023-10-28";
-  // const endDate = "2023-10-31";
-  // function sortCompatibilityAsc() {
-  //   setTemp(finalarray.sort(GetCompatibilitySort()));
-  // }
-
-  // function sortCompatibilityAscDup() {
-  //   setTemp(finalArrayDup.sort(GetCompatibilitySort()));
-  // }
-
-
-  
-  // function getCompatibilityArrayFinal() {
-  //   let filteredArr = [];
-  //   let len = finalarray.length;
-  //   if (len) {
-  //     filteredArr.push(finalarray[0]);
-  //     let firstCompatibility = finalarray[0].ProductBrandOffering[0].CombinabilityCode[0];
-  //     for (let i = 1; i < finalarray.length; i++) {
-  //       if (firstCompatibility !== finalarray[i].ProductBrandOffering[0].CombinabilityCode[0]) {
-  //         firstCompatibility = finalarray[i].ProductBrandOffering[0].CombinabilityCode[0];
-  //         filteredArr.push(finalarray[i]);
-  //       }
-  //     }
-  //   }
-  //   setFinalArray(filteredArr);
-  // }
-
-  // function getCompatibilityArrayDup() {
-  //   let filteredArr = [];
-  //   let len = finalArrayDup.length;
-  //   if (len) {
-  //     filteredArr.push(finalArrayDup[0]);
-  //     let firstCompatibility = finalArrayDup[0].ProductBrandOffering[0].CombinabilityCode[0];
-  //     for (let i = 1; i < finalArrayDup.length; i++) {
-  //       if (firstCompatibility !== finalArrayDup[i].ProductBrandOffering[0].CombinabilityCode[0]) {
-  //         firstCompatibility = finalArrayDup[i].ProductBrandOffering[0].CombinabilityCode[0];
-  //         filteredArr.push(finalArrayDup[i]);
-  //       }
-  //     }
-  //   }
-  //   setFinalArrayDup(filteredArr);
-  // }
-
-
-  
-  // function GetCompatibilitySort() {
-  //   return function (a, b) {
-  //     let firstmini = a.ProductBrandOffering[0].CombinabilityCode[0];
-  //     let secondmini = b.ProductBrandOffering[0].CombinabilityCode[0];
-
-  //     if (firstmini > secondmini) {
-  //       return 1;
-  //     } else if (firstmini < secondmini) {
-  //       return -1;
-  //     } else {
-  //       let first = a.ProductBrandOffering[0].Product.map((aa) => {
-  //         return alldata.ReferenceList[1].Product.map((y) => {
-  //           if (y.id === aa?.productRef) {
-  //             return y.totalDuration;
-  //           }
-  //         });
-  //       })
-  //       let second = b.ProductBrandOffering[0].Product.map((aa) => {
-  //         return alldata.ReferenceList[1].Product.map((y) => {
-  //           if (y.id === aa?.productRef) {
-  //             return y.totalDuration;
-  //           }
-  //         });
-  //       })
-  //       if (first < second) {
-  //         return 1;
-  //       } else {
-  //         return -1;
-  //       }
-  //     }
-  //   };
-  // }
-  
-  // useEffect(()=>{
-  //   if(finalarray.length!==0){
-      // sortCompatibilityAsc();
-      // sortCompatibilityAscDup();
-      // getCompatibilityArrayFinal();
-      // getCompatibilityArrayDup();
-    // }
-  // },[displayArray])
