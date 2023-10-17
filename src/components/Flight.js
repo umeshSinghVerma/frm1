@@ -121,7 +121,7 @@ const Flight = () => {
     let filteredArr = [];
     displayArray.map((item) => {
       if (brand.length !== 0) {
-        if (brand.includes(item.ProductBrandOffering[0].Brand.BrandRef)) {
+        if (brand.includes(item.ProductBrandOffering[0].Brand?.BrandRef)) {
           if (flightNo.length > 0) {
             let x = item.flightRefs.length;
             if (x >= 3) {
