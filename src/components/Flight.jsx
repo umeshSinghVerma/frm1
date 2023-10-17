@@ -2,6 +2,8 @@ import React, { useEffect, useState, useRef } from "react";
 import X from "../data.json";
 import Display from "./Display";
 import FlightDetails from "./FlightDetails";
+
+
 import { Link } from "react-router-dom";
 const Flight = () => {
   const From = ["LOS"];
@@ -23,6 +25,8 @@ const Flight = () => {
   const stops = [1, 2, 3];
   let myRef = useRef(0);
   let myRef2 = useRef(0);
+
+  console.log(X)
 
   useEffect(() => {
     alldata.CatalogProductOfferings.CatalogProductOffering.forEach((item) => {

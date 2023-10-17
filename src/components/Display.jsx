@@ -18,9 +18,9 @@ const Display = ({returnBack, from, arrival, item, alldata}) => {
           </div>
           <div><span className='font-bold'>No. of stops -</span> {item.flightRefs.length}</div>
           <div>
-            {item.ProductBrandOffering.map((x) => {
+            {item.ProductBrandOffering.map((x, index) => {
               return (
-                <div className='flex flex-col gap-[5px]'>
+                <div className='flex flex-col gap-[5px]' key={index}>
                   <div>
                     <span className='font-bold'>
                       Total Duration -{" "}
