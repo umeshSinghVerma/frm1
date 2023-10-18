@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Display = ({returnBack, from, arrival, item, alldata}) => {
+const SingleOffering = ({returnBack, from, arrival, item, alldata}) => {
     return (
       <>
         <div className='flex items-center gap-24 m-2'>
@@ -160,4 +160,4 @@ const Display = ({returnBack, from, arrival, item, alldata}) => {
       );
 }
 
-export default Display
+export default SingleOffering

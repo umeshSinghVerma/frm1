@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import X from "../data.json";
 
-const Multi = () => {
+const MultiCitySearch = () => {
   const [formFields, setFormFields] = useState([
     { Departure: "", Arrival: "", startDate: "", endDate: "" },
   ]);
@@ -124,4 +124,4 @@ const Multi = () => {
   );
 };
 
-export default Multi;
+export default MultiCitySearch;

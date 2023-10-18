@@ -6,14 +6,14 @@ import {
   createRoutesFromElements,
   Route,
 } from "react-router-dom";
-import Multi from "./components/Multi";
+import MultiCitySearch from "./components/MultiCitySearch";
 
 function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <>
         <Route path="/" element={<Flight/>}/>
-        <Route path="/multi" element={<Multi />} />
+        <Route path="/multi" element={<MultiCitySearch />} />
       </>
     )
   );
