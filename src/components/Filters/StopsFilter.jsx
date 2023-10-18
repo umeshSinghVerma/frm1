@@ -10,11 +10,7 @@ const StopsFilter = ({flightNo, setFlightNo}) => {
           return (
             <div key={key} className="flex gap-3">
               {flightNo.includes(item) === true ? (
-                <input
-                  type="checkbox"
-                  id={item + "stop"}
-                  value={item}
-                  checked={true}
+                <input type="checkbox" id={item + "stop"} value={item} checked={true}
                   onChange={(e) => {
                     if (e.target.checked) {
                       setFlightNo((prev) => {
@@ -29,10 +25,7 @@ const StopsFilter = ({flightNo, setFlightNo}) => {
                   }}
                 />
               ) : (
-                <input
-                  type="checkbox"
-                  value={item}
-                  id={item + "stop"}
+                <input type="checkbox" value={item} id={item + "stop"}
                   onChange={(e) => {
                     if (e.target.checked) {
                       setFlightNo((prev) => {

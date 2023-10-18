@@ -69,12 +69,7 @@ const MultiCitySearch = () => {
         {formFields.map((form, index) => {
           return (
             <div key={index} className="flex gap-10 justify-center">
-              <select
-                name="Departure"
-                onChange={(event) => handleFormChange(event, index)}
-                value={form.Departure}
-                className="w-40 px-2 py-1 rounded-md bg-slate-200"
-              >
+              <select name="Departure" onChange={(event) => handleFormChange(event, index)} value={form.Departure} className="w-40 px-2 py-1 rounded-md bg-slate-200">
                 {departureArray.map((item) => {
                   return (
                     <option key={item} value={item}>
@@ -83,12 +78,7 @@ const MultiCitySearch = () => {
                   );
                 })}
               </select>
-              <select
-                name="Arrival"
-                onChange={(event) => handleFormChange(event, index)}
-                value={form.Arrival}
-                className="w-40 px-2 py-1 rounded-md bg-slate-200"
-              >
+              <select name="Arrival" onChange={(event) => handleFormChange(event, index)} value={form.Arrival} className="w-40 px-2 py-1 rounded-md bg-slate-200">
                 {arrivalArray.map((item) => {
                   return (
                     <option key={item} value={item}>
@@ -97,22 +87,8 @@ const MultiCitySearch = () => {
                   );
                 })}
               </select>
-              <input
-                type="date"
-                name="startDate"
-                placeholder="startDate"
-                onChange={(event) => handleFormChange(event, index)}
-                value={form.startDate}
-                className="bg-slate-200 rounded-md px-2"
-              />
-              <input
-                type="date"
-                name="endDate"
-                placeholder="endDate"
-                onChange={(event) => handleFormChange(event, index)}
-                value={form.endDate}
-                className="bg-slate-200 rounded-md px-2"
-              />
+              <input type="date" name="startDate" placeholder="startDate" onChange={(event) => handleFormChange(event, index)} value={form.startDate} className="bg-slate-200 rounded-md px-2"/>
+              <input type="date" name="endDate" placeholder="endDate" onChange={(event) => handleFormChange(event, index)} value={form.endDate} className="bg-slate-200 rounded-md px-2"/>
               <button className="border border-red-500 rounded-md px-5 hover:text-white hover:bg-red-500 transition-all" onClick={() => removeFields(index)}>Remove</button>
             </div>
           );
