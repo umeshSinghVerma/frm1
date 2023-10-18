@@ -81,8 +81,8 @@ const Flight = () => {
     }
   }, [flag]);
 
+  //* To handle Accordian closing and opening
   const [showDetails, setShowDetails] = useState();
-
   function openAccordian(id) {
     if (showDetails === id) {
       setShowDetails();
