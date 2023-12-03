@@ -3,9 +3,10 @@ import BrandFilter from "./BrandFilter";
 import AirlineFilter from "./AirlineFilter";
 import StopsFilter from "./StopsFilter";
 import PriceFilter from "./PriceFilter";
+import { GetTimeSort } from "../Utils/UtilityFunctions";
 
 const Filters = ({
-  sortTimeAsc,
+  finalarray,
   clearfn,
   allBrands,
   brand,
@@ -19,6 +20,9 @@ const Filters = ({
   maxPrice,
   sortByPrice,
 }) => {
+  function sortTimeAsc() {
+    finalarray.sort(GetTimeSort());
+  }
   return (
     <div className="flex flex-col gap-3 sticky py-3 top-0 h-screen overflow-y-scroll removeScollbar bg-white px-5 shadow-lg">
       <div className="flex flex-col gap-3">

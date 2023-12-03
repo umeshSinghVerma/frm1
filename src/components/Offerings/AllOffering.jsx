@@ -2,7 +2,7 @@ import React from 'react'
 import SingleOffering from './SingleOffering';
 import FlightDetails from './FlightDetails';
 
-const AllOffering = ({ finalarray, showDetails, openAccordian, departureFrom, arrivalTo, alldata, finalArrayDup, sortTimeAsc }) => {
+const AllOffering = ({ finalarray, showDetails, openAccordian, departureFrom, arrivalTo, alldata, finalArrayDup }) => {
   return (
     <div className="flex flex-col gap-4 my-10">
       {finalarray.map((item, id) => {
@@ -50,7 +50,7 @@ const AllOffering = ({ finalarray, showDetails, openAccordian, departureFrom, ar
                     ${" "} {item.ProductBrandOffering[0].BestCombinablePrice.TotalPrice}
                   </p>
                   <button
-                    onClick={() => sortTimeAsc()}
+                    // onClick={() => sortTimeAsc()}
                     className="text-white w-full mt-3 py-2 px-5 text-xl rounded active:scale-95 transition-all hover:opacity-95"
                     style={{ background: "linear-gradient(135deg,#e55e0d 0%,#cf3218 100%)", }}
                   >

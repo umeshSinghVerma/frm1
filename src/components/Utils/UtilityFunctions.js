@@ -23,13 +23,13 @@ function GetTimeSort() {
   };
 }
 
-function OfferingConnector(alldata, departureFrom, arrivalTo, setMid, setMidDup, setAllBrands, setAllFlights) {
+function OfferingConnector(alldata, departureFrom, arrivalTo, setDestinationFlights, setReturnFlights, setAllBrands, setAllFlights) {
   alldata.CatalogProductOfferings.CatalogProductOffering.forEach((item) => {
     if (departureFrom === item.Departure && arrivalTo === item.Arrival) {
-      setMid((prev) => [...prev, item]);
+      setDestinationFlights((prev) => [...prev, item]);
     }
     if (departureFrom === item.Arrival && arrivalTo === item.Departure) {
-      setMidDup((prev) => [...prev, item]);
+      setReturnFlights((prev) => [...prev, item]);
     }
   });
 
@@ -55,8 +55,8 @@ function OfferingConnector(alldata, departureFrom, arrivalTo, setMid, setMidDup,
   setAllFlights(uniqueFlights);
 }
 
-function DestinationFlight(mid, alldata, setFinalArray, setDisplayArray) {
-  mid.map((item) => {
+function DestinationFlight(destinationFlights, alldata, setFinalArray, setDisplayArray) {
+  destinationFlights.map((item) => {
     let ffr;
     let lfr;
     item.ProductBrandOptions.map((f, k) => {
@@ -86,8 +86,8 @@ function DestinationFlight(mid, alldata, setFinalArray, setDisplayArray) {
   });
 }
 
-function ReturnFlight(midDup, alldata, setFinalArrayDup) {
-  midDup.map((item) => {
+function ReturnFlight(returnFlights, alldata, setFinalArrayDup) {
+  returnFlights.map((item) => {
     let ffr;
     let lfr;
     item.ProductBrandOptions.map((f, k) => {
