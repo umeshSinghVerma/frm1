@@ -1,6 +1,6 @@
 import React from 'react'
 
-const SingleOffering = ({returnBack, from, arrival, item, alldata}) => {
+const SingleOffering = ({returnBack, departureFrom, arrivalTo, item, alldata}) => {
     return (
       <>
         <div className='flex items-center gap-24 m-2'>
@@ -12,8 +12,8 @@ const SingleOffering = ({returnBack, from, arrival, item, alldata}) => {
 
             {/* dept-arrival places */}
             <div>
-              {!returnBack && <h2>{from} to {arrival}</h2>}
-              {returnBack && <h2>{arrival} to {from}</h2>}
+              {!returnBack && <h2>{departureFrom} to {arrivalTo}</h2>}
+              {returnBack && <h2>{arrivalTo} to {departureFrom}</h2>}
             </div>
           </div>
           <div><span className='font-bold'>No. of stops -</span> {item.flightRefs.length}</div>

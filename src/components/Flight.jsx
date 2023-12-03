@@ -6,10 +6,10 @@ import Filters from "./Filters/Filters";
 import AllOffering from "./Offerings/AllOffering";
 import FinalOfferingsUpdater from "./Utils/FinalOfferingsUpdater";
 const Flight = () => {
-  const From =
+  const departureFrom =
     X.CatalogProductOfferingsResponse.CatalogProductOfferings
       .CatalogProductOffering[0].Departure;
-  const arrival =
+  const arrivalTo =
     X.CatalogProductOfferingsResponse.CatalogProductOfferings
       .CatalogProductOffering[0].Arrival;
   const alldata = X.CatalogProductOfferingsResponse;
@@ -26,11 +26,12 @@ const Flight = () => {
   const [flightNo, setFlightNo] = useState([]);
   const [toggle, setToggle] = useState(false);
 
-  let myRef = useRef(0);
-  let myRef2 = useRef(0);
+  // References for filter MiPrice and MaxPrice
+  let minPrice = useRef(0);
+  let maxPrice = useRef(0);
 
   useEffect(() => {
-    OfferingConnector(alldata, From, arrival, setMid, setMidDup, setAllBrands, setAllFlights);
+    OfferingConnector(alldata, departureFrom, arrivalTo, setMid, setMidDup, setAllBrands, setAllFlights);
   }, []);
 
   useEffect(() => {
@@ -42,7 +43,7 @@ const Flight = () => {
   }, [midDup]);
 
   useEffect(() => {
-    FinalOfferingsUpdater(displayArray, brand, flightNo, alldata, myRef, myRef2, setFinalArray, flight)
+    FinalOfferingsUpdater(displayArray, brand, flightNo, alldata, minPrice, maxPrice, setFinalArray, flight)
   }, [brand, flightNo, flight, toggle]);
 
   function sortPriceAsc() {
@@ -54,15 +55,15 @@ const Flight = () => {
     setBrand([]);
     setFlightNo([]);
     setFlight([]);
-    myRef.current.value = "";
-    myRef2.current.value = "";
+    minPrice.current.value = "";
+    maxPrice.current.value = "";
   }
 
   function sortTimeAsc() {
     setTemp(finalarray.sort(GetTimeSort()));
   }
 
-  function sortByPrice(startPrice, endPrice) {
+  function sortByPrice() {
     setToggle(!toggle);
   }
 
@@ -94,10 +95,10 @@ const Flight = () => {
   return (
     <div className="flex gap-32 mx-40">
       {/* Sidebar filters */}
-      <Filters sortTimeAsc={sortTimeAsc} clearfn={clearfn} allBrands={allBrands} brand={brand} setBrand={setBrand} allFlights={allFlights} flight={flight} setFlight={setFlight} flightNo={flightNo} setFlightNo={setFlightNo} myRef={myRef} myRef2={myRef2} sortByPrice={sortByPrice} />
+      <Filters sortTimeAsc={sortTimeAsc} clearfn={clearfn} allBrands={allBrands} brand={brand} setBrand={setBrand} allFlights={allFlights} flight={flight} setFlight={setFlight} flightNo={flightNo} setFlightNo={setFlightNo} minPrice={minPrice} maxPrice={maxPrice} sortByPrice={sortByPrice} />
 
-      {/* All Offerings Display */}
-      <AllOffering finalarray={finalarray} showDetails={showDetails} openAccordian={openAccordian} From={From} arrival={arrival} alldata={alldata} finalArrayDup={finalArrayDup} sortTimeAsc={sortTimeAsc} />
+      {/* All Offerings Accordians Display */}
+      <AllOffering finalarray={finalarray} showDetails={showDetails} openAccordian={openAccordian} departureFrom={departureFrom} arrivalTo={arrivalTo} alldata={alldata} finalArrayDup={finalArrayDup} sortTimeAsc={sortTimeAsc} />
 
       {/* Multi City Search */}
       <button className ="fixed bottom-2 right-2 text-white mt-3 py-2 px-5 text-xl rounded active:scale-95 transition-all hover:opacity-95" style={{ background: "linear-gradient(135deg,#e55e0d 0%,#cf3218 100%)" }} >

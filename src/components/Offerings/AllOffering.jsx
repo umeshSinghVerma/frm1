@@ -2,11 +2,12 @@ import React from 'react'
 import SingleOffering from './SingleOffering';
 import FlightDetails from './FlightDetails';
 
-const AllOffering = ({ finalarray, showDetails, openAccordian, From, arrival, alldata, finalArrayDup, sortTimeAsc }) => {
+const AllOffering = ({ finalarray, showDetails, openAccordian, departureFrom, arrivalTo, alldata, finalArrayDup, sortTimeAsc }) => {
   return (
     <div className="flex flex-col gap-4 my-10">
       {finalarray.map((item, id) => {
         let conditionMet = false;
+        let conditionMet1 = false;
         return (
           <main key={id}>
             <section className="shadow-md  bg-white border border-white rounded-xl hover:border-slate-500 transition-all cursor-pointer">
@@ -16,7 +17,7 @@ const AllOffering = ({ finalarray, showDetails, openAccordian, From, arrival, al
                   {/* Destination Flight */}
                   <div className="flex gap-2">
                     <input type="checkbox" />
-                    <SingleOffering returnBack={false} from={From} arrival={arrival} item={item} alldata={alldata} />
+                    <SingleOffering returnBack={false} departureFrom={departureFrom} arrivalTo={arrivalTo} item={item} alldata={alldata} />
                   </div>
 
                   {/* Return Flight */}
@@ -31,7 +32,7 @@ const AllOffering = ({ finalarray, showDetails, openAccordian, From, arrival, al
                           conditionMet = true;
 
                           return (
-                            <SingleOffering key={id} returnBack={true} from={From} arrival={arrival} item={dup} alldata={alldata} />
+                            <SingleOffering key={id} returnBack={true} departureFrom={departureFrom} arrivalTo={arrivalTo} item={dup} alldata={alldata} />
                           );
                         }
                         return null;
@@ -60,10 +61,11 @@ const AllOffering = ({ finalarray, showDetails, openAccordian, From, arrival, al
 
               {/* Details Inside Accordian */}
               {finalArrayDup.map((dup, ind) => {
-                if (
+                if (!conditionMet1 &&
                   dup.ProductBrandOffering[0].CombinabilityCode[0] ===
                   item.ProductBrandOffering[0].CombinabilityCode[0]
                 ) {
+                  conditionMet1 = true;
                   return (
                     showDetails === id && (
                       <FlightDetails key={ind} item={item} dup={dup} alldata={alldata}

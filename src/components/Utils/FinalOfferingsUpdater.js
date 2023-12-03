@@ -1,4 +1,4 @@
-function  FinalOfferingsUpdater(displayArray, brand, flightNo, alldata, myRef, myRef2, setFinalArray, flight) {
+function  FinalOfferingsUpdater(displayArray, brand, flightNo, alldata, minPrice, maxPrice, setFinalArray, flight) {
     let filteredArr = [];
     displayArray.map((item) => {
       if (brand.length !== 0) {
@@ -52,13 +52,13 @@ function  FinalOfferingsUpdater(displayArray, brand, flightNo, alldata, myRef, m
       filteredArr = [...newarr];
     }
     
-    if (myRef.current.value != "" && myRef2.current.value != "") {
+    if (minPrice.current.value != "" && maxPrice.current.value != "") {
       let newarr = [];
       filteredArr.map((item) => {
         let alpha = item.ProductBrandOffering.filter(
           (y) =>
-            y.BestCombinablePrice.TotalPrice >= myRef.current.value &&
-            y.BestCombinablePrice.TotalPrice <= myRef2.current.value
+            y.BestCombinablePrice.TotalPrice >= minPrice.current.value &&
+            y.BestCombinablePrice.TotalPrice <= maxPrice.current.value
         );
         let beta = JSON.stringify(item);
         beta = JSON.parse(beta);

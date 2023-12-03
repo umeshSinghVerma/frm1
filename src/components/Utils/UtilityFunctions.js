@@ -23,12 +23,12 @@ function GetTimeSort() {
   };
 }
 
-function OfferingConnector(alldata, From, arrival, setMid, setMidDup, setAllBrands, setAllFlights) {
+function OfferingConnector(alldata, departureFrom, arrivalTo, setMid, setMidDup, setAllBrands, setAllFlights) {
   alldata.CatalogProductOfferings.CatalogProductOffering.forEach((item) => {
-    if (From === item.Departure && arrival === item.Arrival) {
+    if (departureFrom === item.Departure && arrivalTo === item.Arrival) {
       setMid((prev) => [...prev, item]);
     }
-    if (From === item.Arrival && arrival === item.Departure) {
+    if (departureFrom === item.Arrival && arrivalTo === item.Departure) {
       setMidDup((prev) => [...prev, item]);
     }
   });

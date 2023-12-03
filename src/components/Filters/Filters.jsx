@@ -15,8 +15,8 @@ const Filters = ({
   setFlight,
   flightNo,
   setFlightNo,
-  myRef,
-  myRef2,
+  minPrice,
+  maxPrice,
   sortByPrice,
 }) => {
   return (
@@ -50,7 +50,7 @@ const Filters = ({
 
         <StopsFilter flightNo={flightNo} setFlightNo={setFlightNo} />
 
-        <PriceFilter myRef={myRef} myRef2={myRef2} sortByPrice={sortByPrice} />
+        <PriceFilter minPrice={minPrice} maxPrice={maxPrice} sortByPrice={sortByPrice} />
       </div>
     </div>
   );
