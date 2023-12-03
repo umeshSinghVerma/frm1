@@ -10,13 +10,13 @@ const FlightDetails = ({item, dup, alldata}) => {
             <span className="font-medium">Depart •</span><span>--Departure Date--</span>
           </div>
           <div>
-            {item.ProductBrandOffering.map((x) => {
+            {item.ProductBrandOffering.map((x,index) => {
               return (
-                <div className="flex flex-col gap-[5px]">
+                <div key={index} className="flex flex-col gap-[5px]">
                   <div>
                     <span>
-                      {x.Product.map((aa) => {
-                        return alldata.ReferenceList[1].Product.map((y) => {
+                      {x.Product.map((aa,id) => {
+                        return alldata.ReferenceList[1].Product.map((y, ind) => {
                           if (y.id === aa?.productRef) {
                             return y.totalDuration;
                           }
@@ -31,9 +31,9 @@ const FlightDetails = ({item, dup, alldata}) => {
         </div>
         <div className="p-5 flex flex-col gap-5">
             <div className='flex flex-col gap-[5px]'>
-            {item.flightRefs.map((alp) => {
+            {item.flightRefs.map((alp, index) => {
               return (
-                <div className='flex gap-[5px]'>
+                <div key={index} className='flex gap-[5px]'>
                   {alldata.ReferenceList[0].Flight.map((y) => {
                     if (y.id === alp) {
                       return (
