@@ -9,7 +9,6 @@ const PriceFilter = ({min, max, priceRange, setPriceRange, sortByPrice, constMax
   const handlePriceRangeChange = (event) => {
     setPriceRange(event.target.value);
   };
-  console.log(Math.ceil(constMax) - (Math.ceil(constMax)%100)+200)
 
   return (
     <div className="flex flex-col gap-3">
@@ -21,7 +20,7 @@ const PriceFilter = ({min, max, priceRange, setPriceRange, sortByPrice, constMax
           min={Math.ceil(min)}
           max={Math.ceil(constMax) - (Math.ceil(constMax)%100)+200}
           step="20"
-          value={priceRange}
+          value={priceRange || Math.ceil(constMax) - (Math.ceil(constMax)%100)+200}
           onChange={handlePriceRangeChange}
         />
         <div className='flex justify-between'>

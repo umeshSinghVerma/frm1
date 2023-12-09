@@ -26,7 +26,7 @@ const Filters = ({
   function sortTimeAsc() {
     finalarray.sort(GetTimeSort());
   }
-  const [priceRange, setPriceRange] = useState(finalarray[finalarray.length-1]?.ProductBrandOffering[0].BestCombinablePrice.TotalPrice);
+  const [priceRange, setPriceRange] = useState(finalarray.length!=0 ? finalarray[finalarray.length-1]?.ProductBrandOffering[0].BestCombinablePrice.TotalPrice : null);
   
   setMinP(finalarray[0]?.ProductBrandOffering[0].BestCombinablePrice.TotalPrice)
   setMaxP(priceRange)

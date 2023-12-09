@@ -93,6 +93,11 @@ function  FinalOfferingsUpdater(displayArray, brand, flightNo, alldata, minPrice
     }
     
 
+    console.log(filteredArr)
+    console.log(minPrice)
+    console.log(maxPrice)
+    minPrice= Number(minPrice) 
+    maxPrice= Number(maxPrice) 
     // Check if both minPrice and maxPrice filters are applied
     if (minPrice != "" && maxPrice != "") {
 
@@ -102,9 +107,14 @@ function  FinalOfferingsUpdater(displayArray, brand, flightNo, alldata, minPrice
       filteredArr.map((item) => {
          // Filter the ProductBrandOffering array based on the price range
         let alpha = item.ProductBrandOffering.filter(
-          (y) =>
-            y.BestCombinablePrice.TotalPrice >= minPrice &&
-            y.BestCombinablePrice.TotalPrice <= maxPrice
+          (y) => {
+            console.log(y.BestCombinablePrice.TotalPrice)
+            return (
+
+              y.BestCombinablePrice.TotalPrice >= Number(minPrice) &&
+              y.BestCombinablePrice.TotalPrice <= Number(maxPrice)
+            )
+          }
         );
 
         // Create a deep copy of the item
