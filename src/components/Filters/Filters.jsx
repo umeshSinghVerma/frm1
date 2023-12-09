@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import BrandFilter from "./BrandFilter";
 import AirlineFilter from "./AirlineFilter";
 import StopsFilter from "./StopsFilter";
@@ -17,12 +17,19 @@ const Filters = ({
   flightNo,
   setFlightNo,
   minPrice,
+  setMinP,
   maxPrice,
+  setMaxP,
   sortByPrice,
+  constMax
 }) => {
   function sortTimeAsc() {
     finalarray.sort(GetTimeSort());
   }
+  const [priceRange, setPriceRange] = useState(finalarray[finalarray.length-1]?.ProductBrandOffering[0].BestCombinablePrice.TotalPrice);
+  
+  setMinP(finalarray[0]?.ProductBrandOffering[0].BestCombinablePrice.TotalPrice)
+  setMaxP(priceRange)
   return (
     <div className="flex flex-col gap-3 sticky py-3 top-0 h-screen overflow-y-scroll removeScollbar bg-white px-5 shadow-lg">
       <div className="flex flex-col gap-3">
@@ -54,7 +61,7 @@ const Filters = ({
 
         <StopsFilter flightNo={flightNo} setFlightNo={setFlightNo} />
 
-        <PriceFilter minPrice={minPrice} maxPrice={maxPrice} sortByPrice={sortByPrice} />
+        <PriceFilter constMax={constMax} min={finalarray[0]?.ProductBrandOffering[0].BestCombinablePrice.TotalPrice} max={finalarray[finalarray.length-1]?.ProductBrandOffering[0].BestCombinablePrice.TotalPrice} priceRange={priceRange} setPriceRange={setPriceRange} sortByPrice={sortByPrice} />
       </div>
     </div>
   );

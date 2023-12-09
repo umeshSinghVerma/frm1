@@ -5,6 +5,7 @@ import { DestinationFlight, GetPriceSort, GetTimeSort, OfferingConnector, Return
 import Filters from "./Filters/Filters";
 import AllOffering from "./Offerings/AllOffering";
 import FinalOfferingsUpdater from "./Utils/FinalOfferingsUpdater";
+let constMax;
 const Flight = () => {
   const departureFrom =
     X.CatalogProductOfferingsResponse.CatalogProductOfferings
@@ -29,6 +30,9 @@ const Flight = () => {
   let minPrice = useRef(0);
   let maxPrice = useRef(0);
 
+  const [minP, setMinP] = useState()
+  const [maxP, setMaxP] = useState()
+  
   useEffect(() => {
     OfferingConnector(alldata, departureFrom, arrivalTo, setDestinationFlights, setReturnFlights, setAllBrands, setAllFlights);
   }, []);
@@ -42,7 +46,7 @@ const Flight = () => {
   }, [returnFlights]);
 
   useEffect(() => {
-    FinalOfferingsUpdater(displayArray, brand, flightNo, alldata, minPrice, maxPrice, setFinalArray, flight)
+    FinalOfferingsUpdater(displayArray, brand, flightNo, alldata, minP, maxP, setFinalArray, flight)
   }, [brand, flightNo, flight, toggle]);
 
   function sortPriceAsc() {
@@ -54,8 +58,8 @@ const Flight = () => {
     setBrand([]);
     setFlightNo([]);
     setFlight([]);
-    minPrice.current.value = "";
-    maxPrice.current.value = "";
+    // minPrice.current.value = "";
+    // maxPrice.current.value = "";
   }
 
   function sortByPrice() {
@@ -87,10 +91,16 @@ const Flight = () => {
     }
   }
 
+  if(constMax===undefined){
+    const temp = finalarray
+    constMax = temp[temp.length-1]?.ProductBrandOffering[0].BestCombinablePrice.TotalPrice
+    console.log(constMax)  
+  } 
+
   return (
     <div className="flex gap-32 mx-40">
       {/* Sidebar filters */}
-      <Filters finalarray={finalarray} clearfn={clearfn} allBrands={allBrands} brand={brand} setBrand={setBrand} allFlights={allFlights} flight={flight} setFlight={setFlight} flightNo={flightNo} setFlightNo={setFlightNo} minPrice={minPrice} maxPrice={maxPrice} sortByPrice={sortByPrice} />
+      <Filters finalarray={finalarray} clearfn={clearfn} allBrands={allBrands} brand={brand} setBrand={setBrand} allFlights={allFlights} flight={flight} setFlight={setFlight} flightNo={flightNo} setFlightNo={setFlightNo} minPrice={minP} setMinP={setMinP} maxPrice={maxP} setMaxP={setMaxP} sortByPrice={sortByPrice} constMax={constMax} />
 
       {/* All Offerings Accordians Display */}
       <AllOffering finalarray={finalarray} showDetails={showDetails} openAccordian={openAccordian} departureFrom={departureFrom} arrivalTo={arrivalTo} alldata={alldata} finalArrayDup={finalArrayDup} />

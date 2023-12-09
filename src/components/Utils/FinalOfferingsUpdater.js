@@ -94,7 +94,7 @@ function  FinalOfferingsUpdater(displayArray, brand, flightNo, alldata, minPrice
     
 
     // Check if both minPrice and maxPrice filters are applied
-    if (minPrice.current.value != "" && maxPrice.current.value != "") {
+    if (minPrice != "" && maxPrice != "") {
 
       // Initialize a new array to store items with prices within the specified range
       let newarr = [];
@@ -103,8 +103,8 @@ function  FinalOfferingsUpdater(displayArray, brand, flightNo, alldata, minPrice
          // Filter the ProductBrandOffering array based on the price range
         let alpha = item.ProductBrandOffering.filter(
           (y) =>
-            y.BestCombinablePrice.TotalPrice >= minPrice.current.value &&
-            y.BestCombinablePrice.TotalPrice <= maxPrice.current.value
+            y.BestCombinablePrice.TotalPrice >= minPrice &&
+            y.BestCombinablePrice.TotalPrice <= maxPrice
         );
 
         // Create a deep copy of the item
