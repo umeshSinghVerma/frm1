@@ -3,7 +3,7 @@ import React from 'react'
 const SingleOffering = ({returnBack, departureFrom, arrivalTo, item, alldata}) => {
     return (
       <>
-        <div className='flex items-center gap-24 m-2'>
+        <div className='flex sm:items-center gap-x-8 gap-y-1 sm:gap-10 flex-wrap sm:flex-nowrap xl:gap-24 m-2'>
           <div>
             {/* dept-arrival timings */}
             <div>

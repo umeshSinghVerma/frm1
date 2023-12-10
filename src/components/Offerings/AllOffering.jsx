@@ -10,9 +10,9 @@ const AllOffering = ({ finalarray, showDetails, openAccordian, departureFrom, ar
         let conditionMet1 = false;
         return (
           <main key={id}>
-            <section className="shadow-md  bg-white border border-white rounded-xl hover:border-slate-500 transition-all cursor-pointer">
+            <section className="shadow-md mx-5 xl:mx-0 bg-white border border-white rounded-xl hover:border-slate-500 transition-all cursor-pointer">
               {/* Closed Accordian */}
-              <div className={`flex ${showDetails === id ? "border-b border-slate-400" : ""}`} >
+              <div className={`flex flex-col sm:flex-row justify-around ${showDetails === id ? "border-b border-slate-400" : ""}`} >
                 <div className="flex flex-col p-5 justify-center" onClick={() => openAccordian(id)} >
                   {/* Destination Flight */}
                   <div className="flex gap-2">
@@ -41,7 +41,7 @@ const AllOffering = ({ finalarray, showDetails, openAccordian, departureFrom, ar
                   </div>
                 </div>
 
-                <div className="bg-slate-300 w-[1px] "></div>
+                <div className="hidden sm:block bg-slate-300 w-[1px] "></div>
 
                 {/* Total Price */}
                 <div className="p-5">

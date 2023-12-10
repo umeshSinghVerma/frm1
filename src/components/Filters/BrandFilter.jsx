@@ -2,7 +2,7 @@ import React from 'react'
 
 const BrandFilter = ({allBrands, brand, setBrand}) => {
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-3 flex-1  min-w-[150px]">
         <h3 className="text-xl">Brand Name :</h3>
         <div className="flex flex-col gap-2">
             {allBrands.map((item, key) => {

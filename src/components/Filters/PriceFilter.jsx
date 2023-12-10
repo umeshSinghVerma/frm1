@@ -11,7 +11,7 @@ const PriceFilter = ({min, max, priceRange, setPriceRange, sortByPrice, constMax
   };
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-3 flex-1 ">
         <h3 className="text-xl">Price :</h3>
         <p className='text-center'>{priceRange}</p>
         <input

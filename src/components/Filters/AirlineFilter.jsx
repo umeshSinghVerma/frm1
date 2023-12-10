@@ -2,7 +2,7 @@ import React from 'react'
 
 const AirlineFilter = ({allFlights, flight, setFlight}) => {
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-3 flex-1">
         <h3 className="text-xl">Flights Name :</h3>
         <div className="flex flex-col gap-2">
             {allFlights.map((item, key) => {

@@ -98,7 +98,7 @@ const Flight = () => {
   } 
 
   return (
-    <div className="flex gap-32 mx-40">
+    <div className="xl:flex gap-32 justify-center">
       {/* Sidebar filters */}
       <Filters finalarray={finalarray} clearfn={clearfn} allBrands={allBrands} brand={brand} setBrand={setBrand} allFlights={allFlights} flight={flight} setFlight={setFlight} flightNo={flightNo} setFlightNo={setFlightNo} minPrice={minP} setMinP={setMinP} maxPrice={maxP} setMaxP={setMaxP} sortByPrice={sortByPrice} constMax={constMax} />
 

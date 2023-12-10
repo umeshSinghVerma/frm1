@@ -3,7 +3,7 @@ import React from "react";
 const StopsFilter = ({flightNo, setFlightNo}) => {
   const stops = [1, 2, 3];
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-3 flex-1  min-w-[120px]">
       <h3 className="text-xl">No. of Stops :</h3>
       <div className="flex flex-col gap-1">
         {stops.map((item, key) => {

@@ -30,14 +30,14 @@ const FlightDetails = ({item, dup, alldata}) => {
           </div>
         </div>
         <div className="p-5 flex flex-col gap-5">
-            <div className='flex flex-col gap-[5px]'>
+            <div className='flex flex-col gap-10 sm:gap-[5px]'>
             {item.flightRefs.map((alp, index) => {
               return (
-                <div key={index} className='flex gap-[5px]'>
+                <div key={index} className='flex gap-[5px] flex-wrap sm:flex-nowrap'>
                   {alldata.ReferenceList[0].Flight.map((y) => {
                     if (y.id === alp) {
                       return (
-                        <div className="flex gap-5">
+                        <div className="flex gap-y-1 gap-x-5 flex-wrap sm:flex-nowrap">
                           <p><span className='font-bold'>  From -{" "}</span>{" "}{y.Departure.location}</p>
                           <p><span className='font-bold'>  To -{" "}</span>{" "}{y.Arrival.location}</p>
                           <p><span className='font-bold'>  Duration -{" "}</span>{" "}{y.duration}</p>
@@ -129,14 +129,14 @@ const FlightDetails = ({item, dup, alldata}) => {
           </div>
         </div>
         <div className="p-5 flex flex-col gap-5">
-            <div className='flex flex-col gap-[5px]'>
+            <div className='flex flex-col gap-10 sm:gap-[5px]'>
             {dup.flightRefs.map((alp) => {
               return (
-                <div className='flex gap-[5px]'>
+                <div className='flex gap-[5px] flex-wrap sm:flex-nowrap'>
                   {alldata.ReferenceList[0].Flight.map((y) => {
                     if (y.id === alp) {
                       return (
-                        <div className="flex gap-5">
+                        <div className="flex gap-y-1 gap-x-5 flex-wrap sm:flex-nowrap">
                           <p><span className='font-bold'>From -{" "}</span>{" "}{y.Departure.location}</p>
                           <p><span className='font-bold'>To -{" "}</span>{" "}{y.Arrival.location}</p>
                           <p><span className='font-bold'>Duration -{" "}</span>{" "}{y.duration}</p>

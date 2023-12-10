@@ -31,7 +31,7 @@ const Filters = ({
   setMinP(finalarray[0]?.ProductBrandOffering[0].BestCombinablePrice.TotalPrice)
   setMaxP(priceRange)
   return (
-    <div className="flex flex-col gap-3 sticky py-3 top-0 h-screen overflow-y-scroll removeScollbar bg-white px-5 shadow-lg">
+    <div className="flex flex-col-reverse xl:flex-col gap-3 xl:sticky py-3 top-0 xl:h-screen overflow-y-scroll removeScollbar bg-white px-5 shadow-lg">
       <div className="flex flex-col gap-3">
         <button
           onClick={() => sortTimeAsc()}
@@ -49,19 +49,21 @@ const Filters = ({
           Clear All Filter
         </button>
       </div>
-      <h1 className="mt-10 text-3xl ">Filters ~</h1>
-      <div className="flex flex-col gap-10">
-        <BrandFilter allBrands={allBrands} brand={brand} setBrand={setBrand} />
+      <div>
+        <h1 className="my-4 text-3xl ">Filters ~</h1>
+        <div className="flex flex-wrap md:justify-around xl:flex-col gap-y-8 gap-x-12 md:gap-10 mx-4 md:mx-0">
+          <BrandFilter allBrands={allBrands} brand={brand} setBrand={setBrand} />
 
-        <AirlineFilter
-          allFlights={allFlights}
-          flight={flight}
-          setFlight={setFlight}
-        />
+          <AirlineFilter
+            allFlights={allFlights}
+            flight={flight}
+            setFlight={setFlight}
+          />
 
-        <StopsFilter flightNo={flightNo} setFlightNo={setFlightNo} />
+          <StopsFilter flightNo={flightNo} setFlightNo={setFlightNo} />
 
-        <PriceFilter constMax={constMax} min={finalarray[0]?.ProductBrandOffering[0].BestCombinablePrice.TotalPrice} max={finalarray[finalarray.length-1]?.ProductBrandOffering[0].BestCombinablePrice.TotalPrice} priceRange={priceRange} setPriceRange={setPriceRange} sortByPrice={sortByPrice} />
+          <PriceFilter constMax={constMax} min={finalarray[0]?.ProductBrandOffering[0].BestCombinablePrice.TotalPrice} max={finalarray[finalarray.length-1]?.ProductBrandOffering[0].BestCombinablePrice.TotalPrice} priceRange={priceRange} setPriceRange={setPriceRange} sortByPrice={sortByPrice} />
+        </div>
       </div>
     </div>
   );
