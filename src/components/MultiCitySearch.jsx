@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import X from "../data.json";
+import X from "../data1.json";
 
 const MultiCitySearch = () => {
   const [formFields, setFormFields] = useState([
