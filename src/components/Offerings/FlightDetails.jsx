@@ -105,7 +105,7 @@ const FlightDetails = ({item, dup, alldata}) => {
       </div>
 
         {/* Arrival */}
-      <div className="bg-white shadow-sm rounded-xl">
+      {dup && <div className="bg-white shadow-sm rounded-xl">
         <div className="flex p-5 justify-between border-b border-slate-300">
           <div><span className="font-medium">Arrival •</span><span>--Arrival Date--</span></div>
           <div>
@@ -201,7 +201,7 @@ const FlightDetails = ({item, dup, alldata}) => {
                 })}
             </div>
         </div>
-      </div>
+      </div>}
     </div>
   );
 };

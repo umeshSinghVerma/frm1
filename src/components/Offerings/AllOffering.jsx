@@ -8,6 +8,7 @@ const AllOffering = ({ finalarray, showDetails, openAccordian, departureFrom, ar
       {finalarray.map((item, id) => {
         let conditionMet = false;
         let conditionMet1 = false;
+        let returnDetails;
         return (
           <main key={id}>
             <section className="shadow-md mx-5 xl:mx-0 bg-white border border-white rounded-xl hover:border-slate-500 transition-all cursor-pointer">
@@ -22,7 +23,6 @@ const AllOffering = ({ finalarray, showDetails, openAccordian, departureFrom, ar
 
                   {/* Return Flight */}
                   <div className="flex gap-2">
-                    <input type="checkbox" />
                     <div>
                       {finalArrayDup.map((dup, id) => {
                         if (!conditionMet &&
@@ -32,7 +32,10 @@ const AllOffering = ({ finalarray, showDetails, openAccordian, departureFrom, ar
                           conditionMet = true;
 
                           return (
-                            <SingleOffering key={id} returnBack={true} departureFrom={departureFrom} arrivalTo={arrivalTo} item={dup} alldata={alldata} />
+                            <div key={id} className='flex gap-2'>
+                              <input type="checkbox" />
+                              <SingleOffering returnBack={true} departureFrom={departureFrom} arrivalTo={arrivalTo} item={dup} alldata={alldata} />
+                            </div>
                           );
                         }
                         return null;
@@ -66,14 +69,13 @@ const AllOffering = ({ finalarray, showDetails, openAccordian, departureFrom, ar
                   item.ProductBrandOffering[0].CombinabilityCode[0]
                 ) {
                   conditionMet1 = true;
-                  return (
-                    showDetails === id && (
-                      <FlightDetails key={ind} item={item} dup={dup} alldata={alldata}
-                      />
-                    )
-                  );
+                  returnDetails = dup;
                 }
               })}
+
+              { showDetails === id && (
+              <FlightDetails item={item} dup={returnDetails} alldata={alldata}
+              />)}
             </section>
           </main>
         );
