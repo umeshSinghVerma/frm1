@@ -9,7 +9,9 @@
 // - setFinalArray: Function to update the state with the filtered array
 // - flight: Array of selected flight carriers for filtering
 
-function  FinalOfferingsUpdater(displayArray, brand, flightNo, alldata, minPrice, maxPrice, setFinalArray, flight) {
+import { replacefinalArray } from "../../redux/finalArray";
+
+function  FinalOfferingsUpdater(displayArray, brand, flightNo, alldata, minPrice, maxPrice, dispatch, flight) {
   // Initialize an array to store the filtered items
     let filteredArr = [];
 
@@ -136,7 +138,7 @@ function  FinalOfferingsUpdater(displayArray, brand, flightNo, alldata, minPrice
     }
 
     // Update the state with the final filtered array
-    setFinalArray(filteredArr);
+    dispatch(replacefinalArray(filteredArr));
 }
 
 export default FinalOfferingsUpdater;

@@ -4,6 +4,8 @@ import AirlineFilter from "./AirlineFilter";
 import StopsFilter from "./StopsFilter";
 import PriceFilter from "./PriceFilter";
 import { GetTimeSort } from "../Utils/UtilityFunctions";
+import { useDispatch } from "react-redux";
+import { timeSortedfinalArray } from "../../redux/finalArray";
 
 const Filters = ({
   finalarray,
@@ -15,8 +17,9 @@ const Filters = ({
   sortByPrice,
   constMax
 }) => {
+  const dispatch = useDispatch();
   function sortTimeAsc() {
-    finalarray.sort(GetTimeSort());
+    dispatch(timeSortedfinalArray())
   }
   const [priceRange, setPriceRange] = useState(finalarray.length!=0 ? finalarray[finalarray.length-1]?.ProductBrandOffering[0].BestCombinablePrice.TotalPrice : null);
   

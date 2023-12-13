@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {clearBrands} from '../redux/brand'
 import { clearflights } from "../redux/flight";
 import { clearflightNos } from "../redux/flightNo";
+import { replacefinalArray } from "../redux/finalArray";
 let constMax;
 const Flight = () => {
   const departureFrom =
@@ -26,7 +27,10 @@ const Flight = () => {
   const [returnFlights, setReturnFlights] = useState([]);
 
 
-  const [finalarray, setFinalArray] = useState([]);
+  // const [finalarray, setFinalArray] = useState([]);
+  const finalarray = useSelector((state) => state.finalArray.finalArray)
+  window.finalArray=finalarray;
+  
   const [displayArray, setDisplayArray] = useState([]);
   const [finalArrayDup, setFinalArrayDup] = useState([]);
   const [allBrands, setAllBrands] = useState([]);
@@ -35,17 +39,10 @@ const Flight = () => {
 
   const brand = useSelector((state) => state.brand.brandArray)
   const flight = useSelector((state) => state.flight.flightArray)
-  
-  // const [flightNo, setFlightNo] = useState([]);
   const flightNo = useSelector((state) => state.flightNo.flightNoArray)
 
 
   const [toggle, setToggle] = useState(false);
-
-  // References for filter MiPrice and MaxPrice
-  let minPrice = useRef(0);
-  let maxPrice = useRef(0);
-
   const [minP, setMinP] = useState()
   const [maxP, setMaxP] = useState()
 
@@ -54,7 +51,7 @@ const Flight = () => {
   }, []);
 
   useEffect(() => {
-    DestinationFlight(destinationFlights, alldata, setFinalArray, setDisplayArray);
+    DestinationFlight(destinationFlights, alldata, dispatch, setDisplayArray);
   }, [destinationFlights]);
 
   useEffect(() => {
@@ -62,15 +59,17 @@ const Flight = () => {
   }, [returnFlights]);
 
   useEffect(() => {
-    FinalOfferingsUpdater(displayArray, brand, flightNo, alldata, minP, maxP, setFinalArray, flight)
+    FinalOfferingsUpdater(displayArray, brand, flightNo, alldata, minP, maxP, dispatch, flight)
   }, [brand, flightNo, flight, toggle]);
 
-  function sortPriceAsc() {
-    finalarray.sort(GetPriceSort());
-  }
+  // function sortPriceAsc() {
+  //   const newarr=[...finalarray];
+  //   newarr.sort(GetPriceSort());
+  //   dispatch(replacefinalArray(newarr));
+  // }
 
   function clearfn() {
-    setFinalArray(displayArray);
+    dispatch(replacefinalArray(displayArray));
     dispatch(clearBrands())
     dispatch(clearflightNos())
     dispatch(clearflights())
@@ -83,8 +82,7 @@ const Flight = () => {
   const [flag, setflag] = useState(0);
 
   useEffect(() => {
-    if (finalarray.length !== 0) {
-      sortPriceAsc();
+    if (finalarray.length !== 0 ) {
       setflag(1);
     }
   }, [finalarray]);

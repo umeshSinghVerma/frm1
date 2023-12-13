@@ -1,10 +1,14 @@
 // Function: GetPriceSort
 
+import { joinfinalArray } from "../../redux/finalArray";
+
 // import { addFlight } from "../../redux/destinationFlights";
 
 // Returns a comparator function for sorting items based on their total price
+
 function GetPriceSort() {
   return function (a, b) {
+    console.log(a,b);
     let firstmini = a.ProductBrandOffering[0].BestCombinablePrice.TotalPrice;
     let secondmini = b.ProductBrandOffering[0].BestCombinablePrice.TotalPrice;
 
@@ -77,7 +81,7 @@ function OfferingConnector(alldata, departureFrom, arrivalTo, setDestinationFlig
 
 // Function: DestinationFlight
 // Processes destination flights, extracts relevant information, and updates state variables
-function DestinationFlight(destinationFlights, alldata, setFinalArray, setDisplayArray) {
+function DestinationFlight(destinationFlights, alldata,dispatch, setDisplayArray) {
   destinationFlights.map((item) => {
     let ffr;
     let lfr;
@@ -106,9 +110,10 @@ function DestinationFlight(destinationFlights, alldata, setFinalArray, setDispla
       });
 
       // Update the final and display arrays with the modified ProductBrandOptions
-      setFinalArray((prev) => {
-        return [...prev, ...alp];
-      });
+      // setFinalArray((prev) => {
+      //   return [...prev, ...alp];
+      // });
+      dispatch(joinfinalArray(alp))
       setDisplayArray((prev) => {
         return [...prev, ...alp];
       });
