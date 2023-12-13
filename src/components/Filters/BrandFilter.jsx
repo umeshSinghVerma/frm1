@@ -18,15 +18,8 @@ const BrandFilter = ({ allBrands }) => {
                                 <input type="checkbox" value={item.id} checked={true}
                                     onChange={(e) => {
                                         if (e.target.checked) {
-                                            // setBrand((prev) => {
-                                            //     return [...prev, e.target.value];
-                                            // });
                                             dispatch(addBrand(e.target.value));
                                         } else {
-                                            // let b = brand.filter(
-                                            //     (alpha) => alpha !== e.target.value
-                                            // );
-                                            // setBrand(b);
                                             dispatch(removeBrand(e.target.value));
                                         }
                                     }}
@@ -35,15 +28,8 @@ const BrandFilter = ({ allBrands }) => {
                                 <input type="checkbox" value={item.id}
                                     onChange={(e) => {
                                         if (e.target.checked) {
-                                            // setBrand((prev) => {
-                                            //     return [...prev, e.target.value];
-                                            // });
                                             dispatch(addBrand(e.target.value));
                                         } else {
-                                            // let b = brand.filter(
-                                            //     (alpha) => alpha !== e.target.value
-                                            // );
-                                            // setBrand(b);
                                             dispatch(removeBrand(e.target.value));
                                         }
                                     }}

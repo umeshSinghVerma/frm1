@@ -7,6 +7,7 @@ import AllOffering from "./Offerings/AllOffering";
 import FinalOfferingsUpdater from "./Utils/FinalOfferingsUpdater";
 import { useDispatch, useSelector } from "react-redux";
 import {clearBrands} from '../redux/brand'
+import { clearflights } from "../redux/flight";
 let constMax;
 const Flight = () => {
   const departureFrom =
@@ -31,12 +32,9 @@ const Flight = () => {
   const [allFlights, setAllFlights] = useState([]);
 
 
-  // const [brand, setBrand] = useState([]);
   const brand = useSelector((state) => state.brand.brandArray)
-
-
-
-  const [flight, setFlight] = useState([]);
+  const flight = useSelector((state) => state.flight.flightArray)
+  
   const [flightNo, setFlightNo] = useState([]);
   const [toggle, setToggle] = useState(false);
 
@@ -72,7 +70,8 @@ const Flight = () => {
     // setBrand([]);
     dispatch(clearBrands())
     setFlightNo([]);
-    setFlight([]);
+    // setFlight([]);
+    dispatch(clearflights())
     // minPrice.current.value = "";
     // maxPrice.current.value = "";
   }
@@ -115,7 +114,7 @@ const Flight = () => {
   return (
     <div className="xl:flex gap-32 justify-center">
       {/* Sidebar filters */}
-      <Filters finalarray={finalarray} clearfn={clearfn} allBrands={allBrands} allFlights={allFlights} flight={flight} setFlight={setFlight} flightNo={flightNo} setFlightNo={setFlightNo} minPrice={minP} setMinP={setMinP} maxPrice={maxP} setMaxP={setMaxP} sortByPrice={sortByPrice} constMax={constMax} />
+      <Filters finalarray={finalarray} clearfn={clearfn} allBrands={allBrands} allFlights={allFlights} flightNo={flightNo} setFlightNo={setFlightNo} minPrice={minP} setMinP={setMinP} maxPrice={maxP} setMaxP={setMaxP} sortByPrice={sortByPrice} constMax={constMax} />
 
       {/* All Offerings Accordians Display */}
       <AllOffering finalarray={finalarray} showDetails={showDetails} openAccordian={openAccordian} departureFrom={departureFrom} arrivalTo={arrivalTo} alldata={alldata} finalArrayDup={finalArrayDup} />

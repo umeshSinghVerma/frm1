@@ -10,8 +10,6 @@ const Filters = ({
   clearfn,
   allBrands,
   allFlights,
-  flight,
-  setFlight,
   flightNo,
   setFlightNo,
   minPrice,
@@ -54,8 +52,6 @@ const Filters = ({
 
           <AirlineFilter
             allFlights={allFlights}
-            flight={flight}
-            setFlight={setFlight}
           />
 
           <StopsFilter flightNo={flightNo} setFlightNo={setFlightNo} />

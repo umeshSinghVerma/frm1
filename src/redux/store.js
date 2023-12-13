@@ -1,11 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit'
-import counterReducer from './counter'
 import destinationFlightsReducer from './destinationFlights'
 import brandReducer from './brand'
+import flightReducer from './flight'
 export default configureStore({
   reducer: {
-    counter:counterReducer,
     destinationFlights:destinationFlightsReducer,
     brand:brandReducer,
+    flight:flightReducer,
   },
 })
