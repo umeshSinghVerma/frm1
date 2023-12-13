@@ -8,6 +8,7 @@ import FinalOfferingsUpdater from "./Utils/FinalOfferingsUpdater";
 import { useDispatch, useSelector } from "react-redux";
 import {clearBrands} from '../redux/brand'
 import { clearflights } from "../redux/flight";
+import { clearflightNos } from "../redux/flightNo";
 let constMax;
 const Flight = () => {
   const departureFrom =
@@ -35,7 +36,10 @@ const Flight = () => {
   const brand = useSelector((state) => state.brand.brandArray)
   const flight = useSelector((state) => state.flight.flightArray)
   
-  const [flightNo, setFlightNo] = useState([]);
+  // const [flightNo, setFlightNo] = useState([]);
+  const flightNo = useSelector((state) => state.flightNo.flightNoArray)
+
+
   const [toggle, setToggle] = useState(false);
 
   // References for filter MiPrice and MaxPrice
@@ -67,13 +71,9 @@ const Flight = () => {
 
   function clearfn() {
     setFinalArray(displayArray);
-    // setBrand([]);
     dispatch(clearBrands())
-    setFlightNo([]);
-    // setFlight([]);
+    dispatch(clearflightNos())
     dispatch(clearflights())
-    // minPrice.current.value = "";
-    // maxPrice.current.value = "";
   }
 
   function sortByPrice() {
@@ -114,7 +114,7 @@ const Flight = () => {
   return (
     <div className="xl:flex gap-32 justify-center">
       {/* Sidebar filters */}
-      <Filters finalarray={finalarray} clearfn={clearfn} allBrands={allBrands} allFlights={allFlights} flightNo={flightNo} setFlightNo={setFlightNo} minPrice={minP} setMinP={setMinP} maxPrice={maxP} setMaxP={setMaxP} sortByPrice={sortByPrice} constMax={constMax} />
+      <Filters finalarray={finalarray} clearfn={clearfn} allBrands={allBrands} allFlights={allFlights} minPrice={minP} setMinP={setMinP} maxPrice={maxP} setMaxP={setMaxP} sortByPrice={sortByPrice} constMax={constMax} />
 
       {/* All Offerings Accordians Display */}
       <AllOffering finalarray={finalarray} showDetails={showDetails} openAccordian={openAccordian} departureFrom={departureFrom} arrivalTo={arrivalTo} alldata={alldata} finalArrayDup={finalArrayDup} />

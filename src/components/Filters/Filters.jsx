@@ -10,11 +10,7 @@ const Filters = ({
   clearfn,
   allBrands,
   allFlights,
-  flightNo,
-  setFlightNo,
-  minPrice,
   setMinP,
-  maxPrice,
   setMaxP,
   sortByPrice,
   constMax
@@ -54,7 +50,7 @@ const Filters = ({
             allFlights={allFlights}
           />
 
-          <StopsFilter flightNo={flightNo} setFlightNo={setFlightNo} />
+          <StopsFilter />
 
           <PriceFilter constMax={constMax} min={finalarray[0]?.ProductBrandOffering[0].BestCombinablePrice.TotalPrice} max={finalarray[finalarray.length-1]?.ProductBrandOffering[0].BestCombinablePrice.TotalPrice} priceRange={priceRange} setPriceRange={setPriceRange} sortByPrice={sortByPrice} />
         </div>

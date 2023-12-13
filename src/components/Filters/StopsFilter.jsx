@@ -1,6 +1,10 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addflightNo, removeflightNo } from "../../redux/flightNo";
 
-const StopsFilter = ({flightNo, setFlightNo}) => {
+const StopsFilter = () => {
+  const dispatch = useDispatch();
+  const flightNo = useSelector((state) => state.flightNo.flightNoArray)
   const stops = [1, 2, 3];
   return (
     <div className="flex flex-col gap-3 flex-1  min-w-[120px]">
@@ -13,14 +17,9 @@ const StopsFilter = ({flightNo, setFlightNo}) => {
                 <input type="checkbox" id={item + "stop"} value={item} checked={true}
                   onChange={(e) => {
                     if (e.target.checked) {
-                      setFlightNo((prev) => {
-                        return [...prev, +e.target.value];
-                      });
+                      dispatch(addflightNo(+e.target.value));
                     } else {
-                      let b = flightNo.filter(
-                        (alpha) => alpha !== +e.target.value
-                      );
-                      setFlightNo(b);
+                      dispatch(removeflightNo(+e.target.value));
                     }
                   }}
                 />
@@ -28,14 +27,9 @@ const StopsFilter = ({flightNo, setFlightNo}) => {
                 <input type="checkbox" value={item} id={item + "stop"}
                   onChange={(e) => {
                     if (e.target.checked) {
-                      setFlightNo((prev) => {
-                        return [...prev, +e.target.value];
-                      });
+                      dispatch(addflightNo(+e.target.value));
                     } else {
-                      let b = flightNo.filter(
-                        (alpha) => alpha !== +e.target.value
-                      );
-                      setFlightNo(b);
+                      dispatch(removeflightNo(+e.target.value));
                     }
                   }}
                 />
