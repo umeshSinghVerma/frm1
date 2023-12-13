@@ -1,4 +1,7 @@
 // Function: GetPriceSort
+
+// import { addFlight } from "../../redux/destinationFlights";
+
 // Returns a comparator function for sorting items based on their total price
 function GetPriceSort() {
   return function (a, b) {

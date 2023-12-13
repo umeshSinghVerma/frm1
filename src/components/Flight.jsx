@@ -5,6 +5,8 @@ import { DestinationFlight, GetPriceSort, GetTimeSort, OfferingConnector, Return
 import Filters from "./Filters/Filters";
 import AllOffering from "./Offerings/AllOffering";
 import FinalOfferingsUpdater from "./Utils/FinalOfferingsUpdater";
+import { useDispatch, useSelector } from "react-redux";
+import {clearBrands} from '../redux/brand'
 let constMax;
 const Flight = () => {
   const departureFrom =
@@ -14,14 +16,26 @@ const Flight = () => {
     X.CatalogProductOfferingsResponse.CatalogProductOfferings
       .CatalogProductOffering[0].Arrival;
   const alldata = X.CatalogProductOfferingsResponse;
+
   const [destinationFlights, setDestinationFlights] = useState([]);
+  // const destinationFlights = useSelector((state) => state.destinationFlights.destinationFlightsArray)
+  const dispatch = useDispatch();
+
   const [returnFlights, setReturnFlights] = useState([]);
+
+
   const [finalarray, setFinalArray] = useState([]);
   const [displayArray, setDisplayArray] = useState([]);
   const [finalArrayDup, setFinalArrayDup] = useState([]);
   const [allBrands, setAllBrands] = useState([]);
   const [allFlights, setAllFlights] = useState([]);
-  const [brand, setBrand] = useState([]);
+
+
+  // const [brand, setBrand] = useState([]);
+  const brand = useSelector((state) => state.brand.brandArray)
+
+
+
   const [flight, setFlight] = useState([]);
   const [flightNo, setFlightNo] = useState([]);
   const [toggle, setToggle] = useState(false);
@@ -32,7 +46,7 @@ const Flight = () => {
 
   const [minP, setMinP] = useState()
   const [maxP, setMaxP] = useState()
-  
+
   useEffect(() => {
     OfferingConnector(alldata, departureFrom, arrivalTo, setDestinationFlights, setReturnFlights, setAllBrands, setAllFlights);
   }, []);
@@ -55,7 +69,8 @@ const Flight = () => {
 
   function clearfn() {
     setFinalArray(displayArray);
-    setBrand([]);
+    // setBrand([]);
+    dispatch(clearBrands())
     setFlightNo([]);
     setFlight([]);
     // minPrice.current.value = "";
@@ -91,22 +106,22 @@ const Flight = () => {
     }
   }
 
-  if(constMax===undefined){
+  if (constMax === undefined) {
     const temp = finalarray
-    constMax = temp[temp.length-1]?.ProductBrandOffering[0].BestCombinablePrice.TotalPrice
-    console.log(constMax)  
-  } 
+    constMax = temp[temp.length - 1]?.ProductBrandOffering[0].BestCombinablePrice.TotalPrice
+    console.log(constMax)
+  }
 
   return (
     <div className="xl:flex gap-32 justify-center">
       {/* Sidebar filters */}
-      <Filters finalarray={finalarray} clearfn={clearfn} allBrands={allBrands} brand={brand} setBrand={setBrand} allFlights={allFlights} flight={flight} setFlight={setFlight} flightNo={flightNo} setFlightNo={setFlightNo} minPrice={minP} setMinP={setMinP} maxPrice={maxP} setMaxP={setMaxP} sortByPrice={sortByPrice} constMax={constMax} />
+      <Filters finalarray={finalarray} clearfn={clearfn} allBrands={allBrands} allFlights={allFlights} flight={flight} setFlight={setFlight} flightNo={flightNo} setFlightNo={setFlightNo} minPrice={minP} setMinP={setMinP} maxPrice={maxP} setMaxP={setMaxP} sortByPrice={sortByPrice} constMax={constMax} />
 
       {/* All Offerings Accordians Display */}
       <AllOffering finalarray={finalarray} showDetails={showDetails} openAccordian={openAccordian} departureFrom={departureFrom} arrivalTo={arrivalTo} alldata={alldata} finalArrayDup={finalArrayDup} />
 
       {/* Multi City Search */}
-      <button className ="fixed bottom-2 right-2 text-white mt-3 py-2 px-5 text-xl rounded active:scale-95 transition-all hover:opacity-95" style={{ background: "linear-gradient(135deg,#e55e0d 0%,#cf3218 100%)" }} >
+      <button className="fixed bottom-2 right-2 text-white mt-3 py-2 px-5 text-xl rounded active:scale-95 transition-all hover:opacity-95" style={{ background: "linear-gradient(135deg,#e55e0d 0%,#cf3218 100%)" }} >
         <Link to="/Multi">Multi-City Search</Link>
       </button>
     </div>
