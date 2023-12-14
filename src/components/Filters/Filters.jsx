@@ -8,7 +8,6 @@ import { timeSortedfinalArray } from "../../redux/finalArray";
 
 const Filters = ({
   clearfn,
-  allFlights,
   setMinP,
   setMaxP,
   sortByPrice,
@@ -17,6 +16,7 @@ const Filters = ({
   const dispatch = useDispatch();
   const allBrands = useSelector((state) => state.allBrandsArray.allBrandsArray)
   const finalarray = useSelector((state) => state.finalArray.finalArray)
+  const allFlights = useSelector((state) => state.allFlightsArray.allFlightsArray)
   function sortTimeAsc() {
     dispatch(timeSortedfinalArray())
   }

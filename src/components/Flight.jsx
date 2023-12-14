@@ -29,10 +29,7 @@ const Flight = () => {
 
 
   const finalarray = useSelector((state) => state.finalArray.finalArray)
-  
   const displayArray = useSelector((state) => state.displayArray.displayArray)
-
-  const [allFlights, setAllFlights] = useState([]);
 
 
   const brand = useSelector((state) => state.brand.brandArray)
@@ -45,7 +42,7 @@ const Flight = () => {
   const [maxP, setMaxP] = useState()
 
   useEffect(() => {
-    OfferingConnector(alldata, departureFrom, arrivalTo, setDestinationFlights, setReturnFlights, dispatch, setAllFlights);
+    OfferingConnector(alldata, departureFrom, arrivalTo, setDestinationFlights, setReturnFlights, dispatch);
   }, []);
 
   useEffect(() => {
@@ -104,7 +101,7 @@ const Flight = () => {
   return (
     <div className="xl:flex gap-32 justify-center">
       {/* Sidebar filters */}
-      <Filters clearfn={clearfn} allFlights={allFlights} minPrice={minP} setMinP={setMinP} maxPrice={maxP} setMaxP={setMaxP} sortByPrice={sortByPrice} constMax={constMax} />
+      <Filters clearfn={clearfn} minPrice={minP} setMinP={setMinP} maxPrice={maxP} setMaxP={setMaxP} sortByPrice={sortByPrice} constMax={constMax} />
 
       {/* All Offerings Accordians Display */}
       <AllOffering showDetails={showDetails} openAccordian={openAccordian} departureFrom={departureFrom} arrivalTo={arrivalTo} alldata={alldata} />
