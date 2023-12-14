@@ -2,6 +2,7 @@
 
 import { replaceallBrandsArray } from "../../redux/allBrands";
 import { replaceallFlightsArray } from "../../redux/allFlights";
+import { addFlight } from "../../redux/destinationFlights";
 import { joindisplayArray } from "../../redux/displayArray";
 import { joinfinalArray } from "../../redux/finalArray";
 import { joinfinalArrayDup } from "../../redux/finalArrayDup";
@@ -42,13 +43,14 @@ function GetTimeSort() {
 
 // Function: OfferingConnector
 // Connects and filters data based on departure and arrival locations, sets state variables
-function OfferingConnector(alldata, departureFrom, arrivalTo, setDestinationFlights, setReturnFlights,dispatch) {
+function OfferingConnector(alldata, departureFrom, arrivalTo, setReturnFlights,dispatch) {
   // Iterate through each CatalogProductOffering in the alldata
   alldata.CatalogProductOfferings.CatalogProductOffering.forEach((item) => {
     // Check if the offering matches the departure and arrival locations
     if (departureFrom === item.Departure && arrivalTo === item.Arrival) {
       // Add the offering to the destination flights state variable
-      setDestinationFlights((prev) => [...prev, item]);
+      // setDestinationFlights((prev) => [...prev, item]);
+      dispatch(addFlight(item))
     }
     // Check if the offering matches the reversed departure and arrival locations
     if (departureFrom === item.Arrival && arrivalTo === item.Departure) {
@@ -86,7 +88,8 @@ function OfferingConnector(alldata, departureFrom, arrivalTo, setDestinationFlig
 // Function: DestinationFlight
 // Processes destination flights, extracts relevant information, and updates state variables
 function DestinationFlight(destinationFlights, alldata,dispatch) {
-  destinationFlights.map((item) => {
+  const tempDestinationFlights = JSON.parse(JSON.stringify(destinationFlights));
+  tempDestinationFlights.map((item) => {
     let ffr;
     let lfr;
 
@@ -114,14 +117,8 @@ function DestinationFlight(destinationFlights, alldata,dispatch) {
       });
 
       // Update the final and display arrays with the modified ProductBrandOptions
-      // setFinalArray((prev) => {
-      //   return [...prev, ...alp];
-      // });
       dispatch(joinfinalArray(alp))
       dispatch(joindisplayArray(alp))
-      // setDisplayArray((prev) => {
-      //   return [...prev, ...alp];
-      // });
     });
   });
 }

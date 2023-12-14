@@ -21,9 +21,8 @@ const Flight = () => {
       .CatalogProductOffering[0].Arrival;
   const alldata = X.CatalogProductOfferingsResponse;
 
-  const [destinationFlights, setDestinationFlights] = useState([]);
-  // const destinationFlights = useSelector((state) => state.destinationFlights.destinationFlightsArray)
   const dispatch = useDispatch();
+  const destinationFlights = useSelector((state) => state.destinationFlights.destinationFlightsArray)
 
   const [returnFlights, setReturnFlights] = useState([]);
 
@@ -42,7 +41,7 @@ const Flight = () => {
   const [maxP, setMaxP] = useState()
 
   useEffect(() => {
-    OfferingConnector(alldata, departureFrom, arrivalTo, setDestinationFlights, setReturnFlights, dispatch);
+    OfferingConnector(alldata, departureFrom, arrivalTo, setReturnFlights, dispatch);
   }, []);
 
   useEffect(() => {
