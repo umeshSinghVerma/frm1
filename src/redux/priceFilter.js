@@ -9,12 +9,10 @@ export const priceFilterSlice = createSlice({
     initialState,
     reducers: {
         updateMinPrice: (state, action) => {
-            const maxSetPrice = state.priceFilter.maxPrice;
-            state.priceFilter = {minPrice:+action.payload,maxPrice:maxSetPrice}
+            state.priceFilter.minPrice = +action.payload
         },
         updateMaxPrice: (state, action) => {
-            const minSetPrice = state.priceFilter.minPrice;
-            state.priceFilter = {maxPrice:+action.payload,minPrice:minSetPrice}
+            state.priceFilter.maxPrice = +action.payload
         },
         updateAbsoluteMaxPrice:(state,action)=>{
             state.priceFilter.absoluteMaxPrice = +action.payload

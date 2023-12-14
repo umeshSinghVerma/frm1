@@ -2,10 +2,14 @@
 
 import { replaceallBrandsArray } from "../../redux/allBrands";
 import { replaceallFlightsArray } from "../../redux/allFlights";
+import { clearBrands } from "../../redux/brand";
 import { addFlight } from "../../redux/destinationFlights";
 import { joindisplayArray } from "../../redux/displayArray";
-import { joinfinalArray } from "../../redux/finalArray";
+import { joinfinalArray, replacefinalArray } from "../../redux/finalArray";
 import { joinfinalArrayDup } from "../../redux/finalArrayDup";
+import { clearflights } from "../../redux/flight";
+import { clearflightNos } from "../../redux/flightNo";
+import { updateMaxPrice, updateMinPrice } from "../../redux/priceFilter";
 import { joinreturnFlightsArray } from "../../redux/returnFlights";
 
 // import { addFlight } from "../../redux/destinationFlights";
@@ -162,5 +166,13 @@ function ReturnFlight(returnFlights, alldata, dispatch) {
     });
   });
 }
+function clearfn(dispatch,displayArray,maximumPrice) {
+  dispatch(replacefinalArray(displayArray));
+  dispatch(clearBrands())
+  dispatch(clearflightNos())
+  dispatch(clearflights())
+  dispatch(updateMinPrice(''))
+  dispatch(updateMaxPrice(maximumPrice))
+}
 
-export {GetPriceSort, GetTimeSort, OfferingConnector, DestinationFlight, ReturnFlight}
+export {GetPriceSort, GetTimeSort, OfferingConnector, DestinationFlight, ReturnFlight,clearfn}

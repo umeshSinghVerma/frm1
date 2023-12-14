@@ -1,28 +1,23 @@
-import React, { useState } from "react";
+import React from "react";
 import BrandFilter from "./BrandFilter";
 import AirlineFilter from "./AirlineFilter";
 import StopsFilter from "./StopsFilter";
 import PriceFilter from "./PriceFilter";
 import { useDispatch, useSelector } from "react-redux";
 import { timeSortedfinalArray } from "../../redux/finalArray";
+import { clearfn } from "../Utils/UtilityFunctions";
 
-const Filters = ({
-  clearfn,
-  setMinP,
-  setMaxP,
-  constMax
-}) => {
+const Filters = () => {
   const dispatch = useDispatch();
   const allBrands = useSelector((state) => state.allBrandsArray.allBrandsArray)
-  const finalarray = useSelector((state) => state.finalArray.finalArray)
   const allFlights = useSelector((state) => state.allFlightsArray.allFlightsArray)
+  const displayArray = useSelector((state) => state.displayArray.displayArray)
+  const {absoluteMaxPrice}=useSelector((state)=>state.priceFilter.priceFilter);
+  
   function sortTimeAsc() {
     dispatch(timeSortedfinalArray())
   }
-  const [priceRange, setPriceRange] = useState(finalarray.length!=0 ? finalarray[finalarray.length-1]?.ProductBrandOffering[0].BestCombinablePrice.TotalPrice : null);
-  
-  setMinP(finalarray[0]?.ProductBrandOffering[0].BestCombinablePrice.TotalPrice)
-  setMaxP(priceRange)
+
   return (
     <div className="flex flex-col-reverse xl:flex-col gap-3 xl:sticky py-3 top-0 xl:h-screen overflow-y-scroll removeScollbar bg-white px-5 shadow-lg">
       <div className="flex flex-col gap-3">
@@ -36,7 +31,7 @@ const Filters = ({
           Sort By Departure date
         </button>
         <button
-          onClick={() => clearfn()}
+          onClick={() => clearfn(dispatch,displayArray,absoluteMaxPrice)}
           className="border border-[#e55e0d] py-2 px-5 text-lg active:scale-95 transition-all hover:opacity-95 font-semibold rounded"
         >
           Clear All Filter
@@ -46,14 +41,9 @@ const Filters = ({
         <h1 className="my-4 text-3xl ">Filters ~</h1>
         <div className="flex flex-wrap md:justify-around xl:flex-col gap-y-8 gap-x-12 md:gap-10 mx-4 md:mx-0">
           <BrandFilter allBrands={allBrands} />
-
-          <AirlineFilter
-            allFlights={allFlights}
-          />
-
+          <AirlineFilter allFlights={allFlights}/>
           <StopsFilter />
-
-          <PriceFilter constMax={constMax} min={finalarray[0]?.ProductBrandOffering[0].BestCombinablePrice.TotalPrice} max={finalarray[finalarray.length-1]?.ProductBrandOffering[0].BestCombinablePrice.TotalPrice} priceRange={priceRange} setPriceRange={setPriceRange} />
+          <PriceFilter  />
         </div>
       </div>
     </div>

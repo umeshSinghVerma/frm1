@@ -1,24 +1,16 @@
 import React, { useEffect, useState } from "react";
 import X from "../data1.json";
 import { Link } from "react-router-dom";
-import { DestinationFlight, OfferingConnector, ReturnFlight } from "./Utils/UtilityFunctions";
+import { DestinationFlight, GetPriceSort, OfferingConnector, ReturnFlight } from "./Utils/UtilityFunctions";
 import Filters from "./Filters/Filters";
 import AllOffering from "./Offerings/AllOffering";
 import FinalOfferingsUpdater from "./Utils/FinalOfferingsUpdater";
 import { useDispatch, useSelector } from "react-redux";
-import {clearBrands} from '../redux/brand'
-import { clearflights } from "../redux/flight";
-import { clearflightNos } from "../redux/flightNo";
-import { replacefinalArray } from "../redux/finalArray";
 import { updateAbsoluteMaxPrice, updateMinPrice } from "../redux/priceFilter";
-let constMax;
+
 const Flight = () => {
-  const departureFrom =
-    X.CatalogProductOfferingsResponse.CatalogProductOfferings
-      .CatalogProductOffering[0].Departure;
-  const arrivalTo =
-    X.CatalogProductOfferingsResponse.CatalogProductOfferings
-      .CatalogProductOffering[0].Arrival;
+  const departureFrom =X.CatalogProductOfferingsResponse.CatalogProductOfferings.CatalogProductOffering[0].Departure;
+  const arrivalTo =X.CatalogProductOfferingsResponse.CatalogProductOfferings.CatalogProductOffering[0].Arrival;
   const alldata = X.CatalogProductOfferingsResponse;
 
   const dispatch = useDispatch();
@@ -29,21 +21,24 @@ const Flight = () => {
   const brand = useSelector((state) => state.brand.brandArray)
   const flight = useSelector((state) => state.flight.flightArray)
   const flightNo = useSelector((state) => state.flightNo.flightNoArray)
-  const {minPrice,maxPrice,absoluteMaxPrice}=useSelector((state)=>state.priceFilter.priceFilter);
-  window.minPrice = minPrice;
-  window.maxPrice = maxPrice;
-  window.absoluteMaxPrice = absoluteMaxPrice;
-  window.displayArray=displayArray;
+  const { minPrice, maxPrice } = useSelector((state) => state.priceFilter.priceFilter);
 
-  const [minP, setMinP] = useState()
-  const [maxP, setMaxP] = useState()
+  useEffect(() => {
+    if (finalarray.length !== 0) {
+      dispatch(updateMinPrice(finalarray[0]?.ProductBrandOffering[0].BestCombinablePrice.TotalPrice))
+    }
+  }, [finalarray])
 
-  // useEffect(()=>{
-  //   if(finalarray.length!=0){
-  //     dispatch(updateMinPrice(finalarray[0]?.ProductBrandOffering[0].BestCombinablePrice.TotalPrice));
-  //     dispatch(updateAbsoluteMaxPrice(finalarray[finalarray.length - 1]?.ProductBrandOffering[0].BestCombinablePrice.TotalPrice))
-  //   }
-  // },[finalarray])
+  useEffect(() => {
+    if (displayArray.length !== 0) {
+      const newArr = JSON.parse(JSON.stringify(displayArray));
+      newArr.sort(GetPriceSort());
+      const constMaxt = newArr[newArr.length - 1]?.ProductBrandOffering[0].BestCombinablePrice.TotalPrice
+      if(constMaxt!=null && constMaxt!=undefined){
+        dispatch(updateAbsoluteMaxPrice(constMaxt));
+      }
+    }
+  }, [displayArray])
 
   useEffect(() => {
     OfferingConnector(alldata, departureFrom, arrivalTo, dispatch);
@@ -58,15 +53,10 @@ const Flight = () => {
   }, [returnFlights]);
 
   useEffect(() => {
-    FinalOfferingsUpdater(displayArray, brand, flightNo, alldata, minP, maxP, dispatch, flight,minPrice,maxPrice)
-  }, [brand, flightNo, flight, minP,maxP,minPrice,maxPrice]);
+    FinalOfferingsUpdater(displayArray, brand, flightNo, alldata, dispatch, flight, minPrice, maxPrice)
+  }, [brand, flightNo, flight, minPrice, maxPrice]);
 
-  function clearfn() {
-    dispatch(replacefinalArray(displayArray));
-    dispatch(clearBrands())
-    dispatch(clearflightNos())
-    dispatch(clearflights())
-  }
+
 
 
   //* To handle Accordian closing and opening
@@ -79,19 +69,13 @@ const Flight = () => {
     }
   }
 
-  if (constMax === undefined) {
-    const temp = finalarray
-    constMax = temp[temp.length - 1]?.ProductBrandOffering[0].BestCombinablePrice.TotalPrice
-    console.log(constMax)
-  }
-
   return (
     <div className="xl:flex gap-32 justify-center">
       {/* Sidebar filters */}
-      <Filters clearfn={clearfn} minPrice={minP} setMinP={setMinP} maxPrice={maxP} setMaxP={setMaxP} constMax={constMax} />
+      <Filters />
 
       {/* All Offerings Accordians Display */}
-      <AllOffering showDetails={showDetails} openAccordian={openAccordian} departureFrom={departureFrom} arrivalTo={arrivalTo} alldata={alldata} />
+      <AllOffering showDetails={showDetails} openAccordian={openAccordian} />
 
       {/* Multi City Search */}
       <button className="fixed bottom-2 right-2 text-white mt-3 py-2 px-5 text-xl rounded active:scale-95 transition-all hover:opacity-95" style={{ background: "linear-gradient(135deg,#e55e0d 0%,#cf3218 100%)" }} >

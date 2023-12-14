@@ -11,12 +11,12 @@ export const displayArraySlice = createSlice({
   reducers: {
     replacedisplayArray: (state, action) => {
       const newarr=[...action.payload]
-    //   newarr.sort(GetPriceSort());      // uncomment this if want to sort by price
+      newarr.sort(GetPriceSort());      // uncomment this if want to sort by price
       state.displayArray=[...newarr]
     },
     joindisplayArray: (state, action) => {
       const newarr=[...state.displayArray,...action.payload];
-    //   newarr.sort(GetPriceSort());      // uncomment this if want to sort by price
+      newarr.sort(GetPriceSort());      // uncomment this if want to sort by price
       state.displayArray=[...newarr];
     },
     timeSorteddisplayArray: (state, action) => {

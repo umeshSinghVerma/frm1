@@ -11,7 +11,7 @@
 
 import { replacefinalArray } from "../../redux/finalArray";
 
-function  FinalOfferingsUpdater(displayArray, brand, flightNo, alldata, minP, maxP, dispatch, flight,minPrice,maxPrice) {
+function  FinalOfferingsUpdater(displayArray, brand, flightNo, alldata, dispatch, flight,minPrice,maxPrice) {
   // Initialize an array to store the filtered items
     let filteredArr = [];
 
