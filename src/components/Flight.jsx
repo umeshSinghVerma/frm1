@@ -23,14 +23,9 @@ const Flight = () => {
 
   const dispatch = useDispatch();
   const destinationFlights = useSelector((state) => state.destinationFlights.destinationFlightsArray)
-
   const returnFlights = useSelector((state) => state.returnFlightArray.returnFlightsArray)
-
-
   const finalarray = useSelector((state) => state.finalArray.finalArray)
   const displayArray = useSelector((state) => state.displayArray.displayArray)
-
-
   const brand = useSelector((state) => state.brand.brandArray)
   const flight = useSelector((state) => state.flight.flightArray)
   const flightNo = useSelector((state) => state.flightNo.flightNoArray)
@@ -66,20 +61,6 @@ const Flight = () => {
   function sortByPrice() {
     setToggle(!toggle);
   }
-
-  const [flag, setflag] = useState(0);
-
-  useEffect(() => {
-    if (finalarray.length !== 0 ) {
-      setflag(1);
-    }
-  }, [finalarray]);
-
-  useEffect(() => {
-    if (flag === 1) {
-      dispatch(replacedisplayArray(finalarray))
-    }
-  }, [flag]);
 
   //* To handle Accordian closing and opening
   const [showDetails, setShowDetails] = useState();
