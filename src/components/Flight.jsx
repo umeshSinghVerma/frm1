@@ -24,7 +24,7 @@ const Flight = () => {
   const dispatch = useDispatch();
   const destinationFlights = useSelector((state) => state.destinationFlights.destinationFlightsArray)
 
-  const [returnFlights, setReturnFlights] = useState([]);
+  const returnFlights = useSelector((state) => state.returnFlightArray.returnFlightsArray)
 
 
   const finalarray = useSelector((state) => state.finalArray.finalArray)
@@ -41,7 +41,7 @@ const Flight = () => {
   const [maxP, setMaxP] = useState()
 
   useEffect(() => {
-    OfferingConnector(alldata, departureFrom, arrivalTo, setReturnFlights, dispatch);
+    OfferingConnector(alldata, departureFrom, arrivalTo, dispatch);
   }, []);
 
   useEffect(() => {

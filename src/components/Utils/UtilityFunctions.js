@@ -6,6 +6,7 @@ import { addFlight } from "../../redux/destinationFlights";
 import { joindisplayArray } from "../../redux/displayArray";
 import { joinfinalArray } from "../../redux/finalArray";
 import { joinfinalArrayDup } from "../../redux/finalArrayDup";
+import { joinreturnFlightsArray } from "../../redux/returnFlights";
 
 // import { addFlight } from "../../redux/destinationFlights";
 
@@ -43,7 +44,7 @@ function GetTimeSort() {
 
 // Function: OfferingConnector
 // Connects and filters data based on departure and arrival locations, sets state variables
-function OfferingConnector(alldata, departureFrom, arrivalTo, setReturnFlights,dispatch) {
+function OfferingConnector(alldata, departureFrom, arrivalTo,dispatch) {
   // Iterate through each CatalogProductOffering in the alldata
   alldata.CatalogProductOfferings.CatalogProductOffering.forEach((item) => {
     // Check if the offering matches the departure and arrival locations
@@ -55,7 +56,7 @@ function OfferingConnector(alldata, departureFrom, arrivalTo, setReturnFlights,d
     // Check if the offering matches the reversed departure and arrival locations
     if (departureFrom === item.Arrival && arrivalTo === item.Departure) {
       // Add the offering to the return flights state variable
-      setReturnFlights((prev) => [...prev, item]);
+      dispatch(joinreturnFlightsArray(item));
     }
   });
 
@@ -126,7 +127,8 @@ function DestinationFlight(destinationFlights, alldata,dispatch) {
 // Function: ReturnFlight
 // Processes return flights, extracts relevant information, and updates state variable
 function ReturnFlight(returnFlights, alldata, dispatch) {
-  returnFlights.map((item) => {
+  const tempReturnFlight = JSON.parse(JSON.stringify(returnFlights));
+  tempReturnFlight.map((item) => {
     let ffr;
     let lfr;
 
