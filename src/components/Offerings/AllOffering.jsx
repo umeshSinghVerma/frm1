@@ -3,8 +3,9 @@ import SingleOffering from './SingleOffering';
 import FlightDetails from './FlightDetails';
 import { useSelector } from 'react-redux';
 
-const AllOffering = ({ finalarray, showDetails, openAccordian, departureFrom, arrivalTo, alldata }) => {
+const AllOffering = ({  showDetails, openAccordian, departureFrom, arrivalTo, alldata }) => {
   const finalArrayDup = useSelector((state) => state.finalArrayDup.finalArrayDup);
+  const finalarray = useSelector((state) => state.finalArray.finalArray);
   return (
     <div className="flex flex-col gap-4 my-10">
       {finalarray.map((item, id) => {

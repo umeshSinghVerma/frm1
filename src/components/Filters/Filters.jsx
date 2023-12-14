@@ -3,14 +3,11 @@ import BrandFilter from "./BrandFilter";
 import AirlineFilter from "./AirlineFilter";
 import StopsFilter from "./StopsFilter";
 import PriceFilter from "./PriceFilter";
-import { GetTimeSort } from "../Utils/UtilityFunctions";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { timeSortedfinalArray } from "../../redux/finalArray";
 
 const Filters = ({
-  finalarray,
   clearfn,
-  allBrands,
   allFlights,
   setMinP,
   setMaxP,
@@ -18,6 +15,8 @@ const Filters = ({
   constMax
 }) => {
   const dispatch = useDispatch();
+  const allBrands = useSelector((state) => state.allBrandsArray.allBrandsArray)
+  const finalarray = useSelector((state) => state.finalArray.finalArray)
   function sortTimeAsc() {
     dispatch(timeSortedfinalArray())
   }

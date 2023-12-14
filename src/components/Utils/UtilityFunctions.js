@@ -1,5 +1,6 @@
 // Function: GetPriceSort
 
+import { replaceallBrandsArray } from "../../redux/allBrands";
 import { joindisplayArray } from "../../redux/displayArray";
 import { joinfinalArray } from "../../redux/finalArray";
 import { joinfinalArrayDup } from "../../redux/finalArrayDup";
@@ -40,7 +41,7 @@ function GetTimeSort() {
 
 // Function: OfferingConnector
 // Connects and filters data based on departure and arrival locations, sets state variables
-function OfferingConnector(alldata, departureFrom, arrivalTo, setDestinationFlights, setReturnFlights, setAllBrands, setAllFlights) {
+function OfferingConnector(alldata, departureFrom, arrivalTo, setDestinationFlights, setReturnFlights,dispatch,setAllFlights) {
   // Iterate through each CatalogProductOffering in the alldata
   alldata.CatalogProductOfferings.CatalogProductOffering.forEach((item) => {
     // Check if the offering matches the departure and arrival locations
@@ -67,7 +68,7 @@ function OfferingConnector(alldata, departureFrom, arrivalTo, setDestinationFlig
       uniqueBrands.push({ name: item.name, id: item.id });
     }
   });
-  setAllBrands(uniqueBrands);
+  dispatch(replaceallBrandsArray(uniqueBrands));
 
 
   // Extract unique flight information and update the state

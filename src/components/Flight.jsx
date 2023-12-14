@@ -32,7 +32,6 @@ const Flight = () => {
   
   const displayArray = useSelector((state) => state.displayArray.displayArray)
 
-  const [allBrands, setAllBrands] = useState([]);
   const [allFlights, setAllFlights] = useState([]);
 
 
@@ -46,7 +45,7 @@ const Flight = () => {
   const [maxP, setMaxP] = useState()
 
   useEffect(() => {
-    OfferingConnector(alldata, departureFrom, arrivalTo, setDestinationFlights, setReturnFlights, setAllBrands, setAllFlights);
+    OfferingConnector(alldata, departureFrom, arrivalTo, setDestinationFlights, setReturnFlights, dispatch, setAllFlights);
   }, []);
 
   useEffect(() => {
@@ -105,10 +104,10 @@ const Flight = () => {
   return (
     <div className="xl:flex gap-32 justify-center">
       {/* Sidebar filters */}
-      <Filters finalarray={finalarray} clearfn={clearfn} allBrands={allBrands} allFlights={allFlights} minPrice={minP} setMinP={setMinP} maxPrice={maxP} setMaxP={setMaxP} sortByPrice={sortByPrice} constMax={constMax} />
+      <Filters clearfn={clearfn} allFlights={allFlights} minPrice={minP} setMinP={setMinP} maxPrice={maxP} setMaxP={setMaxP} sortByPrice={sortByPrice} constMax={constMax} />
 
       {/* All Offerings Accordians Display */}
-      <AllOffering finalarray={finalarray} showDetails={showDetails} openAccordian={openAccordian} departureFrom={departureFrom} arrivalTo={arrivalTo} alldata={alldata} />
+      <AllOffering showDetails={showDetails} openAccordian={openAccordian} departureFrom={departureFrom} arrivalTo={arrivalTo} alldata={alldata} />
 
       {/* Multi City Search */}
       <button className="fixed bottom-2 right-2 text-white mt-3 py-2 px-5 text-xl rounded active:scale-95 transition-all hover:opacity-95" style={{ background: "linear-gradient(135deg,#e55e0d 0%,#cf3218 100%)" }} >
