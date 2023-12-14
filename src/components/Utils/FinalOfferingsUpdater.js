@@ -11,7 +11,7 @@
 
 import { replacefinalArray } from "../../redux/finalArray";
 
-function  FinalOfferingsUpdater(displayArray, brand, flightNo, alldata, minPrice, maxPrice, dispatch, flight) {
+function  FinalOfferingsUpdater(displayArray, brand, flightNo, alldata, minP, maxP, dispatch, flight,minPrice,maxPrice) {
   // Initialize an array to store the filtered items
     let filteredArr = [];
 
@@ -96,9 +96,6 @@ function  FinalOfferingsUpdater(displayArray, brand, flightNo, alldata, minPrice
     }
     
 
-    console.log(filteredArr)
-    console.log(minPrice)
-    console.log(maxPrice)
     minPrice= Number(minPrice) 
     maxPrice= Number(maxPrice) 
     // Check if both minPrice and maxPrice filters are applied
@@ -111,7 +108,6 @@ function  FinalOfferingsUpdater(displayArray, brand, flightNo, alldata, minPrice
          // Filter the ProductBrandOffering array based on the price range
         let alpha = item.ProductBrandOffering.filter(
           (y) => {
-            console.log(y.BestCombinablePrice.TotalPrice)
             return (
 
               y.BestCombinablePrice.TotalPrice >= Number(minPrice) &&

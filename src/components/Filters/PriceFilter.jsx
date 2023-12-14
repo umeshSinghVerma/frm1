@@ -1,13 +1,12 @@
 import React, { useEffect } from 'react'
+import { useDispatch } from 'react-redux';
+import { updateMaxPrice } from '../../redux/priceFilter';
 
-const PriceFilter = ({min, max, priceRange, setPriceRange, sortByPrice, constMax}) => {
-  useEffect(() => {
-    if(priceRange!=null){
-      sortByPrice(min, Number(priceRange)); 
-    }
-  }, [priceRange]);
+const PriceFilter = ({min, max, priceRange, setPriceRange, constMax}) => {
+  const dispatch = useDispatch();
   const handlePriceRangeChange = (event) => {
     setPriceRange(event.target.value);
+    dispatch(updateMaxPrice(+event.target.value));
   };
 
   return (

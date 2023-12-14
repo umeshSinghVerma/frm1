@@ -9,6 +9,7 @@ import finalArrayDupReducer from './finalArrayDup'
 import allBrandsArrayReducer from './allBrands'
 import allFlightsArrayReducer from './allFlights'
 import returnFlightArrayReducer from './returnFlights'
+import priceFilterReducer from './priceFilter'
 export default configureStore({
   reducer: {
     destinationFlights:destinationFlightsReducer,
@@ -20,6 +21,7 @@ export default configureStore({
     finalArrayDup:finalArrayDupReducer,
     allBrandsArray:allBrandsArrayReducer,
     allFlightsArray:allFlightsArrayReducer,
-    returnFlightArray:returnFlightArrayReducer
+    returnFlightArray:returnFlightArrayReducer,
+    priceFilter:priceFilterReducer
   },
 })

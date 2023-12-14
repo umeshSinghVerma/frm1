@@ -10,7 +10,6 @@ const Filters = ({
   clearfn,
   setMinP,
   setMaxP,
-  sortByPrice,
   constMax
 }) => {
   const dispatch = useDispatch();
@@ -54,7 +53,7 @@ const Filters = ({
 
           <StopsFilter />
 
-          <PriceFilter constMax={constMax} min={finalarray[0]?.ProductBrandOffering[0].BestCombinablePrice.TotalPrice} max={finalarray[finalarray.length-1]?.ProductBrandOffering[0].BestCombinablePrice.TotalPrice} priceRange={priceRange} setPriceRange={setPriceRange} sortByPrice={sortByPrice} />
+          <PriceFilter constMax={constMax} min={finalarray[0]?.ProductBrandOffering[0].BestCombinablePrice.TotalPrice} max={finalarray[finalarray.length-1]?.ProductBrandOffering[0].BestCombinablePrice.TotalPrice} priceRange={priceRange} setPriceRange={setPriceRange} />
         </div>
       </div>
     </div>

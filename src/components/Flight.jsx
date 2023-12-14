@@ -10,7 +10,7 @@ import {clearBrands} from '../redux/brand'
 import { clearflights } from "../redux/flight";
 import { clearflightNos } from "../redux/flightNo";
 import { replacefinalArray } from "../redux/finalArray";
-import { replacedisplayArray } from "../redux/displayArray";
+import { updateAbsoluteMaxPrice, updateMinPrice } from "../redux/priceFilter";
 let constMax;
 const Flight = () => {
   const departureFrom =
@@ -29,11 +29,21 @@ const Flight = () => {
   const brand = useSelector((state) => state.brand.brandArray)
   const flight = useSelector((state) => state.flight.flightArray)
   const flightNo = useSelector((state) => state.flightNo.flightNoArray)
+  const {minPrice,maxPrice,absoluteMaxPrice}=useSelector((state)=>state.priceFilter.priceFilter);
+  window.minPrice = minPrice;
+  window.maxPrice = maxPrice;
+  window.absoluteMaxPrice = absoluteMaxPrice;
+  window.displayArray=displayArray;
 
-
-  const [toggle, setToggle] = useState(false);
   const [minP, setMinP] = useState()
   const [maxP, setMaxP] = useState()
+
+  // useEffect(()=>{
+  //   if(finalarray.length!=0){
+  //     dispatch(updateMinPrice(finalarray[0]?.ProductBrandOffering[0].BestCombinablePrice.TotalPrice));
+  //     dispatch(updateAbsoluteMaxPrice(finalarray[finalarray.length - 1]?.ProductBrandOffering[0].BestCombinablePrice.TotalPrice))
+  //   }
+  // },[finalarray])
 
   useEffect(() => {
     OfferingConnector(alldata, departureFrom, arrivalTo, dispatch);
@@ -48,8 +58,8 @@ const Flight = () => {
   }, [returnFlights]);
 
   useEffect(() => {
-    FinalOfferingsUpdater(displayArray, brand, flightNo, alldata, minP, maxP, dispatch, flight)
-  }, [brand, flightNo, flight, toggle]);
+    FinalOfferingsUpdater(displayArray, brand, flightNo, alldata, minP, maxP, dispatch, flight,minPrice,maxPrice)
+  }, [brand, flightNo, flight, minP,maxP,minPrice,maxPrice]);
 
   function clearfn() {
     dispatch(replacefinalArray(displayArray));
@@ -58,9 +68,6 @@ const Flight = () => {
     dispatch(clearflights())
   }
 
-  function sortByPrice() {
-    setToggle(!toggle);
-  }
 
   //* To handle Accordian closing and opening
   const [showDetails, setShowDetails] = useState();
@@ -81,7 +88,7 @@ const Flight = () => {
   return (
     <div className="xl:flex gap-32 justify-center">
       {/* Sidebar filters */}
-      <Filters clearfn={clearfn} minPrice={minP} setMinP={setMinP} maxPrice={maxP} setMaxP={setMaxP} sortByPrice={sortByPrice} constMax={constMax} />
+      <Filters clearfn={clearfn} minPrice={minP} setMinP={setMinP} maxPrice={maxP} setMaxP={setMaxP} constMax={constMax} />
 
       {/* All Offerings Accordians Display */}
       <AllOffering showDetails={showDetails} openAccordian={openAccordian} departureFrom={departureFrom} arrivalTo={arrivalTo} alldata={alldata} />

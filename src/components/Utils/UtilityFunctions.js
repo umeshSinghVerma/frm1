@@ -14,7 +14,6 @@ import { joinreturnFlightsArray } from "../../redux/returnFlights";
 
 function GetPriceSort() {
   return function (a, b) {
-    console.log(a,b);
     let firstmini = a.ProductBrandOffering[0].BestCombinablePrice.TotalPrice;
     let secondmini = b.ProductBrandOffering[0].BestCombinablePrice.TotalPrice;
 
