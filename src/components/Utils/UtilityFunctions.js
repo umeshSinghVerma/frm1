@@ -1,6 +1,8 @@
 // Function: GetPriceSort
 
+import { joindisplayArray } from "../../redux/displayArray";
 import { joinfinalArray } from "../../redux/finalArray";
+import { joinfinalArrayDup } from "../../redux/finalArrayDup";
 
 // import { addFlight } from "../../redux/destinationFlights";
 
@@ -81,7 +83,7 @@ function OfferingConnector(alldata, departureFrom, arrivalTo, setDestinationFlig
 
 // Function: DestinationFlight
 // Processes destination flights, extracts relevant information, and updates state variables
-function DestinationFlight(destinationFlights, alldata,dispatch, setDisplayArray) {
+function DestinationFlight(destinationFlights, alldata,dispatch) {
   destinationFlights.map((item) => {
     let ffr;
     let lfr;
@@ -114,16 +116,17 @@ function DestinationFlight(destinationFlights, alldata,dispatch, setDisplayArray
       //   return [...prev, ...alp];
       // });
       dispatch(joinfinalArray(alp))
-      setDisplayArray((prev) => {
-        return [...prev, ...alp];
-      });
+      dispatch(joindisplayArray(alp))
+      // setDisplayArray((prev) => {
+      //   return [...prev, ...alp];
+      // });
     });
   });
 }
 
 // Function: ReturnFlight
 // Processes return flights, extracts relevant information, and updates state variable
-function ReturnFlight(returnFlights, alldata, setFinalArrayDup) {
+function ReturnFlight(returnFlights, alldata, dispatch) {
   returnFlights.map((item) => {
     let ffr;
     let lfr;
@@ -152,9 +155,10 @@ function ReturnFlight(returnFlights, alldata, setFinalArrayDup) {
       });
 
       // Update the final array with the modified ProductBrandOptions
-      setFinalArrayDup((prev) => {
-        return [...prev, ...alp];
-      });
+      // setFinalArrayDup((prev) => {
+      //   return [...prev, ...alp];
+      // });
+      dispatch(joinfinalArrayDup(alp));
     });
   });
 }

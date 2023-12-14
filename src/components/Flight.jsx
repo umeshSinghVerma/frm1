@@ -1,7 +1,7 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import X from "../data1.json";
 import { Link } from "react-router-dom";
-import { DestinationFlight, GetPriceSort, GetTimeSort, OfferingConnector, ReturnFlight } from "./Utils/UtilityFunctions";
+import { DestinationFlight, OfferingConnector, ReturnFlight } from "./Utils/UtilityFunctions";
 import Filters from "./Filters/Filters";
 import AllOffering from "./Offerings/AllOffering";
 import FinalOfferingsUpdater from "./Utils/FinalOfferingsUpdater";
@@ -10,6 +10,7 @@ import {clearBrands} from '../redux/brand'
 import { clearflights } from "../redux/flight";
 import { clearflightNos } from "../redux/flightNo";
 import { replacefinalArray } from "../redux/finalArray";
+import { replacedisplayArray } from "../redux/displayArray";
 let constMax;
 const Flight = () => {
   const departureFrom =
@@ -27,12 +28,10 @@ const Flight = () => {
   const [returnFlights, setReturnFlights] = useState([]);
 
 
-  // const [finalarray, setFinalArray] = useState([]);
   const finalarray = useSelector((state) => state.finalArray.finalArray)
-  window.finalArray=finalarray;
   
-  const [displayArray, setDisplayArray] = useState([]);
-  const [finalArrayDup, setFinalArrayDup] = useState([]);
+  const displayArray = useSelector((state) => state.displayArray.displayArray)
+
   const [allBrands, setAllBrands] = useState([]);
   const [allFlights, setAllFlights] = useState([]);
 
@@ -51,22 +50,16 @@ const Flight = () => {
   }, []);
 
   useEffect(() => {
-    DestinationFlight(destinationFlights, alldata, dispatch, setDisplayArray);
+    DestinationFlight(destinationFlights, alldata, dispatch);
   }, [destinationFlights]);
 
   useEffect(() => {
-    ReturnFlight(returnFlights, alldata, setFinalArrayDup);
+    ReturnFlight(returnFlights, alldata, dispatch);
   }, [returnFlights]);
 
   useEffect(() => {
     FinalOfferingsUpdater(displayArray, brand, flightNo, alldata, minP, maxP, dispatch, flight)
   }, [brand, flightNo, flight, toggle]);
-
-  // function sortPriceAsc() {
-  //   const newarr=[...finalarray];
-  //   newarr.sort(GetPriceSort());
-  //   dispatch(replacefinalArray(newarr));
-  // }
 
   function clearfn() {
     dispatch(replacefinalArray(displayArray));
@@ -89,7 +82,7 @@ const Flight = () => {
 
   useEffect(() => {
     if (flag === 1) {
-      setDisplayArray(finalarray);
+      dispatch(replacedisplayArray(finalarray))
     }
   }, [flag]);
 
@@ -115,7 +108,7 @@ const Flight = () => {
       <Filters finalarray={finalarray} clearfn={clearfn} allBrands={allBrands} allFlights={allFlights} minPrice={minP} setMinP={setMinP} maxPrice={maxP} setMaxP={setMaxP} sortByPrice={sortByPrice} constMax={constMax} />
 
       {/* All Offerings Accordians Display */}
-      <AllOffering finalarray={finalarray} showDetails={showDetails} openAccordian={openAccordian} departureFrom={departureFrom} arrivalTo={arrivalTo} alldata={alldata} finalArrayDup={finalArrayDup} />
+      <AllOffering finalarray={finalarray} showDetails={showDetails} openAccordian={openAccordian} departureFrom={departureFrom} arrivalTo={arrivalTo} alldata={alldata} />
 
       {/* Multi City Search */}
       <button className="fixed bottom-2 right-2 text-white mt-3 py-2 px-5 text-xl rounded active:scale-95 transition-all hover:opacity-95" style={{ background: "linear-gradient(135deg,#e55e0d 0%,#cf3218 100%)" }} >
