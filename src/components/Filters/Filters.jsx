@@ -40,8 +40,8 @@ const Filters = () => {
       <div>
         <h1 className="my-4 text-3xl ">Filters ~</h1>
         <div className="flex flex-wrap md:justify-around xl:flex-col gap-y-8 gap-x-12 md:gap-10 mx-4 md:mx-0">
-          <BrandFilter allBrands={allBrands} />
-          <AirlineFilter allFlights={allFlights}/>
+          <BrandFilter/>
+          <AirlineFilter/>
           <StopsFilter />
           <PriceFilter  />
         </div>

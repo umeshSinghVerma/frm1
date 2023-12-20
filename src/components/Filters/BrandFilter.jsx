@@ -3,8 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addBrand } from '../../redux/brand';
 import { removeBrand } from '../../redux/brand';
 
-const BrandFilter = ({ allBrands }) => {
+const BrandFilter = () => {
     const dispatch = useDispatch();
+    const allBrands = useSelector((state) => state.allBrandsArray.allBrandsArray)
     const brand = useSelector((state) => state.brand.brandArray)
 
     return (

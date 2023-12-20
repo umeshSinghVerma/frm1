@@ -2,8 +2,9 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { addflight, removeflight } from '../../redux/flight';
 
-const AirlineFilter = ({ allFlights }) => {
+const AirlineFilter = () => {
     const dispatch = useDispatch();
+    const allFlights = useSelector((state) => state.allFlightsArray.allFlightsArray)
     const flight = useSelector((state) => state.flight.flightArray)
     return (
         <div className="flex flex-col gap-3 flex-1">
